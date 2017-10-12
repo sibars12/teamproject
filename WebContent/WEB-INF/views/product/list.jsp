@@ -12,6 +12,7 @@
 	}
 </style>
 <div align="center">
+	${list.size }
 	<table id="productList_T">
 		<c:forEach var="i" begin="0" end="${(list.size-1)/4}">
 			<tr id="productListImg_Tr">
