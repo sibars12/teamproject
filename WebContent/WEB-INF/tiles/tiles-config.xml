@@ -2,13 +2,16 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 	<!-- tile register -->
-	<definition name="t_base" template="/WEB-INF/views/template.jsp">
+	<definition name="t_base" template="/WEB-INF/views/templates/template.jsp">
 		<put-attribute name="title" value="team"/>
-		<put-attribute name="header" value="/WEB-INF/views/header.jsp"/>
-		<put-attribute name="nav" value="/WEB-INF/views/nav.jsp"/>
-		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+		<put-attribute name="header" value="/WEB-INF/views/templates/header.jsp"/>
+		<put-attribute name="nav" value="/WEB-INF/views/templates/nav.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp"/>
 	</definition>
 	<definition name="t_expr" extends="t_base">
 		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
 	</definition>
 </tiles-definitions>
+
+
+

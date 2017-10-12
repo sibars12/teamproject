@@ -14,6 +14,10 @@
 
 	<mvc:annotation-driven/>
 	<mvc:default-servlet-handler/>
+	<context:component-scan base-package="controllers" />
+	<context:component-scan base-package="filter" />
+	<context:component-scan base-package="models" />
+	
 	<!-- Multipartreslover -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="uploadTempDir" value="/temp"/>
@@ -37,7 +41,7 @@
 	<!-- datasource -->
 	<bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="ds">
 		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="jdbcUrl" value="jdbc:oracle:thin:team.cszruplya8hg.ap-northeast-2.rds.amazonaws.com:1521:orcl" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@team.cszruplya8hg.ap-northeast-2.rds.amazonaws.com:1521:orcl" />
 		<property name="user" value="team" />
 		<property name="password" value="12345678" />
 	</bean>
