@@ -10,16 +10,19 @@
 	#productListImg_Td{
 		border-bottom: none;
 	}
+	#productImg_Im{
+		width: 200;
+		height: 200;
+	}
 </style>
 <div align="center">
-	${list.size }
 	<table id="productList_T">
-		<c:forEach var="i" begin="0" end="${(list.size-1)/4}">
+		<c:forEach var="i" begin="0" end="${list.size()/4 }">
 			<tr id="productListImg_Tr">
 				<c:forEach var="j" begin="0" end="3">
 					<td align="center" id="productListImg_Td">
 						<c:if test="${list[j+(i*4)]!=null}">
-							<img src="img/${list[j+(i*4)].IMAG}">
+							<img id="productImg_Im" src="/img/후라이언.jpg">
 						</c:if>
 					</td>
 				</c:forEach>
