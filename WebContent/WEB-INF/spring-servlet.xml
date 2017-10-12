@@ -34,6 +34,14 @@
 		<constructor-arg name="pattern" value="yyyyMMddHHmmss"/>
 	</bean>
 	
+	<!-- datasource -->
+	<bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="ds">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:team.cszruplya8hg.ap-northeast-2.rds.amazonaws.com:1521:orcl" />
+		<property name="user" value="team" />
+		<property name="password" value="12345678" />
+	</bean>
+	
 	<!-- sqlSession -->
 	<bean class="org.mybatis.spring.SqlSessionTemplate">	
 		<constructor-arg name="sqlSessionFactory" ref="factory"/>
@@ -64,11 +72,5 @@
 		</property>
 	</bean>
 	
-	<!-- datasource -->
-	<bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="ds">
-		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="jdbcUrl" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
-		<property name="user" value="dlwjseh" />
-		<property name="password" value="dldudeh2" />
-	</bean>
+	
 </beans>
