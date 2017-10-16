@@ -4,4 +4,45 @@
 	<select id="getList" resultType="java.util.HashMap">
 		select * from product
 	</select>
+	<select id="getStockList" resultType="java.util.HashMap">
+		select * from (select rownum as r,t.* from (select * from stock order by ownernumber, no) t) t2 where r between (#{page}-1)*10+1 and (#{page}-1)*10+10
+	</select>
+	<select id="getStockPage" resultType="java.lang.Integer">
+		select count(*) from stock
+	</select>
+	<select id="searchStockList" resultType="java.util.HashMap">
+		select * from (select rownum as r,t.* from (select * from stock where name like '%'||#{name}||'%' order by ownernumber, no) t) t2 where r between (#{page}-1)*10+1 and (#{page}-1)*10+10
+	</select>
+	<select id="getSearchStockPage" resultType="java.lang.Integer">
+		select count(*) from stock where name like '%'||#{name}||'%'
+	</select>
+	<select id="getOwnernumbersubN" resultType="java.util.HashMap">
+		select * from stock where name=#{name} and scale=#{scale} and comp=#{comp} and subname is null
+	</select>
+	<select id="getOwnernumber" resultType="java.util.HashMap">
+		select * from stock where name=#{name} and scale=#{scale} and comp=#{comp} and subname=#{subname}
+	</select>
+	<insert id="addNewStock">
+		insert into stock(no, type, name, scale, color, price, volume, comp, subname, ownernumber)
+		 values(stock_seq.nextval, #{type}, #{name}, #{scale}, #{color}, #{price}, #{volume}, #{comp}, #{subname, jdbcType=VARCHAR}, ownernumber_seq.nextval)
+	</insert>
+	<insert id="addOldStock">
+		insert into stock(no, type, name, scale, color, price, volume, comp, subname, ownernumber)
+		 values(stock_seq.nextval, #{type}, #{name}, #{scale}, #{color}, #{price}, #{volume}, #{comp}, #{subname, jdbcType=VARCHAR}, #{ownernumber})
+	</insert>
+	<select id="searchName" resultType="java.util.HashMap">
+		select * from stock where name like '%'||#{name}||'%' order by ownernumber, no
+	</select>
+	<select id="checkAdd" resultType="java.lang.Integer">
+		select count(*) from stock where name=#{name} and scale=#{scale} and color=#{color}
+	</select>
+	<delete id="deleteStock">
+		delete from stock where no=#{no}
+	</delete>
+	<update id="updateStock">
+		<choose>
+			<when test="option == 'price'">update stock set price=#{value} where no=#{no}</when>
+			<when test="option == 'volume'">update stock set volume=#{value} where no=#{no}</when>
+		</choose>
+	</update>
 </mapper>
