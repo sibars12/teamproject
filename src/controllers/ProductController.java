@@ -20,4 +20,11 @@ public class ProductController {
 		mav.addObject("list", pdao.getList());
 		return mav;
 	}
+	
+	@RequestMapping("/view")
+	public ModelAndView ViewHandler() {
+		ModelAndView mav = new ModelAndView("t_expr");
+		mav.addObject("section", "product/view");
+		return mav;
+	}
 }
