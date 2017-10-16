@@ -8,6 +8,11 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+	th,td{
+		padding:5px;
+	}
+</style>
 
 <div class="container-fluid">
 	<div class="row">
@@ -65,26 +70,25 @@
 					<div id="selecter_Div">
 						<%-- 색상 선택  --%>
 						<c:choose>
-							<c:when test="${porductInfo.length != 1}">
-							<select>
+							<c:when test="${porductInfo[0].COLOR != 'none'}">
+							<select id="color_Select">
 								<option>색상 옵션 선택</option>
 								<c:forEach items="${productInfo}" var="m">
-									<option class="color_Option">${m.COLOR }</option>
+									<option>${m.COLOR }</option>
 								</c:forEach>
 							</select>
 							</c:when>
 							<c:otherwise>
 								<!-- 수량 -->
-								<button id="minus_B">-</button>
-								<input id="number_I" type="number_I" style="width: 40px;" value="1"
-									min="1" />
-								<button id="plus_B">+</button>
+								<button class="minus_B">-</button>
+								<input type="number" style="width: 40px;" value="1"	min="1" />
+								<button class="plus_B">+</button>
 							</c:otherwise>							
 						</c:choose>						
 					</div>
 					<div>
 					<hr>
-					<span id="selected_s"></span>
+					<span id="select_s"></span>
 					<hr>
 					<button id="">장바구니에 담기</button>
 					<button id="buyNow_B">즉시구매</button>
@@ -139,24 +143,35 @@
 
 <script>
 //수량 minus
-$("#minus_B").click(function(){
-	if(parseInt($("#number_I").val()) > 1){
-		var n = parseInt($("#number_I").val())-1;
-		$("#number_I").val(n); 
-		console.log($("#number_I").val());
-		//var t = price*parseInt($("#number_I").val());
-		//$("#selected_s").html(" ["+t+"]");
+$(".minus_B").click(function(){
+	if(parseInt($(this).next().val()) > 1){
+		$(this).next().val(parseInt($(this).next().val())-1);
 	}
 });
 // 수량 plus
-$("#plus_B").click(function(){	
-	console.log($("#number_I").val());
-	var n = parseInt($("#number_I").val())+1;
-	$("#number_I").val(n);
-	//var t = price*parseInt($("#number_I").val());
-	//$("#selected_s").html(" ["+t+"]");
+$(".plus_B").click(function(){	
+	$(this).prev().val(parseInt($(this).prev().val())+1);
+	//var n = parseInt($(this).prev().val())+1;
+	console.log($(this).pre().val());	
 });
 
-// 옵션 선택시
+$(".remove_B").click(function(){
+	cosole.log($(this).parent());
+	$(this).parent().remove();
+})
 
+// 옵션 선택시
+$("#color_Select").change(function(){
+	console.log($(this).val());
+	if($(this).val()!="색상 옵션 선택"){
+	var selectOption="<p>";
+		selectOption += $(this).val();
+		selectOption += "&nbsp;&nbsp;<button class=\"minus_B\">-</button>";
+		selectOption += "<input type=\"number\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
+		selectOption += "<button class=\"plus_B\">+</button>";
+		selectOption += "&nbsp;<button class=\"remove_B\">X</button><p>";
+		//selectOption += "&nbsp;&nbsp;"+${productInfo[0].PRICE}*+"</p>";
+		$("#select_s").append(selectOption);
+	}
+})
 </script>
