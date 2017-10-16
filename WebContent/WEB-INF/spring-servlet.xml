@@ -33,7 +33,6 @@
 			</list>
 		</property>
 	</bean>
-	<bean class="com.fasterxml.jackson.databind.ObjectMapper" />
 	<bean class="java.text.SimpleDateFormat">
 		<constructor-arg name="pattern" value="yyyyMMddHHmmss"/>
 	</bean>
