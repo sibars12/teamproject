@@ -15,12 +15,12 @@
 			<!-- 내용 -->
 			<div class="row">
 				<div class="col-sm-6">
-					<!-- 사진 -->
+					<%-- 사진 	--%>				
 					<div class="container">
 					<c:choose>
-						<c:when test="${!empty productImgfile.FILEURL}">
-							<img src="${productImgfile.FILEURL}" class="img-rounded"
-								alt="Cinque Terre" width="304" height="236" />
+						<c:when test="${!empty productInfo[0].IMAG}">
+							<img src="/images/product/${productInfo[0].IMAG}" class="img-rounded"
+								alt="상품이미지" width="304" height="236" />
 						</c:when>
 						<c:otherwise>
 							<img src="/images/default.png" class="img-rounded"
@@ -29,44 +29,47 @@
 					</c:choose>
 					
 					</div>
-					이미지
+			
 				</div>
 				<div class="col-sm-6">
 					<!-- 상품정보 -->
+					<h3>${productInfo[0].NAME }</h3>
+					<hr>
 					<table>
 						<tr>
-							<th>상품명</th>
-						</tr>
-						<tr>
 							<th>소비자 가격</th>
-							<td></td>
+							<td>${productInfo[0].PRICE }</td>
 						</tr>
 						<tr>
 							<th>배송비</th>
-							<td></td>
+							<td>3만원 이상 구매시 무료배송</td>
 						</tr>
 						<tr>
 							<th>제조사/판매원</th>
-							<td></td>
+							<td>${productInfo[0].COMP }</td>
 						</tr>
 						<tr>
 							<th>사이즈</th>
-							<td></td>
+							<td>${productInfo[0].SCALE }</td>
 						</tr>
 						<tr>
 							<th>색상</th>
-							<td></td>
+							<td>
+							<c:forEach var="m" items="${productInfo}" varStatus="status">
+								${m.COLOR }<c:if test="${not status.last }">, </c:if>
+							</c:forEach>
+							</td>
 						</tr>
 					</table>
 					<hr>
 					<div id="selecter_Div">
-						<!-- 색상 선택 --> 
+						<%-- 색상 선택  --%>
 						<c:choose>
-							<c:when test="">
+							<c:when test="${porductInfo.length != 1}">
 							<select>
-								<option></option>
-								<c:forEach items="">
-									<option></option>
+								<option>색상 옵션 선택</option>
+								<c:forEach items="${productInfo}" var="m">
+									<option class="color_Option">${m.COLOR }</option>
 								</c:forEach>
 							</select>
 							</c:when>
@@ -77,7 +80,7 @@
 									min="1" />
 								<button id="plus_B">+</button>
 							</c:otherwise>							
-						</c:choose>
+						</c:choose>						
 					</div>
 					<div>
 					<hr>
@@ -87,7 +90,7 @@
 					<button id="buyNow_B">즉시구매</button>
 					</div>
 				</div>
-
+					
 				<div>
 					<label id="">상품 상세보기</label>
 					<pre>
@@ -153,4 +156,7 @@ $("#plus_B").click(function(){
 	//var t = price*parseInt($("#number_I").val());
 	//$("#selected_s").html(" ["+t+"]");
 });
+
+// 옵션 선택시
+
 </script>

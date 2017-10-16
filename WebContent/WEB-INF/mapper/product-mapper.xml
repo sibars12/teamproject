@@ -4,4 +4,8 @@
 	<select id="getList" resultType="java.util.HashMap">
 		select * from product
 	</select>
+	<select id="getProductInfo" resultType="java.util.HashMap">
+		SELECT P.OWNERNUMBER,P.IMAG,P.SIGNUP,P.CONTENTS,S.* FROM PRODUCT P LEFT OUTER JOIN STOCK S 
+		ON P.OWNERNUMBER = S.OWNERNUMBER WHERE P.OWNERNUMBER=#{OWNERNUMBER}
+	</select>
 </mapper>
