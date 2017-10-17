@@ -80,9 +80,9 @@
 							</c:when>
 							<c:otherwise>
 								<!-- 수량 -->
-								<button class="minus_B">-</button>
-								<input type="number" style="width: 40px;" value="1"	min="1" />
-								<button class="plus_B">+</button>
+								<button id="minusA_B">-</button>
+								<input id="number_I" type="number" style="width: 40px;" value="1"	min="1" />
+								<button class="plusA_B">+</button>
 							</c:otherwise>							
 						</c:choose>						
 					</div>
@@ -142,23 +142,16 @@
 </div>	
 
 <script>
-//수량 minus
+// 수량 minusA
 $(".minus_B").click(function(){
 	if(parseInt($(this).next().val()) > 1){
-		$(this).next().val(parseInt($(this).next().val())-1);
+		$("#number_I").val($("#number_I").val()-1);
 	}
 });
-// 수량 plus
+// 수량 plusA
 $(".plus_B").click(function(){	
-	$(this).prev().val(parseInt($(this).prev().val())+1);
-	//var n = parseInt($(this).prev().val())+1;
-	console.log($(this).pre().val());	
+	$("#number_I").val($("#number_I").val()+1);
 });
-
-$(".remove_B").click(function(){
-	cosole.log($(this).parent());
-	$(this).parent().remove();
-})
 
 // 옵션 선택시
 $("#color_Select").change(function(){
@@ -172,6 +165,24 @@ $("#color_Select").change(function(){
 		selectOption += "&nbsp;<button class=\"remove_B\">X</button><p>";
 		//selectOption += "&nbsp;&nbsp;"+${productInfo[0].PRICE}*+"</p>";
 		$("#select_s").append(selectOption);
+		
+		//수량 minus
+		$(".minus_B").click(function(){
+			if(parseInt($(this).next().val()) > 1){
+				$(this).next().val(parseInt($(this).next().val())-1);
+			}
+		});
+		// 수량 plus
+		$(".plus_B").click(function(){	
+			$(this).prev().val(parseInt($(this).prev().val())+1);
+			//var n = parseInt($(this).prev().val())+1;
+			console.log($(this).prev().val());	
+		});
+		// 삭제
+		$(".remove_B").click(function(){
+			console.log($(this).parent());
+			$(this).parent().remove();
+		})
 	}
 })
 </script>
