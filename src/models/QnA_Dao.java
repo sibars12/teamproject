@@ -19,15 +19,11 @@ public class QnA_Dao {
 	
 	public boolean addOnd(Map map) {
 		int r=template.insert("QnA.add",map);
-		return r == 1;
+		return r==1;
 	}
 	
 	public List<Map> readAll()  {
 		return template.selectList("QnA.list");
-	}
-	public List<Map> readOne(String num) {
-		
-		return template.selectList("QnA.read" ,num);
 	}
 	public boolean del(String num) {
 		int d=template.insert("QnA.del" ,num);

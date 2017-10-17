@@ -10,16 +10,12 @@
 		
 		<form action="/QnA/add" method="post">
 			<p>
-			<b>작성자</b>
-				<input type="text" placeholder="master" name="writer" />
-			</p>
-			<p>
-				<b>질문</b><br /> <input type="text" name="QnA" placeholder="QnA"
+				<b>질문</b><br /> <input type="text" name="title" placeholder="QnA"
 					autocomplete="off" style="width: 100%;" />
 			</p>
 			<p>
 				<b>답변</b><br />
-				<textarea rows="10" name="anser" placeholder="답변"
+				<textarea rows="10" name="content" placeholder="답변"
 					style="width: 100%;"></textarea>
 			</p>
 			<p>

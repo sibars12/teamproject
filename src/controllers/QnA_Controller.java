@@ -22,19 +22,19 @@ public class QnA_Controller {
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle() throws SQLException {
 		System.out.println("??");
-		//List<Map> li = qdo.readAll();
+		List<Map> li = qdo.readAll();
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_QnA");
-		//	mav.addObject("list", li);
-		//mav.addObject("cnt", li.size());	
-			mav.addObject("section", "list"); 
+			mav.addObject("list", li);
+		mav.addObject("cnt", li.size());	
+			mav.addObject("section", "QnA/list"); 
 		return mav;
 	} 
 	@GetMapping("/add")
 	public ModelAndView add() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_QnA");
-		mav.addObject("section", "add");
+		mav.addObject("section", "QnA/add");
 		return mav;
 	}
 
@@ -47,23 +47,13 @@ public class QnA_Controller {
 			List<Map> li = qdo.readAll();
 			mav.addObject("list", li);
 			mav.addObject("cnt", li.size());	
-		mav.addObject("section", "list");
+		mav.addObject("section", "QnA/list");
 		}else {
 		mav.addObject("addt", false);
-		mav.addObject("section", "add");
+		mav.addObject("section", "QnA/add");
 		}
 		return mav;
 	}
-	@RequestMapping("/view")
-	public ModelAndView noticeViewHandle(@RequestParam String num) throws SQLException {
-		List<Map> list=qdo.readOne(num);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_QnA");
-		mav.addObject("list", list);
-		mav.addObject("section", "view");
-		return mav;
-		
-}
 	@RequestMapping("/del")
 	public ModelAndView noticedelHandle(@RequestParam String num) throws SQLException {
 		boolean a=qdo.del(num);
@@ -73,12 +63,13 @@ public class QnA_Controller {
 			List<Map> li = qdo.readAll();
 			mav.addObject("list", li);
 			mav.addObject("cnt", li.size());	
-		mav.addObject("section", "list");
+		mav.addObject("section", "QnA/list");
 		}else {
-		List<Map> list=qdo.readOne(num);
-		mav.addObject("list", list);
-		mav.addObject("addt", false);
-		mav.addObject("section", "view");
+			List<Map> li = qdo.readAll();
+			mav.addObject("list", li);
+			mav.addObject("cnt", li.size());
+			mav.addObject("fail", "½ÇÆÐ");
+			mav.addObject("section", "QnA/list");
 		}
 		return mav;
 }

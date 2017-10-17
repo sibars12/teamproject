@@ -21,6 +21,9 @@ public class notice_Dao {
 		int r=template.insert("notice.add",map);
 		return r == 1;
 	}
+	public int all() {
+		return template.selectOne("notice.all");
+	}
 	
 	public List<Map> readAll()  {
 		return template.selectList("notice.list");
@@ -32,5 +35,8 @@ public class notice_Dao {
 	public boolean del(String num) {
 		int d=template.insert("notice.del" ,num);
 		return d==1;
+	}
+	public List<Map> allist(Map map) {
+		return template.selectList("notice.allist",map);
 	}
 }

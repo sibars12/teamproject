@@ -1,6 +1,7 @@
 package controllers;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,21 +21,38 @@ public class notice_Controller {
 	@Autowired
 	notice_Dao ndo;
 	@RequestMapping("/list")
-	public ModelAndView noticeListHandle() throws SQLException {
+	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
 		System.out.println("??");
+		int size=ndo.all();
+		System.out.println(size);
+		if(page>size)
+			page = size;
+		if(page <=0) 
+			page = 1;
+		Map a=new HashMap();
+		a.put("start", (page*10)-9);
+		a.put("end", page*10);
+		double c=(size/5.0);
+		int cc=size/10;
+		if(c-cc>0) {
+			cc+=1;
+		}
+		System.out.println(cc);
+		List<Map> ila = ndo.allist(a);
 		List<Map> li = ndo.readAll();
 		ModelAndView mav = new ModelAndView();
-			mav.setViewName("t_QnA");
-			mav.addObject("list", li);
-			mav.addObject("cnt", li.size());	
-			mav.addObject("section", "list"); 
+			mav.setViewName("t_notice");
+			mav.addObject("list", ila);
+			mav.addObject("cnt", li.size());
+			mav.addObject("size" , cc);
+			mav.addObject("section", "notice/list");
 		return mav;
 	} 
 	@GetMapping("/add")
 	public ModelAndView add() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_notice");
-		mav.addObject("section", "add");
+		mav.addObject("section", "notice/add");
 		return mav;
 	}
 
@@ -44,13 +62,25 @@ public class notice_Controller {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_notice");
 		if(a==true){
+			int size=ndo.all();
+			Map abc=new HashMap();
+			abc.put("start", 1);
+			abc.put("end", 9);
+			double c=(size/5.0);
+			int cc=size/10;
+			if(c-cc>0) {
+				cc+=1;
+			}
+			System.out.println(cc);
+			List<Map> ila = ndo.allist(abc);
 			List<Map> li = ndo.readAll();
-			mav.addObject("list", li);
-			mav.addObject("cnt", li.size());	
-		mav.addObject("section", "list");
+			mav.addObject("list", ila);
+			mav.addObject("cnt", li.size());
+			mav.addObject("size" , cc);
+			mav.addObject("section", "notice/list");
 		}else {
 		mav.addObject("addt", false);
-		mav.addObject("section", "add");
+		mav.addObject("section", "notice/add");
 		}
 		return mav;
 	}
@@ -60,7 +90,7 @@ public class notice_Controller {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_notice");
 		mav.addObject("list", list);
-		mav.addObject("section", "view");
+		mav.addObject("section", "notice/view");
 		return mav;
 		
 }
@@ -73,12 +103,12 @@ public class notice_Controller {
 			List<Map> li = ndo.readAll();
 			mav.addObject("list", li);
 			mav.addObject("cnt", li.size());	
-		mav.addObject("section", "list");
+		mav.addObject("section", "notice/list");
 		}else {
 		List<Map> list=ndo.readOne(num);
 		mav.addObject("list", list);
 		mav.addObject("addt", false);
-		mav.addObject("section", "view");
+		mav.addObject("section", "notice/view");
 		}
 		return mav;
 }

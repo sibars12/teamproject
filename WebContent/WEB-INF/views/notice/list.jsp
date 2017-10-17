@@ -25,7 +25,6 @@ th, td {
 				
 				<th style="width: 40%">글제목</th>
 				<th style="width: 20%">작성자</th>
-				<th style="width: 10%">조회수</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -37,7 +36,6 @@ th, td {
 						<a href="/notice/view?num=${obj.NUM}">${fn:substring(obj.TITLE, 0, 12) } </a>
 					</td>
 					<td>${obj.MASTER }</td>
-					<td><fmt:formatNumber value="${obj.CNT }" pattern="#,###"/>  </td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -45,4 +43,25 @@ th, td {
 	<p align="right" style="margin-right: 30px;">
 		<a href="/notice/add"><button type="button">공지글작성</button></a>
 	</p>
+</div>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<div class="w3-container">
+<div class="w3-bar">
+ <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/notice/list?page=${param.page-1 }">&laquo;</a></c:if>
+  <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
+			<c:choose>
+				<c:when test="${i eq param.page }">
+					<a class="w3-button" class="active">${i }</a>
+				</c:when>
+				<c:otherwise>
+					<a href="/notice/list?page=${i }" class="w3-button"
+						><b style="color: #9c9892;">${i }</b></a>	
+				</c:otherwise>
+			</c:choose>
+			
+		</c:forEach>
+  <c:if test="${param.page ne size }"><a class="w3-button" href="/notice/list?page=${param.page+1 }">&raquo;</a></c:if>
+</div>
+
 </div>

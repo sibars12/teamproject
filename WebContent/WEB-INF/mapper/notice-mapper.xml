@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="notice">
   	<insert id="add" parameterType="java.util.HashMap">
-  		insert into notice values(notice_seq.nextval, 'master', #{title}, #{content} ,0,SYSDATE)
+  		insert into notice values(notice_seq.nextval, 'master', #{title}, #{content} ,SYSDATE)
   	</insert>
   	<select id="list" resultType="java.util.HashMap">
   			select * from NOTICE
@@ -21,5 +21,11 @@
   	<insert id="del" parameterType="java.lang.String">
   	delete from notice where num=#{num}
   	</insert>
+  	<select id="allist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select * from (select rownum r, a.* from (select * from notice order by num asc) a) where r between #{start} and #{end}
+	</select>
+	<select id="all" resultType="java.lang.Integer">
+		select count(*) FROM notice num
+	</select>
   
   </mapper>
