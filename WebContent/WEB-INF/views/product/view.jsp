@@ -29,7 +29,7 @@
 						</c:when>
 						<c:otherwise>
 							<img src="/images/default.png" class="img-rounded"
-								alt="Cinque Terre" width="304" height="236" />
+								alt="기본 사진" width="304" height="236" />
 						</c:otherwise>
 					</c:choose>
 					
@@ -70,19 +70,19 @@
 					<div id="selecter_Div">
 						<%-- 색상 선택  --%>
 						<c:choose>
-							<c:when test="${porductInfo[0].COLOR != 'none'}">
-							<select id="color_Select">
-								<option>색상 옵션 선택</option>
-								<c:forEach items="${productInfo}" var="m">
+							<c:when test="${'none' ne productInfo[0].COLOR}">
+								<select id="color_Select">
+									<option>색상 옵션 선택</option>
+									<c:forEach items="${productInfo}" var="m">
 									<option>${m.COLOR }</option>
-								</c:forEach>
-							</select>
+									</c:forEach>
+								</select>
 							</c:when>
-							<c:otherwise>
+							<c:otherwise>							
 								<!-- 수량 -->
 								<button id="minusA_B">-</button>
 								<input id="number_I" type="number" style="width: 40px;" value="1"	min="1" />
-								<button class="plusA_B">+</button>
+								<button id="plusA_B">+</button>
 							</c:otherwise>							
 						</c:choose>						
 					</div>
@@ -142,17 +142,17 @@
 </div>	
 
 <script>
-// 수량 minusA
-$(".minus_B").click(function(){
-	if(parseInt($(this).next().val()) > 1){
-		$("#number_I").val($("#number_I").val()-1);
+//수량 minus
+$("#minusA_B").click(function(){
+	if(parseInt($("#number_I").val()) > 1){
+		$("#number_I").val(parseInt($("#number_I").val())-1); 
 	}
 });
-// 수량 plusA
-$(".plus_B").click(function(){	
-	$("#number_I").val($("#number_I").val()+1);
+// 수량 plus
+$("#plusA_B").click(function(){	
+	$("#number_I").val(parseInt($("#number_I").val())+1);
+	console.log($("#number_I").val());
 });
-
 // 옵션 선택시
 $("#color_Select").change(function(){
 	console.log($(this).val());
