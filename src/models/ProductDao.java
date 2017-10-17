@@ -10,6 +10,9 @@ public class ProductDao {
 	@Autowired
 	SqlSessionTemplate sql;
 	
+	public List<Map> getProductList(String page) {
+		return sql.selectList("product.getProductList", page);
+	}
 	public List<Map> getProductInfo(int ownernumber){
 		return sql.selectList("product.getProductInfo", ownernumber);
 	}

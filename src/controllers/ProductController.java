@@ -44,6 +44,13 @@ public class ProductController {
 		return mav;
 	}
 	
+	@GetMapping("/list")
+	public ModelAndView ListHandler() {
+		ModelAndView mav = new ModelAndView("t_expr");
+		mav.addObject("section", "product/list");
+		return mav;
+	}
+	
 	@GetMapping("/addProduct")
 	public ModelAndView addProductHandler(@RequestParam(defaultValue="1") String page) {
 		ModelAndView mav = new ModelAndView("t_expr");
@@ -60,7 +67,7 @@ public class ProductController {
 		System.out.println("upload ¿€µø!");
 		String fileName = null;
 		if(!f.isEmpty() && f.getContentType().startsWith("image")) {
-			String path = application.getRealPath("/product/content");
+			String path = application.getRealPath("/images/product/content");
 			File dir = new File(path);
 			if(!dir.exists()) {
 				dir.mkdirs();
@@ -75,7 +82,7 @@ public class ProductController {
 			f.transferTo(target);
 			System.out.println(fileName);
 		}
-		return "/product/content/"+fileName;
+		return "/images/product/content/"+fileName;
 	}
 	
 	@PostMapping("/addProduct")
@@ -86,12 +93,11 @@ public class ProductController {
 		mav.addObject("section","product/addProduct");
 		String fileName = null;
 		if(!f.isEmpty() && f.getContentType().startsWith("image")) {
-			String path = application.getRealPath("/product/image");
+			String path = application.getRealPath("/images/product");
 			File dir = new File(path);
 			if(!dir.exists()) {
 				dir.mkdirs();
 			}
-			
 			fileName = (String)param.get("ownernumber")+".jpg";
 			File target = new File(dir, fileName);
 			f.transferTo(target);
