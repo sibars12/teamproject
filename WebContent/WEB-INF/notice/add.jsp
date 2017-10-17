@@ -10,17 +10,18 @@
 		
 		<form action="/notice/add" method="post">
 			<p>
-				<b>공지제목</b><br /> <input type="text" name="title" placeholder="공지제목"
-					autocomplete="off" style="width: 100%;" />
+				<b>공지제목</b><br /> <input type="text"  name="title" placeholder="공지제목"
+					autocomplete="off" style="width: 100%;" required/>
 			</p>
 			<p>
 				<b>공지내용</b><br />
-				<textarea rows="10" name="content" placeholder="공지내용"
+				<textarea rows="10" name="content" placeholder="공지내용" required 
 					style="width: 100%;"></textarea>
 			</p>
 			<p>
 				<button type="submit">글등록</button>
 				<button type="reset">재작성</button>
+				<a href="/notice/list"><button type="button">목록으로</button></a>
 			</p>
 		</form>
 		

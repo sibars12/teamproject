@@ -11,6 +11,9 @@
 	<definition name="t_notice" extends="t_base">
 		<put-attribute name="section" expression="/WEB-INF/notice/${section}.jsp"/>
 	</definition>
+	<definition name="t_QnA" extends="t_base">
+		<put-attribute name="section" expression="/WEB-INF/QnA/${section}.jsp"/>
+	</definition>
 </tiles-definitions>
 
 
