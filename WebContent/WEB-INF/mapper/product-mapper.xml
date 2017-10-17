@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
-	<select id="getList" resultType="java.util.HashMap">
-		select * from product
+	<select id="getProductInfo" resultType="java.util.HashMap">
+		SELECT P.OWNERNUMBER,P.IMAG,P.SIGNUP,P.CONTENTS,S.* FROM PRODUCT P LEFT OUTER JOIN STOCK S 
+		ON P.OWNERNUMBER = S.OWNERNUMBER WHERE P.OWNERNUMBER=#{OWNERNUMBER}
 	</select>
 </mapper>
