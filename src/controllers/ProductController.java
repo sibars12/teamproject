@@ -16,14 +16,6 @@ public class ProductController {
 	@Autowired
 	ProductDao pdao;
 	
-	@RequestMapping("/list")
-	public ModelAndView ListHandler() {
-		ModelAndView mav = new ModelAndView("t_expr");
-		mav.addObject("section", "product/list");
-		mav.addObject("list", pdao.getList());
-		return mav;
-	}
-	
 	@RequestMapping("/view")
 	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") int ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
