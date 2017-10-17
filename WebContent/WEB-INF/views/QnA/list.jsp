@@ -37,9 +37,9 @@
 			</tr>
 			<c:forEach var="obj" items="${list }">
 				<tr style="display: none">
-					<td><button onclick="anser('Demo${obj.NUM}')"
+					<td><button onclick="ansers('Demos${obj.NUM}')"
 							class="w3-btn w3-block w3-black w3-left-align">${fn:substring(obj.TITLE, 0, 12) }</button>
-						<div id="Demo${obj.NUM}" class="w3-container w3-hide">
+						<div id="Demos${obj.NUM}" class="w3-container w3-hide">
 							<p>${obj.CONTENT }</p>
 							<a href="/QnA/del?num=${obj.NUM }"><button type="button">삭제</button></a>
 						</div></td>
@@ -69,6 +69,14 @@
 			}
 		}
 		function anser(id) {
+			var x = document.getElementById(id);
+			if (x.className.indexOf("w3-show") == -1) {
+				x.className += " w3-show";
+			} else {
+				x.className = x.className.replace(" w3-show", "");
+			}
+		}
+		function ansers(id) {
 			var x = document.getElementById(id);
 			if (x.className.indexOf("w3-show") == -1) {
 				x.className += " w3-show";
