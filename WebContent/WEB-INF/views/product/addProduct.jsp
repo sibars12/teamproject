@@ -1,12 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+	input{
+		margin: 10;
+		padding: 5;
+	}
+</style>
 
 <div align="center">
 	<h2>상품 등록</h2>
-	<form action="/product/test" method="post">
-		<textarea  id="summernote" name="note"></textarea>
-		<button type="submit">작성</button>
-	</form>
+	<div align="left" style="width: 700;">
+		<form action="/product/test" method="post">
+			<input type="text" placeholder="제목">
+			<textarea  id="summernote" name="note"></textarea>
+			<input type="file" name="profile" id="profile">
+			<button type="submit">작성</button>
+		</form>
+	</div>
 </div>
 <div>${obj }</div>
 
