@@ -1,22 +1,53 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
 <html>
 <head>
-<title> <t:getAsString name="title"/> </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--<title><t:getAsString name="title"/></title>-->
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- BootStrap -->
+   <!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+   <!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+   <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<header>
-	<t:insertAttribute name="header"/>
-</header>
-<nav>
-	<t:insertAttribute name="nav"/>
-</nav>
-<section>
-	<t:insertAttribute name="section"/>
-</section>
-<footer>
-	<t:insertAttribute name="footer"/>
-</footer>
+   <div class="container">
+   <header class="container">
+      <t:insertAttribute name="header"/>
+   </header>
+   <nav class = "navbar navbar-inverse">
+      <t:insertAttribute name="nav"/>
+   </nav>
+   <div class="container-fluid text-center">
+   <div class="row content">
+    <div class="col-sm-2 sidenav">
+      <p><a href="#">Link</a></p>
+    </div>
+    <div class="col-sm-8 text-left"> 
+      <h1>Welcome</h1>
+      <h3>MAIN</h3>
+      </br>
+      </br>
+      </br>
+    </div>
+    <div class="col-sm-2 sidenav">
+      <div class="well">
+        <p>ADS</p>
+      </div>
+      <div class="well">
+        <p>ADS</p>
+      </div>
+    </div>
+   </div>
+   </div>
+   <footer>
+      <t:insertAttribute name="footer"/>
+   </footer>
+   </div>
 </body>
 </html>
