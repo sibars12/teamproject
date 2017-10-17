@@ -5,4 +5,7 @@
 		SELECT P.OWNERNUMBER,P.IMAG,P.SIGNUP,P.CONTENTS,S.* FROM PRODUCT P LEFT OUTER JOIN STOCK S 
 		ON P.OWNERNUMBER = S.OWNERNUMBER WHERE P.OWNERNUMBER=#{OWNERNUMBER}
 	</select>
+	<insert id="addProduct">
+		INSERT INTO PRODUCT(OWNERNUMBER, NAME, IMAG, SIGNUP, CONTENTS) VALUES(#{ownernumber}, #{name}, #{imag}, sysdate, #{content})
+	</insert>
 </mapper>
