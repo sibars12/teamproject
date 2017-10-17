@@ -12,6 +12,9 @@
 	th,td{
 		padding:5px;
 	}
+	div{
+		padding:5px;
+	}
 </style>
 
 <div class="container-fluid">
@@ -78,17 +81,20 @@
 									</c:forEach>
 								</select>
 							</c:when>
-							<c:otherwise>							
+							<c:otherwise>	
+								<label>${productInfo[0].NAME }</label> &nbsp;&nbsp;						
 								<!-- 수량 -->
 								<button id="minusA_B">-</button>
 								<input id="number_I" type="number" style="width: 40px;" value="1"	min="1" />
-								<button id="plusA_B">+</button>
+								<button id="plusA_B">+</button>&nbsp;&nbsp;	
+								<span id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span>
 							</c:otherwise>							
 						</c:choose>						
 					</div>
 					<div>
 					<hr>
-					<span id="select_s"></span>
+					<span id="select_Span"></span>
+					<span style="text-align:right" id="total_Span"></span>
 					<hr>
 					<button id="">장바구니에 담기</button>
 					<button id="buyNow_B">즉시구매</button>
@@ -118,7 +124,7 @@
 				      <textarea class="form-control" id="inquiryComments" name="inquiryComments" placeholder="문의내용" rows="3"></textarea>
 				      <br>
 				      <div class="row">
-				        <div class="col-md-12 form-group">
+				        <div class="col-sm-12 form-group">
 				          <button class="btn pull-right" type="submit" id="inquiry_Submit">Send</button>
 				        </div>
 				      </div>
@@ -130,7 +136,7 @@
 						<label for="reviewWriter_I">작성자</label>
 						<input type="text" class="form-control" id="reviewWriter_I" name="reviewWriter_I" placeholder="작성자">&nbsp;
 						<textarea class="form-control" id="reviewComment_Ta" name="reviewComment_Ta" placeholder="내용"></textarea><br>
-				        <div class="col-md-12 form-group">
+				        <div class="col-sm-12 form-group">
 				          <button class="btn pull-right" type="submit" id="inquiry_Submit">Send</button>
 				        </div>
 					</div>
@@ -142,17 +148,37 @@
 </div>	
 
 <script>
+var total=0;
+function print() {	
+	if(${productInfo[0].COLOR == "none"}){
+		var t = ${productInfo[0].PRICE}*parseInt($("#number_I").val());
+		console.log(t);
+		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+t+"원</large></b>");
+	}
+	else{
+		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+total+"원</large></b>");
+	}
+}
+print();
 //수량 minus
 $("#minusA_B").click(function(){
 	if(parseInt($("#number_I").val()) > 1){
 		$("#number_I").val(parseInt($("#number_I").val())-1); 
+		var n = $("#number_I").val();
+		total = ${productInfo[0].PRICE }*n;
+		$("#priceA_Span").html("<b>"+total+"원</b>");
+		print();
 	}
 });
 // 수량 plus
 $("#plusA_B").click(function(){	
 	$("#number_I").val(parseInt($("#number_I").val())+1);
-	console.log($("#number_I").val());
+	var n = $("#number_I").val();
+	total = ${productInfo[0].PRICE }*n;
+	$("#priceA_Span").html("<b>"+total+"원</b>");
+	print();
 });
+
 // 옵션 선택시
 $("#color_Select").change(function(){
 	console.log($(this).val());
@@ -162,21 +188,26 @@ $("#color_Select").change(function(){
 		selectOption += "&nbsp;&nbsp;<button class=\"minus_B\">-</button>";
 		selectOption += "<input type=\"number\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
 		selectOption += "<button class=\"plus_B\">+</button>";
-		selectOption += "&nbsp;<button class=\"remove_B\">X</button><p>";
-		//selectOption += "&nbsp;&nbsp;"+${productInfo[0].PRICE}*+"</p>";
-		$("#select_s").append(selectOption);
-		
+		selectOption += "&nbsp;<button class=\"remove_B\">X</button>";
+		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"</span></p>";
+		$("#select_Span").append(selectOption);
+		$(".minus_B").off("click"); //먼저 걸려있던 이벤트 해제
+		$(".plus_B").off("click");
 		//수량 minus
 		$(".minus_B").click(function(){
 			if(parseInt($(this).next().val()) > 1){
 				$(this).next().val(parseInt($(this).next().val())-1);
+				var n = parseInt($(this).next().val());
+				$(this).next().next().next().next().html(${productInfo[0].PRICE }*n);
 			}
 		});
 		// 수량 plus
 		$(".plus_B").click(function(){	
 			$(this).prev().val(parseInt($(this).prev().val())+1);
-			//var n = parseInt($(this).prev().val())+1;
 			console.log($(this).prev().val());	
+			var n = parseInt($(this).prev().val());
+			$(this).next().next().html(${productInfo[0].PRICE }*n);
+			
 		});
 		// 삭제
 		$(".remove_B").click(function(){
