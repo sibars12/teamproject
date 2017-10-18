@@ -32,15 +32,15 @@ public class ProductController {
 	@Autowired
 	SimpleDateFormat sdf;
 	@Autowired
-	ProductDao pdao;
+	ProductDao productDao; 
 	@Autowired
-	StockDao sdao;
+	StockDao stockDao;
 	
 	@RequestMapping("/view")
-	public ModelAndView ViewHandler(@RequestParam(defaultValue="10005") int ownernumber) {
+	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") int ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/view");
-		mav.addObject("productInfo", pdao.getProductInfo(ownernumber));
+		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
 		return mav;
 	}
 	
@@ -48,8 +48,8 @@ public class ProductController {
 	public ModelAndView addProductHandler(@RequestParam(defaultValue="1") String page) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/addProduct");
-		mav.addObject("list", sdao.getStockList(page));
-		mav.addObject("page", sdao.getStockPage());
+		mav.addObject("list", stockDao.getStockList(page));
+		mav.addObject("page", stockDao.getStockPage());
 		return mav;
 	}
 	
@@ -99,7 +99,7 @@ public class ProductController {
 			param.put("imag", fileName);
 		}
 		System.out.println(param);
-		pdao.addProduct(param);
+		productDao.addProduct(param);
 		return mav;
 	}
 }

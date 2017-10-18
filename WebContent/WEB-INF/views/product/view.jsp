@@ -101,16 +101,17 @@
 					</div>
 				</div>
 					
-				<div>
-					<label id="">상품 상세보기</label>
+				<div >
+					<label>상품 상세보기</label>
 					<pre>
+						code
 						아마도 여기서
 						제품의 상세설명이 있을 꺼야
 						없을 수 도 있고
 					</pre>
 				</div>
 				
-				<div>
+				<div >
 					<label id="inquiry_Label">상품 문의</label><br>
 					<sapn id="inquiry_Span">문의 리스트</sapn>
 					<div class="row">
@@ -129,7 +130,7 @@
 				        </div>
 				      </div>
 				</div>
-				<div>
+				<div class="col-sm-12">
 					<label id="review_Label">상품 후기</label><br>
 					<span id="review_Span">후기 리스트</span>
 					<div class="form-group">
@@ -148,7 +149,9 @@
 </div>	
 
 <script>
+var cnt=0;
 var total=0;
+// 총액 표기
 function print() {	
 	if(${productInfo[0].COLOR == "none"}){
 		var t = ${productInfo[0].PRICE}*parseInt($("#number_I").val());
@@ -160,6 +163,7 @@ function print() {
 	}
 }
 print();
+
 //수량 minus
 $("#minusA_B").click(function(){
 	if(parseInt($("#number_I").val()) > 1){
@@ -178,12 +182,21 @@ $("#plusA_B").click(function(){
 	$("#priceA_Span").html("<b>"+total+"원</b>");
 	print();
 });
-
+ 
 // 옵션 선택시
 $("#color_Select").change(function(){
 	console.log($(this).val());
 	if($(this).val()!="색상 옵션 선택"){
-	var selectOption="<p>";
+		cnt++; // script 전역 변수 -> 옵션 선택 갯수 제한
+		if(cnt> ${productInfo.size()}){
+			var length = ${productInfo.size()};
+			//console.log(length);
+			cnt=length;
+			$("#color_Select").val("색상 옵션 선택");
+			return;
+		}
+		// 선택된 옵션 표기
+		var selectOption="<p>";
 		selectOption += $(this).val();
 		selectOption += "&nbsp;&nbsp;<button class=\"minus_B\">-</button>";
 		selectOption += "<input type=\"number\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
@@ -191,29 +204,43 @@ $("#color_Select").change(function(){
 		selectOption += "&nbsp;<button class=\"remove_B\">X</button>";
 		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"</span></p>";
 		$("#select_Span").append(selectOption);
-		$(".minus_B").off("click"); //먼저 걸려있던 이벤트 해제
+		$("#color_Select").val("색상 옵션 선택");
+		total+=${productInfo[0].PRICE };
+		print();
+		
+		//먼저 걸려있던 이벤트 해제
+		$(".minus_B").off("click"); 
 		$(".plus_B").off("click");
+		$(".remove_B").off("click");
+		
 		//수량 minus
 		$(".minus_B").click(function(){
 			if(parseInt($(this).next().val()) > 1){
 				$(this).next().val(parseInt($(this).next().val())-1);
 				var n = parseInt($(this).next().val());
 				$(this).next().next().next().next().html(${productInfo[0].PRICE }*n);
+				total-=${productInfo[0].PRICE };
+				print();
 			}
-		});
+		}); 
 		// 수량 plus
 		$(".plus_B").click(function(){	
 			$(this).prev().val(parseInt($(this).prev().val())+1);
 			console.log($(this).prev().val());	
 			var n = parseInt($(this).prev().val());
 			$(this).next().next().html(${productInfo[0].PRICE }*n);
-			
+			total+=${productInfo[0].PRICE };
+			print();
 		});
 		// 삭제
 		$(".remove_B").click(function(){
-			console.log($(this).parent());
+			console.log($(this).next().html());
+			total -= parseInt($(this).next().html());
 			$(this).parent().remove();
-		})
+			cnt--;
+			console.log(cnt);
+			print();
+		});
 	}
 })
 </script>
