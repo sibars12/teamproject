@@ -145,5 +145,4 @@
 			document.getElementById("updateStock_D").innerHTML = html;
 		}
 	}
-	
 </script>

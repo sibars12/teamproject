@@ -6,6 +6,9 @@
 		ON P.OWNERNUMBER = S.OWNERNUMBER WHERE P.OWNERNUMBER=#{OWNERNUMBER}
 	</select>
 	<insert id="addProduct">
-		INSERT INTO PRODUCT(OWNERNUMBER, NAME, IMAG, SIGNUP, CONTENTS) VALUES(#{ownernumber}, #{name}, #{imag}, sysdate, #{content})
+		INSERT INTO PRODUCT(OWNERNUMBER, NAME, IMAG, SIGNUP, CONTENTS) VALUES(#{OWNERNUMBER}, #{NAME}, #{IMAG}, SYSDATE, #{CONTENT})
 	</insert>
+	<select id="getProductList" resultType="java.util.HashMap">
+		SELECT * FROM (SELECT ROWNUM AS R,T.* FROM (SELECT * FROM PRODUCT) T) TT WHERE R BETWEEN 1 AND 16
+	</select>
 </mapper>
