@@ -45,7 +45,7 @@ public class event_Controller {
 		Map a=new HashMap();
 		a.put("start", (page*10)-9);
 		a.put("end", page*10);
-		double c=(size/5.0);
+		double c=(size/10.0);
 		int cc=size/10;
 		if(c-cc>0) {
 			cc+=1;
@@ -54,7 +54,7 @@ public class event_Controller {
 		List<Map> ila = eventDao.allist(a);
 		List<Map> li = eventDao.readAll();
 		ModelAndView mav = new ModelAndView();
-			mav.setViewName("t_notice");
+			mav.setViewName("t_event");
 			mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size" , cc);
@@ -101,12 +101,13 @@ public class event_Controller {
 			if(!dir.exists()) {
 				dir.mkdirs();
 			}
-			
-			fileName = (String)map.get("ownernumber")+".jpg";
+			fileName = System.currentTimeMillis()+".jpg";
 			File target = new File(dir, fileName);
 			f.transferTo(target);
 			System.out.println("파일 이름   "+target.getPath());
 			map.put("eventimg", target.getPath());
+		}else {
+			map.put("eventimg", null);
 		}
 		System.out.println(map);
 		boolean a=eventDao.addOnd(map);
@@ -116,7 +117,7 @@ public class event_Controller {
 			Map abc=new HashMap();
 			abc.put("start", 1);
 			abc.put("end", 9);
-			double c=(size/5.0);
+			double c=(size/10.0);
 			int cc=size/10;
 			if(c-cc>0) {
 				cc+=1;
@@ -135,11 +136,12 @@ public class event_Controller {
 		return mav;
 	}
 	@RequestMapping("/view")
-	public ModelAndView noticeViewHandle(@RequestParam String num) throws SQLException {
+	public ModelAndView noticeViewHandle(@RequestParam String num , @RequestParam String page) throws SQLException {
 		List<Map> list=eventDao.readOne(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
 		mav.addObject("list", list);
+		mav.addObject("page" ,page);
 		mav.addObject("section", "event/view");
 		return mav;
 		

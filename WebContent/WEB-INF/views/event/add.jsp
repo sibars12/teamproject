@@ -9,7 +9,6 @@
 	
 		
 		<form action="/event/add" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="ownernumber" id="productOwnernumber_I">
 			<p>
 				<b>이벤트 제목</b><br /> <input type="text"  name="title" placeholder="이벤트 제목"
 					autocomplete="off" style="width: 100%;" required/>
@@ -21,15 +20,15 @@
 			</p>
 			<p>
 			<b>시작일</b><br/>
-			  <input type="date" name="startdate" />
+			  <input type="date" name="startdate" required />
 			</p>
 			<p>
 			<b>마감일</b><br/>
-			  <input type="date" name="enddate" />
+			  <input type="date" name="enddate" required/>
 			</p>
 			<p>
 			<b>이미지</b><br/>
-			<input type="file" name="eventimg" id="profile" />
+			<input type="file" name="eventimg" id="profile" required/>
 			<img  id="pre" alt="기본이미지" style="width:200; height:200"/><br/>
 			</p>
 			<div align="left" style="width: 700;" class="mar">
@@ -38,7 +37,7 @@
 			<p>
 				<button type="submit">이벤트 등록</button>
 				<button type="reset">재작성 </button>
-				<a href="/event/list"><button type="button">목록으로</button></a>
+				<a href="/event/list?page=1"><button type="button">목록으로</button></a>
 			</p>
 		</form>
 		
@@ -46,6 +45,7 @@
 </div>
 <script>
 document.getElementById("profile").onchange = function(){
+	
 	var reader = new FileReader();
 	reader.onload = function(e){
 		document.getElementById("pre").src = e.target.result;

@@ -24,6 +24,8 @@ th, td {
 			<tr>
 				
 				<th style="width: 40%">이벤트 목록</th>
+				<th style="width: 20%">시작일</th>
+				<th style="width: 20%">마감일</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -32,7 +34,15 @@ th, td {
 					
 					<td>
 					
-						<a href="/event/view?num=${obj.NUM}">${fn:substring(obj.TITLE, 0, 12) } </a>
+						<a href="/event/view?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
+					</td>
+					<td>
+						<p><fmt:formatDate
+							pattern="MM.dd.yyyy HH:mm:ss" value="${obj.STARTDATE }" /></p>
+					</td>
+					<td>
+						<p><fmt:formatDate
+							pattern="MM.dd.yyyy HH:mm:ss" value="${obj.ENDDATE }" /></p>
 					</td>
 				</tr>
 			</c:forEach>
