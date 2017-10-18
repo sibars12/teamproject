@@ -70,48 +70,58 @@
 						</tr>
 					</table>
 					<hr>
-					<div id="selecter_Div">
+					<form id="selectListForm" name="selectListForm" action="/shopping/cart" method="get">
 						<%-- 색상 선택  --%>
 						<c:choose>
 							<c:when test="${'none' ne productInfo[0].COLOR}">
 								<select id="color_Select">
 									<option>색상 옵션 선택</option>
 									<c:forEach items="${productInfo}" var="m">
-									<option>${m.COLOR }</option>
+									<option value="${m.NO }_${m.COLOR}">
+										${m.COLOR }
+									</option>
 									</c:forEach>
 								</select>
+								<span id="select_Span">
+									<hr>
+								</span>
 							</c:when>
-							<c:otherwise>	
+							<c:otherwise>
+							<span id="select_Span">	
 								<label>${productInfo[0].NAME }</label> &nbsp;&nbsp;						
 								<!-- 수량 -->
-								<button id="minusA_B">-</button>
-								<input id="number_I" type="number" style="width: 40px;" value="1"	min="1" />
-								<button id="plusA_B">+</button>&nbsp;&nbsp;	
+								<button type="button" id="minusA_B">-</button>
+								<input id="stockCnt" name="stockCnt" type="number" style="width: 40px;" value="1"	min="1" />
+								<button type="button" id="plusA_B">+</button>&nbsp;&nbsp;	
 								<span id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span>
+								<input type="hidden" id="stockNO" name="NO" value="${productInfo[0].NO }">
+							</span>
 							</c:otherwise>							
-						</c:choose>						
-					</div>
-					<div>
+						</c:choose>				
+					
 					<hr>
-					<span id="select_Span"></span>
 					<span style="text-align:right" id="total_Span"></span>
 					<hr>
-					<button id="">장바구니에 담기</button>
-					<button id="buyNow_B">즉시구매</button>
-					</div>
+					<button type="submit" id="buyNow_B">즉시구매</button>
+					<button type="button" id="cart">장바구니에 담기</button>
+					</form>
 				</div>
 					
 				<div >
 					<label>상품 상세보기</label>
-					<pre>
-						code
-						아마도 여기서
-						제품의 상세설명이 있을 꺼야
-						없을 수 도 있고
-					</pre>
+					<c:choose>
+						<c:when test="${!empty productInfo[0].CONTENTS}">
+							<pre> <%--class="form-control" id="productDetail" name="productDetail" placeholder="상품 상세보기" rows="5"--%>
+								${productInfo[0].CONTENTS }
+							</pre>
+						</c:when>
+						<c:otherwise>
+							상세정보 없음
+						</c:otherwise>
+					</c:choose>
 				</div>
 				
-				<div >
+				<div class="col-sm-12">
 					<label id="inquiry_Label">상품 문의</label><br>
 					<sapn id="inquiry_Span">문의 리스트</sapn>
 					<div class="row">
@@ -154,32 +164,32 @@ var total=0;
 // 총액 표기
 function print() {	
 	if(${productInfo[0].COLOR == "none"}){
-		var t = ${productInfo[0].PRICE}*parseInt($("#number_I").val());
+		var t = ${productInfo[0].PRICE}*parseInt($("#stockCnt").val());
 		console.log(t);
-		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+t+"원</large></b>");
+		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+t+"원</large></b><input type=\"hidden\" name=\"total\" value=\""+t+"\">");
 	}
 	else{
-		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+total+"원</large></b>");
+		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+total+"원</large></b><input type=\"hidden\" name=\"total\" value=\""+t+"\">");
 	}
 }
 print();
 
 //수량 minus
 $("#minusA_B").click(function(){
-	if(parseInt($("#number_I").val()) > 1){
-		$("#number_I").val(parseInt($("#number_I").val())-1); 
-		var n = $("#number_I").val();
-		total = ${productInfo[0].PRICE }*n;
-		$("#priceA_Span").html("<b>"+total+"원</b>");
+	if(parseInt($("#stockCnt").val()) > 1){
+		$("#stockCnt").val(parseInt($("#stockCnt").val())-1); 
+		var n = $("#stockCnt").val();
+		var price = ${productInfo[0].PRICE }*n;
+		$("#priceA_Span").html("<b>"+price+"원</b>");
 		print();
 	}
 });
 // 수량 plus
 $("#plusA_B").click(function(){	
-	$("#number_I").val(parseInt($("#number_I").val())+1);
-	var n = $("#number_I").val();
-	total = ${productInfo[0].PRICE }*n;
-	$("#priceA_Span").html("<b>"+total+"원</b>");
+	$("#stockCnt").val(parseInt($("#stockCnt").val())+1);
+	var n = $("#stockCnt").val();
+	var price = ${productInfo[0].PRICE }*n;
+	$("#priceA_Span").html("<b>"+price+"원</b>");
 	print();
 });
  
@@ -196,13 +206,17 @@ $("#color_Select").change(function(){
 			return;
 		}
 		// 선택된 옵션 표기
+		var optionValue=$(this).val();
+		var	arr = optionValue.split("_");
+		var sno = arr[0];
 		var selectOption="<p>";
-		selectOption += $(this).val();
-		selectOption += "&nbsp;&nbsp;<button class=\"minus_B\">-</button>";
-		selectOption += "<input type=\"number\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
-		selectOption += "<button class=\"plus_B\">+</button>";
-		selectOption += "&nbsp;<button class=\"remove_B\">X</button>";
-		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"</span></p>";
+		selectOption += "<label>"+$(this).val()+"</label>";
+		selectOption += "&nbsp;&nbsp;<button type=\"button\" class=\"minus_B\">-</button>";
+		selectOption += "<input type=\"number\" name=\"stockCnt\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
+		selectOption += "<button type=\"button\" class=\"plus_B\">+</button>";
+		selectOption += "&nbsp;<button type=\"button\" class=\"remove_B\">X</button>";
+		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"</span>";
+		selectOption += "<input type=\"hidden\" name=\"stockNo\" value=\""+sno+"\"><p>";
 		$("#select_Span").append(selectOption);
 		$("#color_Select").val("색상 옵션 선택");
 		total+=${productInfo[0].PRICE };
@@ -242,5 +256,12 @@ $("#color_Select").change(function(){
 			print();
 		});
 	}
-})
+});
+
+// 장바구니 버튼
+$("#cart").click(function(){
+	$("#selectListForm").action="/shopping/cart";
+	$("#selectListForm").submit();	
+});
+
 </script>

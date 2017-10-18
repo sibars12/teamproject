@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,7 @@ public class ProductController {
 		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
 		return mav;
 	}
+	
 	
 	@GetMapping("/addProduct")
 	public ModelAndView addProductHandler(@RequestParam(defaultValue="1") String page) {
