@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="event">
   	<insert id="add" parameterType="java.util.HashMap">
-  		insert into event values(notice_seq.nextval, 'master', #{title}, #{content} ,SYSDATE)
+  		insert into event values(event_seq.nextval,#{title}, #{content},SYSDATE,#{startdate} ,#{enddate},#{eventimg})
   	</insert>
   	<select id="list" resultType="java.util.HashMap">
   			select * from event

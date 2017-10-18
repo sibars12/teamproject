@@ -56,8 +56,6 @@ public class ProductController {
 	@ResponseBody
 	@RequestMapping("/uploadImage")
 	public String uploadHandler(@RequestParam("file") MultipartFile f) throws IllegalStateException, IOException {
-		ModelAndView mav = new ModelAndView("t_expr");
-		System.out.println("upload ¿€µø!");
 		String fileName = null;
 		if(!f.isEmpty() && f.getContentType().startsWith("image")) {
 			String path = application.getRealPath("/product/content");
@@ -66,10 +64,6 @@ public class ProductController {
 				dir.mkdirs();
 			}
 			String of = f.getOriginalFilename();
-			
-			System.out.println("of: " + of);
-			System.out.println("path: " + path);
-			
 			fileName = sdf.format(System.currentTimeMillis())+"."+of.substring(of.lastIndexOf(".")+1);
 			File target = new File(dir, fileName);
 			f.transferTo(target);
@@ -87,6 +81,7 @@ public class ProductController {
 		String fileName = null;
 		if(!f.isEmpty() && f.getContentType().startsWith("image")) {
 			String path = application.getRealPath("/product/image");
+			System.out.println(path);
 			File dir = new File(path);
 			if(!dir.exists()) {
 				dir.mkdirs();

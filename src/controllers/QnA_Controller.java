@@ -18,11 +18,11 @@ import models.QnA_Dao;
 @RequestMapping("/QnA")
 public class QnA_Controller {
 	@Autowired
-	QnA_Dao qdo;
+	QnA_Dao QnADao;
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle() throws SQLException {
 		System.out.println("??");
-		List<Map> li = qdo.readAll();
+		List<Map> li = QnADao.readAll();
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_QnA");
 			mav.addObject("list", li);
@@ -40,11 +40,11 @@ public class QnA_Controller {
 
 	@PostMapping("/add")
 	public ModelAndView noticeaddHandle(@RequestParam Map map) throws SQLException {
-		boolean a=qdo.addOnd(map);
+		boolean a=QnADao.addOnd(map);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_QnA");
 		if(a==true){
-			List<Map> li = qdo.readAll();
+			List<Map> li = QnADao.readAll();
 			mav.addObject("list", li);
 			mav.addObject("cnt", li.size());	
 		mav.addObject("section", "QnA/list");
@@ -56,16 +56,16 @@ public class QnA_Controller {
 	}
 	@RequestMapping("/del")
 	public ModelAndView noticedelHandle(@RequestParam String num) throws SQLException {
-		boolean a=qdo.del(num);
+		boolean a=QnADao.del(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_QnA");
 		if(a==true){
-			List<Map> li = qdo.readAll();
+			List<Map> li = QnADao.readAll();
 			mav.addObject("list", li);
 			mav.addObject("cnt", li.size());	
 		mav.addObject("section", "QnA/list");
 		}else {
-			List<Map> li = qdo.readAll();
+			List<Map> li = QnADao.readAll();
 			mav.addObject("list", li);
 			mav.addObject("cnt", li.size());
 			mav.addObject("fail", "½ÇÆÐ");

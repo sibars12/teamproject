@@ -19,6 +19,10 @@
 		<put-attribute name="title" value="QnA"/>
 		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
 	</definition>
+	<definition name="t_event" extends="t_base">
+		<put-attribute name="title" value="EVENT"/>
+		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
+	</definition>
 </tiles-definitions>
 
 

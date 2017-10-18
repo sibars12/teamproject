@@ -19,11 +19,11 @@ import models.notice_Dao;
 @RequestMapping("/notice")
 public class notice_Controller {
 	@Autowired
-	notice_Dao ndo;
+	notice_Dao noticeDao;
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
 		System.out.println("??");
-		int size=ndo.all();
+		int size=noticeDao.all();
 		System.out.println(size);
 		if(page>size)
 			page = size;
@@ -38,8 +38,8 @@ public class notice_Controller {
 			cc+=1;
 		}
 		System.out.println(cc);
-		List<Map> ila = ndo.allist(a);
-		List<Map> li = ndo.readAll();
+		List<Map> ila = noticeDao.allist(a);
+		List<Map> li = noticeDao.readAll();
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_notice");
 			mav.addObject("list", ila);
@@ -58,11 +58,11 @@ public class notice_Controller {
 
 	@PostMapping("/add")
 	public ModelAndView noticeaddHandle(@RequestParam Map map) throws SQLException {
-		boolean a=ndo.addOnd(map);
+		boolean a=noticeDao.addOnd(map);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_notice");
 		if(a==true){
-			int size=ndo.all();
+			int size=noticeDao.all();
 			Map abc=new HashMap();
 			abc.put("start", 1);
 			abc.put("end", 9);
@@ -72,8 +72,8 @@ public class notice_Controller {
 				cc+=1;
 			}
 			System.out.println(cc);
-			List<Map> ila = ndo.allist(abc);
-			List<Map> li = ndo.readAll();
+			List<Map> ila = noticeDao.allist(abc);
+			List<Map> li = noticeDao.readAll();
 			mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size" , cc);
@@ -86,7 +86,7 @@ public class notice_Controller {
 	}
 	@RequestMapping("/view")
 	public ModelAndView noticeViewHandle(@RequestParam String num) throws SQLException {
-		List<Map> list=ndo.readOne(num);
+		List<Map> list=noticeDao.readOne(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_notice");
 		mav.addObject("list", list);
@@ -96,16 +96,16 @@ public class notice_Controller {
 }
 	@RequestMapping("/del")
 	public ModelAndView noticedelHandle(@RequestParam String num) throws SQLException {
-		boolean a=ndo.del(num);
+		boolean a=noticeDao.del(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_notice");
 		if(a==true){
-			List<Map> li = ndo.readAll();
+			List<Map> li = noticeDao.readAll();
 			mav.addObject("list", li);
 			mav.addObject("cnt", li.size());	
 		mav.addObject("section", "notice/list");
 		}else {
-		List<Map> list=ndo.readOne(num);
+		List<Map> list=noticeDao.readOne(num);
 		mav.addObject("list", list);
 		mav.addObject("addt", false);
 		mav.addObject("section", "notice/view");

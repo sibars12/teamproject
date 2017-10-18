@@ -8,20 +8,33 @@
 	<div align="left" style="width: 80%;">
 	
 		
-		<form action="/event/add" method="post">
+		<form action="/event/add" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="ownernumber" id="productOwnernumber_I">
 			<p>
 				<b>이벤트 제목</b><br /> <input type="text"  name="title" placeholder="이벤트 제목"
 					autocomplete="off" style="width: 100%;" required/>
 			</p>
 			<p>
-				<b>이벤트 내용</b><br />
-				<textarea rows="10" name="content" placeholder="이벤트 내용" required 
+				<b>이벤트 내용</b><br/>
+			<textarea  id="summernote" name="content"placeholder="이벤트 내용" required 
 					style="width: 100%;"></textarea>
+			</p>
+			<p>
+			<b>시작일</b><br/>
+			  <input type="date" name="startdate" />
 			</p>
 			<p>
 			<b>마감일</b><br/>
 			  <input type="date" name="enddate" />
 			</p>
+			<p>
+			<b>이미지</b><br/>
+			<input type="file" name="eventimg" id="profile" />
+			<img  id="pre" alt="기본이미지" style="width:200; height:200"/><br/>
+			</p>
+			<div align="left" style="width: 700;" class="mar">
+		
+		</div>
 			<p>
 				<button type="submit">이벤트 등록</button>
 				<button type="reset">재작성 </button>
@@ -31,3 +44,62 @@
 		
 	</div>
 </div>
+<script>
+document.getElementById("profile").onchange = function(){
+	var reader = new FileReader();
+	reader.onload = function(e){
+		document.getElementById("pre").src = e.target.result;
+	}
+	reader.readAsDataURL(this.files[0]);
+}
+$(document).ready(function(){
+	$('#summernote').summernote({
+		height: 300,
+		width: 700,
+		callbacks:{
+			onImageUpload: function(files, editor, welEditable){
+				for(var i=files.length -1; i>=0;i--){
+					sendFile(files[i], this);
+				}
+			}
+		},
+	});
+	$("tr").hover(function(){
+		$(this).not(".selected, .thead").css({"background-color":"rgb(230,230,230)","cursor":"pointer"});
+	},function(){
+		$(this).not(".selected, .thead").css("background-color","white");
+	});
+	
+	$("tr").click(function(){
+		var value = "[" + $(this).children("td.productComp").text() + "] " + $(this).children("td.productName").text() + " " + $(this).children("td.productScale").text();
+		$("#productTitle_I").val(value);
+		$("#productOwnernumber_I").val($(this).children("td.productOwnernumber").text());
+		
+		$(this).not(".thead").addClass("selected").css("background-color","pink");
+		
+		$(this).siblings().not(".thead").removeClass("selected").css("background-color","white");
+	});
+	
+});
+	
+
+	
+
+function sendFile(file, el){
+	var form_data = new FormData();
+	form_data.append('file', file);
+	$.ajax({
+		data: form_data,
+		type: "POST",
+		url: '/event/uploadImage',
+		cache: false,
+		contentType: false,
+		enctype: 'multipart/form-data',
+		processData: false,
+		success: function(url){
+			$(el).summernote('editor.insertImage', url);
+			$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+		}
+	});
+}
+</script>

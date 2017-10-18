@@ -24,7 +24,6 @@ th, td {
 			<tr>
 				
 				<th style="width: 40%">이벤트 목록</th>
-				<th style="width: 20%">작성자</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -33,9 +32,8 @@ th, td {
 					
 					<td>
 					
-						<a href="/notice/view?num=${obj.NUM}">${fn:substring(obj.TITLE, 0, 12) } </a>
+						<a href="/event/view?num=${obj.NUM}">${fn:substring(obj.TITLE, 0, 12) } </a>
 					</td>
-					<td>${obj.MASTER }</td>
 				</tr>
 			</c:forEach>
 		</tbody>
