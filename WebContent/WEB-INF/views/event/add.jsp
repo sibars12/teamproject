@@ -108,7 +108,7 @@ function sendFile(file, el){
 //시작일 마감일 체크
 $(".eventtime").change(function(){
 	if($('#startdate').val() <= $('#enddate').val()){
-		$("#eventaddbt").removeAttr("disabled"); 
+		$("#eventaddbt").removeAttr("disabled");
 
 	}else{
 		

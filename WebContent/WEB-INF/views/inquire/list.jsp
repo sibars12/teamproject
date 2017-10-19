@@ -43,7 +43,10 @@ th, td {
 							</button>
 						<div id="memo${obj.NUM}" class="w3-container w3-hide">
 							<p>${obj.CONTENT }</p>
-							<a href="/inquire/del?num=${obj.NUM }" ><button type="button">삭제</button></a>
+							<input type="hidden" id="truepass${obj.NUM }" value="${obj.PASS }"/>
+							<input type="password" id="${obj.NUM }" onkeyup="passcheck(${obj.NUM });" maxlength="4"/>
+							<a href="/inquire/del?num=${obj.NUM }&ownernumber=${obj.OWNERNUMBER}">
+							<button id="del${obj.NUM }" disabled="disabled" type="button">삭제</button></a>
 						</div>
 						</td>
 				</tr>
@@ -61,6 +64,16 @@ th, td {
 				x.className = x.className.replace(" w3-show", "");
 			}
 		}
+	//비밀번호 맞으면 버튼 on
+		function passcheck(z){
+			var x = document.getElementById(z).value;
+			var y = document.getElementById("truepass"+z).value;
+			if(x==y){
+				$("#del"+z).removeAttr("disabled");
+			}else{
+				$("#del"+z).attr("disabled",true); 
+			}
+		}
 	</script>
 	<p align="right" style="margin-right: 30px;">
 	
@@ -71,20 +84,20 @@ th, td {
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/event/list?page=${param.page-1 }">&laquo;</a></c:if>
+ <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/inquire/list?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
 					<a class="w3-button" class="active">${i }</a>
 				</c:when>
 				<c:otherwise>
-					<a href="/event/list?page=${i }" class="w3-button"
+					<a href="/inquire/list?page=${i }" class="w3-button"
 						><b style="color: #9c9892;">${i }</b></a>	
 				</c:otherwise>
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page ne size }"><a class="w3-button" href="/event/list?page=${param.page+1 }">&raquo;</a></c:if>
+  <c:if test="${param.page ne size }"><a class="w3-button" href="/inquire/list?page=${param.page+1 }">&raquo;</a></c:if>
 </div>
 
 </div>

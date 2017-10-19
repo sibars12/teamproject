@@ -57,10 +57,11 @@ public class inquire_Controller {
 		return mav;
 	}
 	@RequestMapping("/del")
-	public ModelAndView noticedelHandle(@RequestParam String num) throws SQLException {
+	public ModelAndView noticedelHandle(@RequestParam String num ,@RequestParam String ownernumber) throws SQLException {
 		boolean a=inquireDao.del(num);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_inquire");
+		mav.setViewName("redirect:/inquire/list?ownernumber="+ownernumber);
+		
 		return mav;
 }
 }
