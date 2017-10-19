@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
+	<!-- view 상품 상세내용 불러오기 -->
 	<select id="getProductInfo" resultType="java.util.HashMap">
 		SELECT P.OWNERNUMBER,P.IMAG,P.SIGNUP,P.CONTENTS,S.* FROM PRODUCT P LEFT OUTER JOIN STOCK S 
 		ON P.OWNERNUMBER = S.OWNERNUMBER WHERE P.OWNERNUMBER=#{OWNERNUMBER}
 	</select>
+	<!-- 상품등록 -->
 	<insert id="addProduct">
 		INSERT INTO PRODUCT(OWNERNUMBER, NAME, IMAG, SIGNUP, CONTENTS) VALUES(#{ownernumber}, #{name}, #{imag}, sysdate, #{content})
 	</insert>
+	<!-- 문의 리스트 가져오기 -->
+	<select id="getInquiryList" resultType="java.util.HashMap">
+		SELECT * FROM INQUIRE WHERE OWNERNUMBER =#{OWNERNUMBER} ORDER BY NUM DESC
+	</select>
 </mapper>

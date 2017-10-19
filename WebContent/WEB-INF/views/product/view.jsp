@@ -8,6 +8,11 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- include summernote css/js-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
+
 <style>
 	th,td{
 		padding:5px;
@@ -15,11 +20,13 @@
 	div{
 		padding:5px;
 	}
+	
+	
 </style>
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-sm-11">
+		<div class="col-sm-12">
 			<!-- 내용 -->
 			<div class="row">
 				<div class="col-sm-6">
@@ -28,11 +35,11 @@
 					<c:choose>
 						<c:when test="${!empty productInfo[0].IMAG}">
 							<img src="/images/product/${productInfo[0].IMAG}" class="img-rounded"
-								alt="상품이미지" width="304" height="236" />
+								alt="상품이미지" width="400" height="300" />
 						</c:when>
 						<c:otherwise>
 							<img src="/images/default.png" class="img-rounded"
-								alt="기본 사진" width="304" height="236" />
+								alt="기본 사진" width="400" height="300" />
 						</c:otherwise>
 					</c:choose>
 					
@@ -70,23 +77,38 @@
 						</tr>
 					</table>
 					<hr>
-					<form id="selectListForm" name="selectListForm" action="/shopping/cart" method="get">
 						<%-- 색상 선택  --%>
-						<c:choose>
-							<c:when test="${'none' ne productInfo[0].COLOR}">
-								<select id="color_Select">
-									<option>색상 옵션 선택</option>
-									<c:forEach items="${productInfo}" var="m">
-									<option value="${m.NO }_${m.COLOR}">
-										${m.COLOR }
-									</option>
-									</c:forEach>
-								</select>
-								<span id="select_Span">
-									<hr>
-								</span>
-							</c:when>
-							<c:otherwise>
+					<c:choose>
+						<c:when test="${'none' ne productInfo[0].COLOR}">
+						<form id="selectListForm" name="selectListForm" action="/shopping/buyNow" method="get">
+							<select id="color_Select">
+								<option>색상 옵션 선택</option>
+								<c:forEach items="${productInfo}" var="m">
+									<c:choose>
+										<c:when test="${m.VOLUME eq 0 }">
+											<option value="${m.NO }_${m.COLOR}" disabled>										
+												${m.COLOR }-일시품절
+											</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${m.NO }_${m.COLOR}">										
+												${m.COLOR }
+											</option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</select>
+						<span id="select_Span">
+							<hr>
+						</span>
+						<span style="text-align:right" id="total_Span"></span>
+						<hr>
+						<button type="submit" id="buyNow_B" disabled>즉시구매</button>
+						<button type="button" id="cart_B" disabled>장바구니에 담기</button>
+						</form>
+						</c:when>
+						<c:otherwise>
+						<form id="selectListForm" name="selectListForm" action="/shopping/buyNow" method="get">
 							<span id="select_Span">	
 								<label>${productInfo[0].NAME }</label> &nbsp;&nbsp;						
 								<!-- 수량 -->
@@ -94,51 +116,35 @@
 								<input id="stockCnt" name="stockCnt" type="number" style="width: 40px;" value="1"	min="1" />
 								<button type="button" id="plusA_B">+</button>&nbsp;&nbsp;	
 								<span id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span>
-								<input type="hidden" id="stockNO" name="NO" value="${productInfo[0].NO }">
+								<input type="hidden" id="stockNO" name="stockNO" value="${productInfo[0].NO }">
 							</span>
-							</c:otherwise>							
-						</c:choose>				
-					
-					<hr>
-					<span style="text-align:right" id="total_Span"></span>
-					<hr>
-					<button type="submit" id="buyNow_B">즉시구매</button>
-					<button type="button" id="cart">장바구니에 담기</button>
-					</form>
+							<hr>
+							<span style="text-align:right" id="total_Span"></span>
+							<hr>
+							<button type="submit" id="buyNow_B">즉시구매</button>
+							<button type="button" id="cart_B">장바구니에 담기</button>
+						</form>
+						</c:otherwise>							
+					</c:choose>				
 				</div>
-					
-				<div >
+				
+				<div class="col-sm-12 form-group-lg" align="center">
+					<hr>
 					<label>상품 상세보기</label>
 					<c:choose>
 						<c:when test="${!empty productInfo[0].CONTENTS}">
-							<pre> <%--class="form-control" id="productDetail" name="productDetail" placeholder="상품 상세보기" rows="5"--%>
-								${productInfo[0].CONTENTS }
-							</pre>
+								<div id="productDetail">${productInfo[0].CONTENTS }</div>							
 						</c:when>
 						<c:otherwise>
-							상세정보 없음
+							상세정보 없음 
 						</c:otherwise>
 					</c:choose>
+					<hr>
 				</div>
-				
 				<div class="col-sm-12">
 					<label id="inquiry_Label">상품 문의</label><br>
-					<sapn id="inquiry_Span">문의 리스트</sapn>
-					<div class="row">
-				        <div class="col-sm-6 form-group">
-				          <input class="form-control" id="inquiryWriter_I" name="inquiryWriter_I" placeholder="작성자" type="text" required>
-				        </div>
-				        <div class="col-sm-6 form-group">
-				          <input class="form-control" id="inquiryPw_I" name="inquiryPw_I" placeholder="비밀번호" type="password" required>
-				        </div>
-				      </div>
-				      <textarea class="form-control" id="inquiryComments" name="inquiryComments" placeholder="문의내용" rows="3"></textarea>
-				      <br>
-				      <div class="row">
-				        <div class="col-sm-12 form-group">
-				          <button class="btn pull-right" type="submit" id="inquiry_Submit">Send</button>
-				        </div>
-				      </div>
+					<button class="btn pull-right" id="inquiryAdd_B">문의하기</button>
+					<div id="inquiry_Span">문의 리스트</div>
 				</div>
 				<div class="col-sm-12">
 					<label id="review_Label">상품 후기</label><br>
@@ -146,16 +152,13 @@
 					<div class="form-group">
 						<label for="reviewWriter_I">작성자</label>
 						<input type="text" class="form-control" id="reviewWriter_I" name="reviewWriter_I" placeholder="작성자">&nbsp;
-						<textarea class="form-control" id="reviewComment_Ta" name="reviewComment_Ta" placeholder="내용"></textarea><br>
+						<textarea class="form-control" id="summernote" name="reviewComment_Ta" placeholder="내용"></textarea><br>
 				        <div class="col-sm-12 form-group">
 				          <button class="btn pull-right" type="submit" id="inquiry_Submit">Send</button>
 				        </div>
 					</div>
 				</div>
 			</div>
-	</div>
-		<div class="col-sm-1" style="background-color: lavender;">최근본거 요기에 따라다니지용</div>
-	</div>
 </div>	
 
 <script>
@@ -198,6 +201,10 @@ $("#color_Select").change(function(){
 	console.log($(this).val());
 	if($(this).val()!="색상 옵션 선택"){
 		cnt++; // script 전역 변수 -> 옵션 선택 갯수 제한
+		if(cnt>0){
+			$("#buyNow_B").prop("disabled",false);
+			$("#cart_B").prop("disabled",false);
+		}
 		if(cnt> ${productInfo.size()}){
 			var length = ${productInfo.size()};
 			//console.log(length);
@@ -259,9 +266,40 @@ $("#color_Select").change(function(){
 });
 
 // 장바구니 버튼
-$("#cart").click(function(){
-	$("#selectListForm").action="/shopping/cart";
+$("#cart_B").click(function(){
+	$("#selectListForm").attr("action","/shopping/cart");
 	$("#selectListForm").submit();	
 });
 
+$(document).ready(function(){
+	$("#summernote").summernote({ // summernote 형태 추가
+	    height: 200,
+	    width: 600,
+	    callbacks:{
+	       onImageUpload: function(files, editor, welEditable){
+	          for(var i=files.length -1; i>=0;i--){
+	             sendFile(files[i], this);
+	          }
+	       }
+	    }, 
+	 });
+});
+
+function sendFile(file, el){
+	var form_data = new FormData();
+	form_data.append('file', file);
+	$.ajax({
+		data: form_data,
+		type: "POST",
+		url: '/product/uploadImage', // 이부분은 수정 필요 경로 변경
+		cache: false,
+		contentType: false,
+		enctype: 'multipart/form-data',
+		processData: false,
+		success: function(url){
+			$(el).summernote('editor.insertImage', url);
+			$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+		}
+	});
+}
 </script>
