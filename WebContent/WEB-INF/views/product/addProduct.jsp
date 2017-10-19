@@ -30,7 +30,20 @@
 		padding: 3;
 	}
 </style>
-
+<c:if test="${addResult!=null }">
+	<c:choose>
+		<c:when test="${addResult }">
+			<script>
+				if(confirm("등록되었습니다.\n확인하시겠습니까?")){
+					location.href="/product/list";
+				}
+			</script>
+		</c:when>
+		<c:otherwise>
+			<script>alert("오류가 발생했습니다");</script>
+		</c:otherwise>
+	</c:choose>
+</c:if>
 <div align="center">
 	<h2>상품 등록</h2>
 	<div id="stock_D">

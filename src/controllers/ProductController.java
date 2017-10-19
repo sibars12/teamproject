@@ -51,9 +51,10 @@ public class ProductController {
 	}
 	
 	@GetMapping("/list")
-	public ModelAndView ListHandler() {
+	public ModelAndView ListHandler(@RequestParam(defaultValue="1") String page) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/list");
+		mav.addObject("list", productDao.getProductList(page));
 		return mav;
 	}
 	
@@ -63,6 +64,32 @@ public class ProductController {
 		mav.addObject("section", "product/addProduct");
 		mav.addObject("list", stockDao.getStockList(page));
 		mav.addObject("page", stockDao.getStockPage());
+		return mav;
+	}
+	
+	@PostMapping("/addProduct")
+	public ModelAndView profilePostHandle(@RequestParam Map param, 
+			@RequestParam(name="imag") MultipartFile f) throws IllegalStateException, IOException {
+		ModelAndView mav = new ModelAndView("t_expr");
+		mav.addObject("section","product/addProduct");
+		String fileName = null;
+		if(!f.isEmpty() && f.getContentType().startsWith("image")) {
+			String path = application.getRealPath("/images/product");
+			File dir = new File(path);
+			if(!dir.exists()) {
+				dir.mkdirs();
+			}
+			fileName = (String)param.get("ownernumber")+".jpg";
+			File target = new File(dir, fileName);
+			f.transferTo(target);
+			System.out.println(fileName);
+			param.put("imag", fileName);
+		}
+		System.out.println("param: "+param);
+		productDao.addProduct(param);
+		mav.addObject("list", stockDao.getStockList("1"));
+		mav.addObject("page", stockDao.getStockPage());
+		mav.addObject("addResult", true);
 		return mav;
 	}
 	
@@ -88,29 +115,6 @@ public class ProductController {
 			System.out.println(fileName);
 		}
 		return "/images/product/content/"+fileName;
-	}
-	
-	@PostMapping("/addProduct")
-	public ModelAndView profilePostHandle(@RequestParam Map param, 
-			@RequestParam(name="imag") MultipartFile f) throws IllegalStateException, IOException {
-		ModelAndView mav = new ModelAndView("t_expr");
-		mav.addObject("section","product/addProduct");
-		String fileName = null;
-		if(!f.isEmpty() && f.getContentType().startsWith("image")) {
-			String path = application.getRealPath("/images/product");
-			File dir = new File(path);
-			if(!dir.exists()) {
-				dir.mkdirs();
-			}
-			fileName = (String)param.get("ownernumber")+".jpg";
-			File target = new File(dir, fileName);
-			f.transferTo(target);
-			System.out.println(fileName);
-			param.put("imag", fileName);
-		}
-		System.out.println(param);
-		productDao.addProduct(param);
-		return mav;
 	}
 	
 	@ResponseBody
@@ -140,7 +144,15 @@ public class ProductController {
 		return stockDao.getOptionSchStockPage(map);
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/deleteProduct")
+	public String deleteProduct(@RequestParam String dnum) {
+		String[] ar = dnum.split(",");
+		for(int i=0;i<ar.length;i++) {
+			productDao.deleteProduct(ar[i]);
+		}
+		return "YY";
+	}
 	
 	
 	

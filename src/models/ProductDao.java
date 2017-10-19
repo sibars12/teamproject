@@ -20,4 +20,8 @@ public class ProductDao {
 		sql.insert("product.addProduct", map);
 		return true;
 	}
+	public boolean deleteProduct(String dnum) {
+		sql.delete("product.deleteProduct", dnum);
+		return true;
+	}
 }

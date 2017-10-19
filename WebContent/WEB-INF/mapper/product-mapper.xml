@@ -6,9 +6,13 @@
 		ON P.OWNERNUMBER = S.OWNERNUMBER WHERE P.OWNERNUMBER=#{OWNERNUMBER}
 	</select>
 	<insert id="addProduct">
-		INSERT INTO PRODUCT(OWNERNUMBER, NAME, IMAG, SIGNUP, CONTENTS) VALUES(#{OWNERNUMBER}, #{NAME}, #{IMAG}, SYSDATE, #{CONTENT})
+		INSERT INTO PRODUCT(OWNERNUMBER, NAME, IMAG, SIGNUP, CONTENTS) VALUES(#{ownernumber}, #{name}, #{imag}, SYSDATE, #{content})
 	</insert>
 	<select id="getProductList" resultType="java.util.HashMap">
-		SELECT * FROM (SELECT ROWNUM AS R,T.* FROM (SELECT * FROM PRODUCT) T) TT WHERE R BETWEEN 1 AND 16
+		select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 		left join stock s on t.ownernumber = s.ownernumber order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
 	</select>
+	<delete id="deleteProduct">
+		delete from product where ownernumber=#{dnum}
+	</delete>
 </mapper>
