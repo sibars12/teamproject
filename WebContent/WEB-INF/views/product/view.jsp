@@ -143,8 +143,10 @@
 				</div>
 				<div class="col-sm-12">
 					<label id="inquiry_Label">상품 문의</label><br>
-					<button class="btn pull-right" id="inquiryAdd_B">문의하기</button>
-					<div id="inquiry_Span">문의 리스트</div>
+					<a href="/inquire/add"><button class="btn pull-right" id="inquiryAdd_B" naem="ownernumber" value="${productInfo[0].OWNERNUMBER }">문의하기</button></a>
+					<div id="inquiry_Span">문의 리스트
+						
+					</div>
 				</div>
 				<div class="col-sm-12">
 					<label id="review_Label">상품 후기</label><br>
@@ -271,6 +273,7 @@ $("#cart_B").click(function(){
 	$("#selectListForm").submit();	
 });
 
+// summernote
 $(document).ready(function(){
 	$("#summernote").summernote({ // summernote 형태 추가
 	    height: 200,
@@ -302,4 +305,5 @@ function sendFile(file, el){
 		}
 	});
 }
+
 </script>

@@ -38,7 +38,7 @@ public class ProductController {
 	StockDao stockDao;
 	
 	@RequestMapping("/view")
-	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") int ownernumber) {
+	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/view");
 		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
