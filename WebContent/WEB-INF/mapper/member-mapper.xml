@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<insert parameterType="java.util.HashMap" id="addMember">
+	insert into member values(#{id},#{pw},#{email},#{address})
+	</insert>
+	<insert parameterType="java.util.HashMap" id="addDetail">
+	insert into detail(id,name) values(#{id},#{name})
+	</insert>
+	<select parameterType="java.lang.String" id="checkId">
+	select id from member where id=#{id}
+	</select>
+	<select parameterType="java.lang.String" id="checkEmail">
+	select email from member where email=#{email}
+	</select>
+	
+	<!-- 인증메일 보내는 것 추가하기 -->
+</mapper>

@@ -6,8 +6,7 @@
 <title><t:getAsString name="title" /></title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <script
@@ -34,9 +33,8 @@
 					</p>
 				</div>
 				<div class="col-sm-8 text-left">
-					<h1>Welcome</h1>
-					<h3>MAIN</h3>
-					</br> </br> </br>
+					<t:insertAttribute name="section" />
+					</br> </br>
 				</div>
 				<div class="col-sm-2 sidenav">
 					<div class="well">

@@ -12,6 +12,7 @@
 
 <div >
   <h2>LOGIN</h2>
+  <hr>
   <form class="form-horizontal" action="/loginOk.jsp">
     <div class="form-group">
       <label class="control-label col-sm-2" for="id">ID:</label>
