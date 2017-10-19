@@ -15,42 +15,56 @@ th, td {
 </style>
 <div align="center" style="line-height: 35px">
 
-	<h2>이벤트</h2>
+	<h2>문의</h2>
 	<p align="right" style="margin-right: 30px;">
-		총 <b>${cnt }</b> 개의 이벤트가 진행중입니다.
+		총 <b>${cnt }</b> 개의 문의가 등록되어 있습니다.
 	</p>
-	<table style="width: 95%">
-		<thead>
-			<tr>
-				
-				<th style="width: 40%">이벤트 목록</th>
-				<th style="width: 20%">시작일</th>
-				<th style="width: 20%">마감일</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="obj" items="${list }">
-				<tr>
-					
+	<div class="w3-container">
+		<table class="w3-table-all w3-margin-top" id="nn">
+		<tr>
+		<th style="width: 20%;">아이디</th>
+		<th style="width: 20%;">이름</th>
+		<th style="width: 60%;">문의 제목</th>
+		</tr>
+		<c:forEach var="obj" items="${list }" begin="0" end="4">
+		<tr>
 					<td>
-					
-						<a href="/event/view?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
+					<p>${obj.ID }</p>
 					</td>
 					<td>
-						<p><fmt:formatDate
-							pattern="yyyy.MM.dd " value="${obj.STARTDATE }" /></p>
+					<p>${obj.NAME }</p>
 					</td>
 					<td>
-						<p><fmt:formatDate
-							pattern="yyyy.MM.dd " value="${obj.ENDDATE }" /></p>
-					</td>
+					<button onclick="inquire('memo${obj.NUM}')"
+							class="w3-btn w3-block w3-black w3-left-align">
+							
+							${fn:substring(obj.TITLE, 0, 12) }
+							
+							</button>
+						<div id="memo${obj.NUM}" class="w3-container w3-hide">
+							<p>${obj.CONTENT }</p>
+							<a href="/inquire/del?num=${obj.NUM }" ><button type="button">삭제</button></a>
+						</div>
+						</td>
 				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
+		</c:forEach>
+				</table>
+	</div>
+
+	<script>
+	//클릭시 내용나오게
+		function inquire(id) {
+			var x = document.getElementById(id);
+			if (x.className.indexOf("w3-show") == -1) {
+				x.className += " w3-show";
+			} else {
+				x.className = x.className.replace(" w3-show", "");
+			}
+		}
+	</script>
 	<p align="right" style="margin-right: 30px;">
 	
-		<a href="/event/add"><button type="button">공지글작성</button></a>
+		<a href="/inquire/add"><button type="button">문의글 작성</button></a>
 	</p>
 </div>
 <meta name="viewport" content="width=device-width, initial-scale=1">

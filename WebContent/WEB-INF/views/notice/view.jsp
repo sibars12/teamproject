@@ -9,8 +9,7 @@
 				<h3>${obj.TILTE }</h3>
 				<p style="padding-left: 10px;">
 					<small>작성자 : ${obj.MASTER } | 작성일 : <fmt:formatDate
-							pattern="MM.dd.yyyy HH:mm:ss" value="${obj.ADDDATE }" /> | 조회수
-						: <fmt:formatNumber value="${obj.CNT }" pattern="#,###" />
+							pattern="MM.dd.yyyy HH:mm:ss" value="${obj.ADDDATE }" /> 
 					</small>
 				</p>
 				<pre>${obj.CONTENT }</pre>
