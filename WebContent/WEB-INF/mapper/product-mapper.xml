@@ -6,12 +6,24 @@
 		SELECT P.OWNERNUMBER,P.IMAG,P.SIGNUP,P.CONTENTS,S.* FROM PRODUCT P LEFT OUTER JOIN STOCK S 
 		ON P.OWNERNUMBER = S.OWNERNUMBER WHERE P.OWNERNUMBER=#{OWNERNUMBER}
 	</select>
+	<!-- 조회수 올리기 -->
+	<update id="updateCount">
+		UPDATE PRODUCT SET CNT=CNT+1 WHERE OWNERNUMBER=#{OWNERNUMBER}
+	</update>
 	<!-- 상품등록 -->
 	<insert id="addProduct">
 		INSERT INTO PRODUCT(OWNERNUMBER, NAME, IMAG, SIGNUP, CONTENTS) VALUES(#{ownernumber}, #{name}, #{imag}, sysdate, #{content})
 	</insert>
 	<!-- 문의 리스트 가져오기 -->
 	<select id="getInquiryList" resultType="java.util.HashMap">
-		SELECT * FROM INQUIRE WHERE OWNERNUMBER =#{OWNERNUMBER} ORDER BY NUM DESC
+		SELECT * FROM INQUIRE WHERE OWNERNUMBER=#{OWNERNUMBER} ORDER BY NUM DESC
+	</select>
+	<!-- 후기 등록 -->
+	<insert id="addReview">
+		INSERT INTO REVIEW VALUES(REVIEW_SEQ.NEXTVAL,#{OWNERNUMBER},#{ID},#{WRITER},#{SCORE},#{CONTENT})
+	</insert>
+	<!-- 후기 리스트 가져오기 -->
+	<select id="getReviewList" resultType="java.util.HashMap">
+		SELECT * FROM REVIEW WHERE OWNERNUMBER=#{OWNERNUMBER} ORDER BY NUM DESC
 	</select>
 </mapper>

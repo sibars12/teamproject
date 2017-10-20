@@ -3,6 +3,7 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import models.ProductDao;
 import models.StockDao;
 
@@ -33,9 +37,12 @@ public class ProductController {
 	@Autowired
 	SimpleDateFormat sdf;
 	@Autowired
+	ObjectMapper mapper;
+	@Autowired
 	ProductDao productDao; 
 	@Autowired
 	StockDao stockDao;
+	
 	
 	@RequestMapping("/view")
 	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String ownernumber) {
@@ -43,6 +50,22 @@ public class ProductController {
 		mav.addObject("section", "product/view");
 		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
 		return mav;
+	}
+	
+	@RequestMapping(path="/addReview",produces="applilcation/json;charset=utf-8")
+	@ResponseBody
+	public String addReviewHandler(@RequestParam Map param){
+		System.out.println(param);
+		String s="s";
+		return s;
+	}
+	
+	@RequestMapping(path="/ReviewList",produces="applilcation/json;charset=utf-8")
+	@ResponseBody
+	public List ReviewListHandler(@RequestParam String ownernumber) throws JsonProcessingException{
+		List list = new ArrayList();
+		//String str = mapper.writeValueAsString(list);
+		return list;
 	}
 	
 	

@@ -27,16 +27,16 @@
 		</nav>
 		<div class="container-fluid text-center">
 			<div class="row content">
-				<div class="col-sm-2 sidenav">
+				<div class="col-sm-1 sidenav">
 					<p>
 						<a href="#">Link</a>
 					</p>
 				</div>
-				<div class="col-sm-8 text-left">
+				<div class="col-sm-10 text-left">
 					<t:insertAttribute name="section" />
 					</br> </br>
 				</div>
-				<div class="col-sm-2 sidenav">
+				<div class="col-sm-1 sidenav">
 					<div class="well">
 						<p>ADS</p>
 					</div>
