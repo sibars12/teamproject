@@ -10,6 +10,12 @@
 		padding: 4;
 		margin: 5;
 	}
+	.stockInfo_I{
+		padding: 3;
+	}
+	td{
+		padding: 3;
+	}
 </style>
 <c:if test="${result!=null }">
 	<c:choose>
@@ -27,35 +33,35 @@
 	<table>
 		<tr>
 			<td>상품명</td>
-			<td><input type="text" name="name" required></td>
+			<td><input type="text" name="name" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
 			<td>분류</td>
-			<td><input type="text" name="type" required></td>
+			<td><input type="text" name="type" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
 			<td>제조사</td>
-			<td><input type="text" name="comp" required></td>
+			<td><input type="text" name="comp" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
 			<td>사이즈</td>
-			<td><input type="text" name="scale" required></td>
+			<td><input type="text" name="scale" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
 			<td>색상</td>
-			<td><input type="text" name="color" required></td>
+			<td><input type="text" name="color" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
 			<td>가격</td>
-			<td><input type="text" name="price" required></td>
+			<td><input type="text" name="price" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
 			<td>수량</td>
-			<td><input type="text" name="volume" required></td>
+			<td><input type="text" name="volume" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
 			<td>추가사항</td>
-			<td><input type="text" name="subname"></td>
+			<td><input type="text" name="subname" class="stockInfo_I"></td>
 		</tr>
 		<tr align="center">
 			<td colspan="2"><button type="submit">추가</button></td>
@@ -71,8 +77,8 @@
 	
 	<table style="border-collapse: collapse;">
 		<tr height="40" align="center" style="background-color: rgb(181,222,244);">
-			<td width="139">등록된 상품번호</td>
-			<td width="110">분류</td>
+			<td width="100">상품번호</td>
+			<td width="100">분류</td>
 			<td width="110">상품명</td>
 			<td width="110">제조사</td>
 			<td width="110">사이즈</td>

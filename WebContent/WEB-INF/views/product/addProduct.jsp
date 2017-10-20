@@ -98,9 +98,7 @@
 		<input type="text" placeholder="제목" class="mar" id="productTitle_I" name="name"><br/>
 		<img src="/images/basic.jpg" id="pre" alt="기본이미지" style="width:200; height:200"/><br/>
 		<input type="file" name="imag" id="profile" class="mar"><br/>
-		<div align="left" style="width: 700;" class="mar">
-			<textarea  id="summernote" name="content"></textarea>
-		</div>
+		<div align="left" style="width: 800;"><textarea name="content" id="summernote"></textarea></div>
 		<button type="submit" class="mar">작성</button>
 	</form>
 </div>
@@ -116,15 +114,18 @@
 	
 	$(document).ready(function(){
 		$('#summernote').summernote({ // 노트
-			height: 300,
-			width: 700,
+			placeholder: '내용',
+			tabsize: 2,
+			height: 400,
+			width: 800,
+			lang: 'ko-KR',
 			callbacks:{
 				onImageUpload: function(files, editor, welEditable){
 					for(var i=files.length -1; i>=0;i--){
 						sendFile(files[i], this);
 					}
 				}
-			},
+			}
 		});
 		
 		$(".page_A").click(function(){ // 페이지 이동할 때 테이블 세팅하는 함수

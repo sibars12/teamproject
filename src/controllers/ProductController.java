@@ -55,6 +55,7 @@ public class ProductController {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/list");
 		mav.addObject("list", productDao.getProductList(page));
+		mav.addObject("page", productDao.getProductPage()/12+1);
 		return mav;
 	}
 	

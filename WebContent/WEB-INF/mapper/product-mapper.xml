@@ -12,6 +12,9 @@
 		select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
  		left join stock s on t.ownernumber = s.ownernumber order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
 	</select>
+	<select id="getProductPage" resultType="java.lang.Integer">
+		select count(*) from product
+	</select>
 	<delete id="deleteProduct">
 		delete from product where ownernumber=#{dnum}
 	</delete>

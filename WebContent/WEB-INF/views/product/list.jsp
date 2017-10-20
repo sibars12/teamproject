@@ -22,6 +22,9 @@
 	button{
 		margin: 3;
 	}
+	p{
+		margin-top: 10;
+	}
 </style>
 <div align="center">
 	<h2>상품 목록</h2><br/>
@@ -33,7 +36,7 @@
 						<c:when test="${list[j+(i*4)]!=null}">
 							<td width="280" align="center" class="productList_Td" style="border-bottom: none;">
 								<div align="left" class="deleteCheck_D"><input class="deleteCkbox_I" type="checkbox" value="${list[j+(i*4)].OWNERNUMBER }"></div>
-								<img width="180" height="180" src="/images/product/${list[j+(i*4)].IMAG}">
+								<a href="/product/view?onum=${list[j+(i*4)].OWNERNUMBER }"><img width="180" height="180" src="/images/product/${list[j+(i*4)].IMAG}"></a>
 							</td>
 						</c:when>
 						<c:otherwise>
@@ -49,9 +52,9 @@
 					<c:choose>
 						<c:when test="${list[j+(i*4)]!=null}">
 							<td width="280" class="productList_Td" style="padding: 25;border-top: none;">
-								${list[j+(i*4)].TYPE}<br/>
+								<a href="/product/view?onum=${list[j+(i*4)].OWNERNUMBER }">	${list[j+(i*4)].TYPE}<br/>
 								${list[j+(i*4)].NAME}<br/>
-								${list[j+(i*4)].PRICE}
+								${list[j+(i*4)].PRICE}</a>
 							</td>
 						</c:when>
 						<c:otherwise>
@@ -62,7 +65,11 @@
 			</tr>
 		</c:forEach>
 	</table>
-	
+	<p>
+		<c:forEach var="idx" begin="1" end="${page }">
+			<a href="/product/list?page=${idx }">${idx }</a>
+		</c:forEach>
+	</p>
 	<div id="addBt_D" align="right">
 		<button id="addProduct_B">추가</button>
 		<button id="deleteProduct_B">삭제</button>

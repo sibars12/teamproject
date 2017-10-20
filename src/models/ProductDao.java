@@ -16,6 +16,9 @@ public class ProductDao {
 	public List<Map> getProductInfo(int ownernumber){
 		return sql.selectList("product.getProductInfo", ownernumber);
 	}
+	public int getProductPage() {
+		return sql.selectOne("product.getProductPage");
+	}
 	public boolean addProduct(Map map) {
 		sql.insert("product.addProduct", map);
 		return true;
