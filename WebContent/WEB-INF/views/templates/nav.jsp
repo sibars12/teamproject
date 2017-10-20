@@ -13,12 +13,16 @@
       <li class="active"><a href="#">Home</a></li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> DOG <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">FOOD</a></li>
+          <li><a href="/product/list">FOOD</a></li>
           <li><a href="#">JOY</a></li>
         </ul>
       </li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> BOARD <span class="caret"></span></a>
       </li>
+      <li class="active"><a href="/QnA/list">QnA</a></li>
+      <li class="active"><a href="/notice/list">Notice</a></li>
+      <li class="active"><a href="/stock/addStock">Stock</a></li>
+      <li class="active"><a href="/shopping/cart">Cart</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="/member/join.jsp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>

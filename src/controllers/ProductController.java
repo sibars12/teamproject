@@ -45,10 +45,10 @@ public class ProductController {
 	StockDao stockDao;
 	
 	@RequestMapping("/view")
-	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String ownernumber) {
+	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String onum) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/view");
-		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
+		mav.addObject("productInfo", productDao.getProductInfo(onum));
 		return mav;
 	} 
 	
