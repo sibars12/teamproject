@@ -9,11 +9,17 @@ import java.util.*;
 public class ProductDao {
 	@Autowired
 	SqlSessionTemplate sql;
-	// 상품 정보
+
+	public List<Map> getProductList(String page) {
+		return sql.selectList("product.getProductList", page);
+	}
 	public List<Map> getProductInfo(String ownernumber){
 		return sql.selectList("product.getProductInfo", ownernumber);
 	}
 	//상품 등록
+	public int getProductPage() {
+		return sql.selectOne("product.getProductPage");
+	}
 	public boolean addProduct(Map map) {
 		sql.insert("product.addProduct", map);
 		return true;
@@ -25,4 +31,8 @@ public class ProductDao {
 		else return false;
 	}
 	
+	public boolean deleteProduct(String dnum) {
+		sql.delete("product.deleteProduct", dnum);
+		return true;
+	}
 }
