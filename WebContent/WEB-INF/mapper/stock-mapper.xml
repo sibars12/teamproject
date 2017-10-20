@@ -45,4 +45,32 @@
 			<when test="option == 'volume'">update stock set volume=#{value} where no=#{no}</when>
 		</choose>
 	</update>
+	<select id="getOptionSchStockList" resultType="java.util.HashMap">
+		<choose>
+			<when test="option == 'ownernumber'">select * from 
+			(select rownum as r,t.* from (select * from stock where ownernumber like '%'||#{value}||'%' order by ownernumber, no) t) t2 
+			where r between (#{page}-1)*10+1 and (#{page}-1)*10+10</when>
+			<when test="option == 'type'">select * from 
+			(select rownum as r,t.* from (select * from stock where type like '%'||#{value}||'%' order by ownernumber, no) t) t2 
+			where r between (#{page}-1)*10+1 and (#{page}-1)*10+10</when>
+			<when test="option == 'name'">select * from 
+			(select rownum as r,t.* from (select * from stock where name like '%'||#{value}||'%' order by ownernumber, no) t) t2 
+			where r between (#{page}-1)*10+1 and (#{page}-1)*10+10</when>
+			<when test="option == 'comp'">select * from 
+			(select rownum as r,t.* from (select * from stock where comp like '%'||#{value}||'%' order by ownernumber, no) t) t2 
+			where r between (#{page}-1)*10+1 and (#{page}-1)*10+10</when>
+			<when test="option == 'subname'">select * from 
+			(select rownum as r,t.* from (select * from stock where subname like '%'||#{value}||'%' order by ownernumber, no) t) t2 
+			where r between (#{page}-1)*10+1 and (#{page}-1)*10+10</when>
+		</choose>
+	</select>
+	<select id="getOptionSchStockPage" resultType="java.lang.Integer">
+		<choose>
+			<when test="option == 'ownernumber'">select count(*) from stock where ownernumber like '%'||#{value}||'%'</when>
+			<when test="option == 'type'">select count(*) from stock where type like '%'||#{value}||'%'</when>
+			<when test="option == 'name'">select count(*) from stock where name like '%'||#{value}||'%'</when>
+			<when test="option == 'comp'">select count(*) from stock where comp like '%'||#{value}||'%'</when>
+			<when test="option == 'subname'">select count(*) from stock where subname like '%'||#{value}||'%'</when>
+		</choose>
+	</select>
 </mapper>

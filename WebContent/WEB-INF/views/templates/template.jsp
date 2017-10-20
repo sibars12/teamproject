@@ -3,19 +3,19 @@
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles"%>
 <html>
 <head>
-<title><t:getAsString name="title" /></title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-bs4.css"
-	rel="stylesheet">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-bs4.js"></script>
+	<title><t:getAsString name="title" /></title>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+	<!-- include libraries(jQuery, bootstrap) -->
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+	
+	<link href="/summernote/dist/summernote.css" rel="stylesheet">
+		<script src="/summernote/dist/summernote.js"></script>
+		<script src="/summernote/dist/summernote.min.js"></script>
+		<script src="/summernote/dist/lang/summernote-ko-KR.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -27,22 +27,23 @@
 		</nav>
 		<div class="container-fluid text-center">
 			<div class="row content">
-				<div class="col-sm-2 sidenav">
+				<!-- <div class="col-sm-1 sidenav">
 					<p>
 						<a href="#">Link</a>
 					</p>
-				</div>
-				<div class="col-sm-8 text-left">
+				</div> -->
+				<div class="col-sm-12 text-center">
 					<t:insertAttribute name="section" />
+					<br/> <br/>
 				</div>
-				<div class="col-sm-2 sidenav">
+				<!-- <div class="col-sm-1 sidenav">
 					<div class="well">
 						<p>ADS</p>
 					</div>
 					<div class="well">
 						<p>ADS</p>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<footer>

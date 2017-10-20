@@ -53,4 +53,11 @@ public class StockDao {
 	public List getOwnernumbersubN(Map map) {
 		return sql.selectList("stock.getOwnernumbersubN", map);
 	}
+	public List getOptionSchStockList(Map map) {
+		return sql.selectList("stock.getOptionSchStockList", map);
+	}
+	public String getOptionSchStockPage(Map map) {
+		int page = sql.selectOne("getOptionSchStockPage", map);
+		return Integer.toString(page/10+1);
+	}
 }
