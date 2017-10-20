@@ -39,6 +39,7 @@ public class ProductController {
 	SimpleDateFormat sdf;
 	@Autowired
 	ObjectMapper mapper;
+	@Autowired
 	ProductDao productDao;
 	@Autowired
 	StockDao stockDao;
