@@ -26,7 +26,7 @@ th, td {
 		<th style="width: 20%;">이름</th>
 		<th style="width: 60%;">문의 제목</th>
 		</tr>
-		<c:forEach var="obj" items="${list }" begin="0" end="4">
+		<c:forEach var="obj" items="${list }" >
 		<tr>
 					<td>
 					<p>${obj.ID }</p>
@@ -77,27 +77,31 @@ th, td {
 	</script>
 	<p align="right" style="margin-right: 30px;">
 	
-		<a href="/inquire/add"><button type="button">문의글 작성</button></a>
+		<a href="/inquire/add?ownernumber=${param.ownernumber }"><button type="button">문의글 작성</button></a>
 	</p>
 </div>
+<html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/inquire/list?page=${param.page-1 }">&laquo;</a></c:if>
+ <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/inquire/list?page=${param.page-1 }&ownernumber=${param.ownernumber}">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
 					<a class="w3-button" class="active">${i }</a>
 				</c:when>
 				<c:otherwise>
-					<a href="/inquire/list?page=${i }" class="w3-button"
+					<a href="/inquire/list?page=${i }&ownernumber=${param.ownernumber}" class="w3-button"
 						><b style="color: #9c9892;">${i }</b></a>	
 				</c:otherwise>
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page ne size }"><a class="w3-button" href="/inquire/list?page=${param.page+1 }">&raquo;</a></c:if>
+  <c:if test="${param.page ne size }"><a class="w3-button" href="/inquire/list?page=${param.page+1 }&ownernumber=${param.ownernumber}">&raquo;</a></c:if>
 </div>
 
 </div>
+</body>
+</html>

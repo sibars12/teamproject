@@ -29,4 +29,10 @@ public class inquire_Dao {
 		int d=template.insert("inquire.del" ,num);
 		return d==1;
 	}
+	public int all(String ownernumber) {
+		return template.selectOne("inquire.all" , ownernumber);
+	}
+	public List<Map> allist(Map map) {
+		return template.selectList("inquire.allist",map);
+	}
 }

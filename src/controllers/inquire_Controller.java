@@ -1,6 +1,7 @@
 package controllers;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,13 +21,31 @@ public class inquire_Controller {
 	@Autowired
 	inquire_Dao inquireDao;
 	@RequestMapping("/list")
-	public ModelAndView noticeListHandle(@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) throws SQLException {
+	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page ,@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) throws SQLException {
 		System.out.println("??");
 		List<Map> li = inquireDao.readAll(ownernumber);
+		int size=inquireDao.all(ownernumber);
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_inquire");
-			mav.addObject("list", li);
-		mav.addObject("cnt", li.size());	
+			System.out.println("size="+size);
+			if(page>size)
+				page = size;
+			if(page <=0) 
+				page = 1;
+			Map a=new HashMap();
+			a.put("ownernumber", ownernumber);
+			a.put("start", (page*5)-4);
+			a.put("end", page*5);
+			double c=(size/5.0);
+			int cc=size/5;
+			if(c-cc>0) {
+				cc+=1;
+			}
+			System.out.println("size cc=" +cc);
+			List<Map> ila = inquireDao.allist(a);
+			mav.addObject("list", ila);
+		mav.addObject("cnt", li.size());
+		mav.addObject("size", cc);
 			mav.addObject("section", "inquire/list"); 
 		return mav;
 	} 
@@ -47,9 +66,27 @@ public class inquire_Controller {
 		mav.setViewName("t_inquire");
 		if(a==true){
 			List<Map> li = inquireDao.readAll((String)map.get("ownernumber"));
-			mav.addObject("list", li);
-			mav.addObject("cnt", li.size());	
-		mav.addObject("section", "inquire/list");
+			int size=inquireDao.all((String)map.get("ownernumber"));
+				mav.setViewName("t_inquire");
+				int page=1;
+				System.out.println(size);
+				if(page>size)
+					page = size;
+				if(page <=0) 
+					page = 1;
+				Map ma=new HashMap();
+				ma.put("ownernumber", (String)map.get("ownernumber"));
+				ma.put("start", (page*5)-4);
+				ma.put("end", page*5);
+				double c=(size/5.0);
+				int cc=size/5;
+				if(c-cc>0) {
+					cc+=1;
+				}
+				List<Map> ila = inquireDao.allist(ma);
+				mav.addObject("list", ila);
+			mav.addObject("cnt", li.size());
+			mav.addObject("size", cc);
 		}else {
 		mav.addObject("addt", false);
 		mav.addObject("section", "inquire/add");
