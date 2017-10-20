@@ -33,11 +33,11 @@
 			</list>
 		</property>
 	</bean>
-	<bean class="com.fasterxml.jackson.databind.ObjectMapper" />
 	<bean class="java.text.SimpleDateFormat">
 		<constructor-arg name="pattern" value="yyyyMMddHHmmss"/>
 	</bean>
-	
+	<bean class="com.fasterxml.jackson.databind.ObjectMapper"/>
+		
 	<!-- datasource -->
 	<bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="ds">
 		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />

@@ -32,8 +32,8 @@
 					<t:insertAttribute name="section" />
 					<br/> <br/>
 				</div>
-				
-			<!-- 	<div class="col-sm-1 sidenav">
+				<!--  <div class="col-sm-1 sidenav">
+
 					<div class="well">
 						<p>ADS</p>
 					</div>
