@@ -14,7 +14,7 @@
 		<!-- 내용 -->
 		<div class="col-sm-6">
 			<%-- 사진 	--%>
-			<div class="container">
+			<div>
 				<c:choose>
 					<c:when test="${!empty productInfo[0].IMAG}">
 						<img src="/images/product/${productInfo[0].IMAG}"

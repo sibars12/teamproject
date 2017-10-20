@@ -87,6 +87,7 @@ public class inquire_Controller {
 				mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size", cc);
+			mav.addObject("section", "inquire/list");
 		}else {
 		mav.addObject("addt", false);
 		mav.addObject("section", "inquire/add");

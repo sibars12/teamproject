@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="inquire">
   	<insert id="add" parameterType="java.util.HashMap">
-  		insert into inquire values(inquire_SEQ.nextval, #{id},#{name},#{pass}, #{title}, #{content},#{ownernumber})
+  		insert into inquire values(inquire_SEQ.nextval, #{id},#{name},#{pass}, #{title}, #{content},#{ownernumber} ,SYSDATE)
   	</insert>
   	
   	<!-- 오더넘버 보내서 조회 -->

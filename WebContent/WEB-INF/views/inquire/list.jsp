@@ -24,7 +24,8 @@ th, td {
 		<tr>
 		<th style="width: 20%;">아이디</th>
 		<th style="width: 20%;">이름</th>
-		<th style="width: 60%;">문의 제목</th>
+		<th style="width: 40%;">문의 제목</th>
+		<th style="width: 20%;">문의한 날자</th>
 		</tr>
 		<c:forEach var="obj" items="${list }" >
 		<tr>
@@ -44,11 +45,15 @@ th, td {
 						<div id="memo${obj.NUM}" class="w3-container w3-hide">
 							<p>${obj.CONTENT }</p>
 							<input type="hidden" id="truepass${obj.NUM }" value="${obj.PASS }"/>
-							<input type="password" id="${obj.NUM }" onkeyup="passcheck(${obj.NUM });" maxlength="4"/>
+							<input type="password"
+							 id="${obj.NUM }" onkeyup="passcheck(${obj.NUM });"
+							 maxlength="4"/>
 							<a href="/inquire/del?num=${obj.NUM }&ownernumber=${obj.OWNERNUMBER}">
 							<button id="del${obj.NUM }" disabled="disabled" type="button">삭제</button></a>
 						</div>
 						</td>
+						<td><p><fmt:formatDate
+							pattern="yyyy.MM.dd " value="${obj.INDATE }" /></p></td>
 				</tr>
 		</c:forEach>
 				</table>
