@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
+	<!-- view 상품 상세내용 불러오기 -->
 	<select id="getProductInfo" resultType="java.util.HashMap">
 		SELECT P.OWNERNUMBER,P.IMAG,P.SIGNUP,P.CONTENTS,S.* FROM PRODUCT P LEFT OUTER JOIN STOCK S 
 		ON P.OWNERNUMBER = S.OWNERNUMBER WHERE P.OWNERNUMBER=#{OWNERNUMBER}
 	</select>
+	<!-- 조회수 올리기 -->
+	<update id="updateCount">
+		UPDATE PRODUCT SET CNT=CNT+1 WHERE OWNERNUMBER=#{OWNERNUMBER}
+	</update>
+	<!-- 상품등록 -->
 	<insert id="addProduct">
 		INSERT INTO PRODUCT(OWNERNUMBER, NAME, IMAG, SIGNUP, CONTENTS) VALUES(#{ownernumber}, #{name}, #{imag}, SYSDATE, #{content})
 	</insert>
+	<!-- 문의 리스트 가져오기 -->
+	<select id="getInquiryList" resultType="java.util.HashMap">
+		SELECT * FROM INQUIRE WHERE OWNERNUMBER=#{OWNERNUMBER} ORDER BY NUM DESC
+	</select>
+	<!-- 후기 등록 -->
+	<insert id="addReview">
+		INSERT INTO REVIEW VALUES(REVIEW_SEQ.NEXTVAL,#{OWNERNUMBER},#{ID},#{WRITER},#{SCORE},#{CONTENT})
+	</insert>
+	<!-- 후기 리스트 가져오기 -->
+	<select id="getReviewList" resultType="java.util.HashMap">
+		SELECT * FROM REVIEW WHERE OWNERNUMBER=#{OWNERNUMBER} ORDER BY NUM DESC
+	</select>
 	<select id="getProductList" resultType="java.util.HashMap">
 		select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
  		left join stock s on t.ownernumber = s.ownernumber order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
@@ -18,4 +36,5 @@
 	<delete id="deleteProduct">
 		delete from product where ownernumber=#{dnum}
 	</delete>
+
 </mapper>

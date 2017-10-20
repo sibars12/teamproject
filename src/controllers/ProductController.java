@@ -3,6 +3,7 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,19 +38,18 @@ public class ProductController {
 	@Autowired
 	SimpleDateFormat sdf;
 	@Autowired
+	ObjectMapper mapper;
 	ProductDao productDao;
 	@Autowired
 	StockDao stockDao;
-	@Autowired
-	ObjectMapper mapper;
 	
 	@RequestMapping("/view")
-	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") int ownernumber) {
+	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/view");
 		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
 		return mav;
-	}
+	} 
 	
 	@GetMapping("/list")
 	public ModelAndView ListHandler(@RequestParam(defaultValue="1") String page) {
@@ -58,6 +59,23 @@ public class ProductController {
 		mav.addObject("page", productDao.getProductPage()/12+1);
 		return mav;
 	}
+	
+	@RequestMapping(path="/addReview",produces="applilcation/json;charset=utf-8")
+	@ResponseBody
+	public String addReviewHandler(@RequestParam Map param){
+		System.out.println(param);
+		String s="s";
+		return s;
+	}
+	
+	@RequestMapping(path="/ReviewList",produces="applilcation/json;charset=utf-8")
+	@ResponseBody
+	public List ReviewListHandler(@RequestParam String ownernumber) throws JsonProcessingException{
+		List list = new ArrayList();
+		//String str = mapper.writeValueAsString(list);
+		return list;
+	}
+	
 	
 	@GetMapping("/addProduct")
 	public ModelAndView addProductHandler(@RequestParam(defaultValue="1") String page) {
