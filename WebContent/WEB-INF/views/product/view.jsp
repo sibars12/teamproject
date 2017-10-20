@@ -14,7 +14,7 @@
 		<!-- 내용 -->
 		<div class="col-sm-6">
 			<%-- 사진 	--%>
-			<div class="container">
+			<div>
 				<c:choose>
 					<c:when test="${!empty productInfo[0].IMAG}">
 						<img src="/images/product/${productInfo[0].IMAG}"
@@ -25,7 +25,6 @@
 							width="280" height="200" />
 					</c:otherwise>
 				</c:choose>
-
 			</div>
 
 		</div>
@@ -279,6 +278,38 @@ $("#cart_B").click(function(){
 	$("#selectListForm").submit();	
 });
 
+// summernote
+$(document).ready(function(){
+	$("#summernote").summernote({ // summernote 형태 추가
+	    height: 200,
+	    width: 600,
+	    callbacks:{
+	       onImageUpload: function(files, editor, welEditable){
+	          for(var i=files.length -1; i>=0;i--){
+	             sendFile(files[i], this);
+	          }
+	       }
+	    }, 
+	 });
+});
+
+function sendFile(file, el){
+	var form_data = new FormData();
+	form_data.append('file', file);
+	$.ajax({
+		data: form_data,
+		type: "POST",
+		url: '/product/uploadImage', // 이부분은 수정 필요 경로 변경
+		cache: false,
+		contentType: false,
+		enctype: 'multipart/form-data',
+		processData: false,
+		success: function(url){
+			$(el).summernote('editor.insertImage', url);
+			$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+		}
+	});
+}
 // 페이지 로드시 상세보기 클릭한 효과 강제 적용
 $("#home").trigger("click");
 
@@ -303,6 +334,5 @@ $("#inquiry_Submit").click(function () {
 	});
 	
 })
-
 
 </script>

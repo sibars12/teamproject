@@ -13,13 +13,15 @@ public class ProductDao {
 	public List<Map> getProductList(String page) {
 		return sql.selectList("product.getProductList", page);
 	}
+	// 상품정보 view 페이지용
 	public List<Map> getProductInfo(String ownernumber){
 		return sql.selectList("product.getProductInfo", ownernumber);
 	}
-	//상품 등록
+	//상품 페이지
 	public int getProductPage() {
 		return sql.selectOne("product.getProductPage");
 	}
+	//상품등록
 	public boolean addProduct(Map map) {
 		sql.insert("product.addProduct", map);
 		return true;

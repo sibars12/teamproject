@@ -39,6 +39,7 @@ public class ProductController {
 	SimpleDateFormat sdf;
 	@Autowired
 	ObjectMapper mapper;
+	@Autowired
 	ProductDao productDao;
 	@Autowired
 	StockDao stockDao;
@@ -59,7 +60,7 @@ public class ProductController {
 		mav.addObject("page", productDao.getProductPage()/12+1);
 		return mav;
 	}
-	
+	//후기 입력
 	@RequestMapping(path="/addReview",produces="applilcation/json;charset=utf-8")
 	@ResponseBody
 	public String addReviewHandler(@RequestParam Map param){
@@ -67,7 +68,7 @@ public class ProductController {
 		String s="s";
 		return s;
 	}
-	
+	//후기 리스트 불러오기
 	@RequestMapping(path="/ReviewList",produces="applilcation/json;charset=utf-8")
 	@ResponseBody
 	public List ReviewListHandler(@RequestParam String ownernumber) throws JsonProcessingException{
