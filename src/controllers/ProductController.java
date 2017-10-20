@@ -39,6 +39,7 @@ public class ProductController {
 	SimpleDateFormat sdf;
 	@Autowired
 	ObjectMapper mapper;
+	@Autowired
 	ProductDao productDao;
 	@Autowired
 	StockDao stockDao;
@@ -56,7 +57,7 @@ public class ProductController {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/list");
 		mav.addObject("list", productDao.getProductList(page));
-		mav.addObject("page", productDao.getProductPage()/12+1);
+		mav.addObject("page", productDao.getProductPage()/12);
 		return mav;
 	}
 	
@@ -101,7 +102,7 @@ public class ProductController {
 			fileName = (String)param.get("ownernumber")+".jpg";
 			File target = new File(dir, fileName);
 			f.transferTo(target);
-			System.out.println(fileName);
+			System.out.println(path);
 			param.put("imag", fileName);
 		}
 		System.out.println("param: "+param);
