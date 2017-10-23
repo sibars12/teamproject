@@ -137,7 +137,7 @@ th, td {
 				<div>			
 					<p>
 					<label for="reviewWriter_I"> 작성자 </label>
-					<input type="text" class="form-control" id="reviewWriter_I" name="reviewWriter_I" placeholder="작성자">
+					<input type="text" class="form-control" id="reviewWriter_I" name="reviewWriter_I" placeholder="작성자" >
 					</p>
 					<p>
 					<label> 별점 : </label>&nbsp;
@@ -364,8 +364,14 @@ function reviewList(p){
 reviewList(1);
 //후기 작성
 $("#review_Submit").click(function () {
-	var score = $(":input[name=score]:radio:checked").val();
+	var writer = $("#reviewWriter_I").val();
+	var score = $(":input[name=score]:radio:checked").length;
+	console.log(score);
 	var con = $("#reviewContent_Ta").val();
+	if(writer=="" || score==0 || con==""){
+		window.alert("항목을 모두 기입해주세요");
+		return;
+	}
 	$.ajax({
 		"type":"get", // default = get
 		"async":false, // default = true;
@@ -373,7 +379,7 @@ $("#review_Submit").click(function () {
 		"data":{
 			"ownernumber":${productInfo[0].OWNERNUMBER},
 			"id":'TEST', 
-			"writer":$("#reviewWriter_I").val(),
+			"writer":writer,
 			"score": score,
 			"content":con,
 		}
