@@ -85,10 +85,8 @@ th, td {
 		<a href="/inquire/add?ownernumber=${param.ownernumber }"><button type="button">문의글 작성</button></a>
 	</p>
 </div>
-<html>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<body>
+
+
 <div class="w3-container">
 <div class="w3-bar">
  <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/inquire/list?page=${param.page-1 }&ownernumber=${param.ownernumber}">&laquo;</a></c:if>
@@ -108,5 +106,4 @@ th, td {
 </div>
 
 </div>
-</body>
-</html>
+

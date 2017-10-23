@@ -48,7 +48,7 @@ public class ProductController {
 	inquire_Dao inquireDao;
 	
 	@RequestMapping("/view")
-	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String ownernumber) {
+	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String onum, @RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		List<Map> li = inquireDao.readAll(ownernumber);
 		mav.addObject("list", li);
@@ -56,6 +56,7 @@ public class ProductController {
 		mav.addObject("section", "product/view");
 		mav.addObject("ownernumber", ownernumber);
 		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
+		mav.addObject("productInfo", productDao.getProductInfo(onum));
 		return mav;
 	} 
 	
@@ -64,7 +65,7 @@ public class ProductController {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/list");
 		mav.addObject("list", productDao.getProductList(page));
-		mav.addObject("page", productDao.getProductPage()/12+1);
+		mav.addObject("page", productDao.getProductPage()/12);
 		return mav;
 	}
 	
@@ -109,7 +110,7 @@ public class ProductController {
 			fileName = (String)param.get("ownernumber")+".jpg";
 			File target = new File(dir, fileName);
 			f.transferTo(target);
-			System.out.println(fileName);
+			System.out.println(path);
 			param.put("imag", fileName);
 		}
 		System.out.println("param: "+param);
