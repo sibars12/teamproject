@@ -38,6 +38,7 @@
 			src:local(※), url('/fonts/Inconsolata-Regular.woff') format('woff');
 		}
 	</style>
+	
 	<title><t:getAsString name="title" /></title>
 	
 	<!-- Jquery -->
@@ -52,6 +53,9 @@
 		<script src="/summernote/dist/summernote.js"></script>
 		<script src="/summernote/dist/summernote.min.js"></script>
 		<script src="/summernote/dist/lang/summernote-ko-KR.js"></script>
+		
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 	<div class="container">
