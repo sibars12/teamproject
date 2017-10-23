@@ -48,7 +48,8 @@
 	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
 		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link href="/summernote/dist/summernote.css" rel="stylesheet">
 		<script src="/summernote/dist/summernote.js"></script>
 		<script src="/summernote/dist/summernote.min.js"></script>
@@ -67,20 +68,20 @@
 		</nav>
 		<div class="container-fluid text-center">
 			<div class="row content">
-				<!--  <div class="col-sm-1 sidenav">-->
-
-				<div class="col-sm-13 text-center">
+				<!-- <div class="col-sm-1 sidenav"></div>-->
+				<div class="col-sm-12 text-center">
 					<t:insertAttribute name="section" />
 					<br/> <br/>
 				</div>
 				<!--  <div class="col-sm-1 sidenav">
+
 					<div class="well">
 						<p>ADS</p>
 					</div>
 					<div class="well">
 						<p>ADS</p>
 					</div>
-				</div>--> 
+				</div> -->
 			</div>
 		</div>
 		<footer>

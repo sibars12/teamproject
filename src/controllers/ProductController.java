@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.ProductDao;
 import models.StockDao;
+import models.inquire_Dao;
 
 @Controller
 @RequestMapping("/product")
@@ -43,12 +45,19 @@ public class ProductController {
 	ProductDao productDao;
 	@Autowired
 	StockDao stockDao;
+	@Autowired
+	inquire_Dao inquireDao;
 	
 	@RequestMapping("/view")
-	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String onum) {
+	public ModelAndView ViewHandler(@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
+		List<Map> li = inquireDao.readAll(ownernumber);
+		productDao.updateCount(ownernumber);
+		mav.addObject("list", li);
+		mav.addObject("cnt", li.size());
 		mav.addObject("section", "product/view");
-		mav.addObject("productInfo", productDao.getProductInfo(onum));
+		mav.addObject("ownernumber", ownernumber);
+		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
 		return mav;
 	} 
 	
@@ -86,23 +95,45 @@ public class ProductController {
 		mav.addObject("type", type);
 		return mav;
 	}
-	
+	//후기 입력
 	@RequestMapping(path="/addReview",produces="applilcation/json;charset=utf-8")
 	@ResponseBody
-	public String addReviewHandler(@RequestParam Map param){
-		System.out.println(param);
-		String s="s";
-		return s;
+	public String addReviewHandler(@RequestParam Map map){
+		System.out.println(map);
+		boolean r = productDao.addReview(map);
+		if (r){			
+			return "true";
+		}else	return "false";
 	}
 	
-	@RequestMapping(path="/ReviewList",produces="applilcation/json;charset=utf-8")
+	//후기 리스트 불러오기
+	@RequestMapping(path="/reviewList")
 	@ResponseBody
-	public List ReviewListHandler(@RequestParam String ownernumber) throws JsonProcessingException{
-		List list = new ArrayList();
-		//String str = mapper.writeValueAsString(list);
-		return list;
+	public Map ReviewListHandler(@RequestParam(defaultValue="10000") String ownernumber,@RequestParam(name="page", defaultValue="1")int page ) throws JsonProcessingException{
+		Map map = new HashMap(); 
+		System.out.println(ownernumber);
+		// 리스트 페이지 처리
+		Map map1 = new HashMap();
+		int size = productDao.reviewListCount(ownernumber); // count는 가져온 리스트 튜플 갯수
+		int pageCount=1; // 페이지 갯수
+		// param.page 처리 위한 계산
+		
+		// 한페이지에 보이는 갯수 계산
+		if(size%5==0){
+			pageCount = size/4;
+		}else{
+			pageCount = size/4+1; 
+		}
+		map1.put("start", (page-1)*4+1);
+		map1.put("end", page*4);
+		map1.put("ownernumber", ownernumber);
+		List list = productDao.getReviewList(map1);
+		
+		map.put("list", list);
+		map.put("pageCount", pageCount);
+		map.put("page", page);
+		return map;
 	}
-	
 	
 	@GetMapping("/addProduct")
 	public ModelAndView addProductHandler(@RequestParam(defaultValue="1") String page) {

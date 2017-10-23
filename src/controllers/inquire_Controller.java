@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import models.ProductDao;
 import models.inquire_Dao;
 
 @Controller
 @RequestMapping("/inquire")
 public class inquire_Controller {
+	@Autowired
+	ProductDao productDao;
 	@Autowired
 	inquire_Dao inquireDao;
 	@RequestMapping("/list")
@@ -39,11 +42,11 @@ public class inquire_Controller {
 			double c=(size/5.0);
 			int cc=size/5;
 			if(c-cc>0) {
-				cc+=1;
+				cc+=1; 
 			}
 			System.out.println("size cc=" +cc);
 			List<Map> ila = inquireDao.allist(a);
-			mav.addObject("list", ila);
+		mav.addObject("list", ila);
 		mav.addObject("cnt", li.size());
 		mav.addObject("size", cc);
 			mav.addObject("section", "inquire/list"); 
@@ -63,31 +66,14 @@ public class inquire_Controller {
 		boolean a=inquireDao.addOnd(map);
 		System.out.println(map);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_inquire");
+		mav.setViewName("redirect:/product/view?ownernumber="+map.get("ownernumber"));
 		if(a==true){
 			List<Map> li = inquireDao.readAll((String)map.get("ownernumber"));
-			int size=inquireDao.all((String)map.get("ownernumber"));
-				mav.setViewName("t_inquire");
-				int page=1;
-				System.out.println(size);
-				if(page>size)
-					page = size;
-				if(page <=0) 
-					page = 1;
-				Map ma=new HashMap();
-				ma.put("ownernumber", (String)map.get("ownernumber"));
-				ma.put("start", (page*5)-4);
-				ma.put("end", page*5);
-				double c=(size/5.0);
-				int cc=size/5;
-				if(c-cc>0) {
-					cc+=1;
-				}
-				List<Map> ila = inquireDao.allist(ma);
-				mav.addObject("list", ila);
+			
+				mav.addObject("list", li);
 			mav.addObject("cnt", li.size());
-			mav.addObject("size", cc);
-			mav.addObject("section", "inquire/list");
+			mav.addObject("section", "/product/view?ownernumber="+map.get("ownernumber"));
+			mav.addObject("productInfo", productDao.getProductInfo((String)map.get("ownernumber")));
 		}else {
 		mav.addObject("addt", false);
 		mav.addObject("section", "inquire/add");
@@ -98,7 +84,7 @@ public class inquire_Controller {
 	public ModelAndView noticedelHandle(@RequestParam String num ,@RequestParam String ownernumber) throws SQLException {
 		boolean a=inquireDao.del(num);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/inquire/list?ownernumber="+ownernumber);
+		mav.setViewName("redirect:/product/view?ownernumber="+ownernumber);
 		
 		return mav;
 }

@@ -191,6 +191,14 @@
 			<artifactId>spring-websocket</artifactId>
 			<version>4.3.9.RELEASE</version>
 		</dependency>
+		
+		<!-- jquery -->
+		<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-mapper-asl</artifactId>
+		<version>1.9.13</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
