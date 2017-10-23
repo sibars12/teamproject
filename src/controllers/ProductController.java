@@ -48,7 +48,7 @@ public class ProductController {
 	inquire_Dao inquireDao;
 	
 	@RequestMapping("/view")
-	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String onum, @RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) {
+	public ModelAndView ViewHandler(@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		List<Map> li = inquireDao.readAll(ownernumber);
 		mav.addObject("list", li);
@@ -56,7 +56,6 @@ public class ProductController {
 		mav.addObject("section", "product/view");
 		mav.addObject("ownernumber", ownernumber);
 		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
-		mav.addObject("productInfo", productDao.getProductInfo(onum));
 		return mav;
 	} 
 	

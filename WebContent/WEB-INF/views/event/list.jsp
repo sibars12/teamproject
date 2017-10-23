@@ -50,7 +50,7 @@ th, td {
 	</table>
 	<p align="right" style="margin-right: 30px;">
 	
-		<a href="/event/add"><button type="button">공지글작성</button></a>
+		<a href="/event/add"><button type="button">이벤트 작성</button></a>
 	</p>
 </div>
 <meta name="viewport" content="width=device-width, initial-scale=1">
