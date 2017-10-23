@@ -32,9 +32,23 @@ public class ProductDao {
 		if(r==1) return true;
 		else return false;
 	}
+	// 후기 등록
+	public boolean addReview(Map map){
+		sql.insert("product.addReview", map);
+		return true;
+	}
+	// 후기 리스트 
+	public List<Map> getReviewList(Map map){
+		return sql.selectList("product.getReviewList", map);
+	}
+	// 후기 리스트 갯수 카운트(상품 넘버별)
+	public int reviewListCount(String ownernumber){
+		return sql.selectOne("product.reviewListCount", ownernumber);
+	}
 	
 	public boolean deleteProduct(String dnum) {
 		sql.delete("product.deleteProduct", dnum);
 		return true;
 	}
+	
 }

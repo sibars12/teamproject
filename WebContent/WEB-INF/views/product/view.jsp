@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt"%>
-
 <style>
 	th,td{
 		padding:3px;
@@ -94,7 +93,7 @@
 							value="1" min="1" />
 							<button type="button" id="plusA_B">+</button>&nbsp;&nbsp; <span
 							id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span> <input
-							type="hidden" id="stockNO" name="stockNO"
+							type="hidden" id="stockNo" name="stockNo"
 							value="${productInfo[0].NO }">
 						</span>
 						<hr>
@@ -115,7 +114,6 @@
 		</ul>
 		<div class="tab-content">
 			<div id="detail" class="tab-pane fade" align="center">
-				<hr>
 				<label>상품 상세보기</label>
 				<c:choose>
 					<c:when test="${!empty productInfo[0].CONTENTS}">
@@ -129,8 +127,6 @@
 			</div>
 			<!-- 상품 후기  -->
 			<div id="menu2" class="tab-pane fade">
-				<label id="review_Label">상품 후기</label><br>
-				<div id="reviewList">후기 리스트</div>
 				<div>			
 					<p>
 					<label> 작성자 </label>
@@ -148,11 +144,15 @@
 					</c:forEach>
 					</p>
 					<div>
-						<textarea class="form-control" id="summernote" name="reviewContent_Ta" placeholder="내용"></textarea>
+						<textarea class="form-control" id="reviewContent_Ta" name="reviewContent_Ta" placeholder="내용"></textarea>
 					</div>
 					<div class="col-sm-12 form-group">
-							<button class="btn pull-right" type="submit" id="inquiry_Submit">Send</button>
+							<button class="btn pull-right" type="submit" id="review_Submit">Send</button>
 					</div>
+				</div>
+				<div id="reviewList">
+					<label>후기 리스트</label>
+					
 				</div>
 			</div>
 			<!-- 상품 문의 -->
@@ -224,7 +224,7 @@ $("#color_Select").change(function(){
 		var	arr = optionValue.split("_");
 		var sno = arr[0];
 		var selectOption="<p>";
-		selectOption += "<label>"+$(this).val()+"</label>";
+		selectOption += "<label >"+$(this).val()+"</label>";
 		selectOption += "&nbsp;&nbsp;<button type=\"button\" class=\"minus_B\">-</button>";
 		selectOption += "<input type=\"number\" name=\"stockCnt\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
 		selectOption += "<button type=\"button\" class=\"plus_B\">+</button>";
@@ -272,67 +272,73 @@ $("#color_Select").change(function(){
 	}
 });
 
-// 장바구니 버튼
+// 장바구니 버튼 
 $("#cart_B").click(function(){
 	$("#selectListForm").attr("action","/shopping/cart");
 	$("#selectListForm").submit();	
 });
 
-// summernote
-$(document).ready(function(){
-	$("#summernote").summernote({ // summernote 형태 추가
-	    height: 200,
-	    width: 600,
-	    callbacks:{
-	       onImageUpload: function(files, editor, welEditable){
-	          for(var i=files.length -1; i>=0;i--){
-	             sendFile(files[i], this);
-	          }
-	       }
-	    }, 
-	 });
-});
-
-function sendFile(file, el){
-	var form_data = new FormData();
-	form_data.append('file', file);
-	$.ajax({
-		data: form_data,
-		type: "POST",
-		url: '/product/uploadImage', // 이부분은 수정 필요 경로 변경
-		cache: false,
-		contentType: false,
-		enctype: 'multipart/form-data',
-		processData: false,
-		success: function(url){
-			$(el).summernote('editor.insertImage', url);
-			$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
-		}
-	});
-}
 // 페이지 로드시 상세보기 클릭한 효과 강제 적용
 $("#home").trigger("click");
 
+//상품 문의
+
 // 상품 후기 ajax
-//후기 작성
-$("#inquiry_Submit").click(function () {
+//후기 리스트
+function reviewList(p){
 	$.ajax({
 		"type":"post", // default = get
+		"async":false, // default = true;
+		"url":"/product/reviewList",
+		"data":{
+			"ownernumber":${productInfo[0].OWNERNUMBER},
+			"page":p,
+		}
+	}).done(function(obj){	
+		var list = "<hr><table class=\"table table-hover\"><tr><th>작성자</th><th>별점</th><th>후기</th><tr>";
+		for(i in obj.list){
+			var star =""; 
+			for(var j=0; j<obj.list[i].SCORE; j++){
+				star += "☆";
+			}
+			list += "<tr><td>"+obj.list[i].WRITER+"</td>";
+			list += "<td>"+star+"</td>";
+			list += "<td>"+obj.list[i].CONTENT+"</td></tr>";
+		}
+		list += "</table><div id=\"paging\">";
+		for(var i=1;i<=obj.pageCount;i++){
+			if(i != obj.page){
+				list += "&nbsp;<a href=\"javascript:reviewList("+i+")\"><b>"+i+"</b></a>";
+			}else{
+				list += "&nbsp;<b style=\"color:red\">"+i+"</b>";
+			}
+		}
+		list += "</div>"
+		$("#reviewList").html(list);
+	});
+} 
+reviewList(1);
+//후기 작성
+$("#review_Submit").click(function () {
+	var score = $(":input[name=score]:radio:checked").val();
+	var con = $("#reviewContent_Ta").val();
+	$.ajax({
+		"type":"get", // default = get
 		"async":false, // default = true;
 		"url":"/product/addReview",
 		"data":{
 			"ownernumber":${productInfo[0].OWNERNUMBER},
-			"id":'TEST',
+			"id":'TEST', 
 			"writer":$("#reviewWriter_I").val(),
-			"score":$("#score_Radio").val(),
-			"contnet":$("#reviewContent_Ta").val(),
-		},
+			"score": score,
+			"contnet":con,
+		}
 	}).done(function(r){
-		//console.log(r+"/"+typeof r);
 		var obj = JSON.parse(r);
-		window.alert(obj);
+		$("#reviewWriter_I").val("");
+		//$(":input[name=score]:radio:checked:false");
+		$("#reviewContent_Ta").val("");
+		reviewList(1);
 	});
-	
-})
-
+});
 </script>

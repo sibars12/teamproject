@@ -39,7 +39,7 @@ public class inquire_Controller {
 			double c=(size/5.0);
 			int cc=size/5;
 			if(c-cc>0) {
-				cc+=1;
+				cc+=1; 
 			}
 			System.out.println("size cc=" +cc);
 			List<Map> ila = inquireDao.allist(a);

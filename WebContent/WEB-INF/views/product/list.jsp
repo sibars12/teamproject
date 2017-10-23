@@ -52,7 +52,7 @@
 					<c:choose>
 						<c:when test="${list[j+(i*4)]!=null}">
 							<td width="280" class="productList_Td" style="padding: 25;border-top: none;">
-								<a href="/product/view?onum=${list[j+(i*4)].OWNERNUMBER }">	${list[j+(i*4)].TYPE}<br/>
+								<a href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }">	${list[j+(i*4)].TYPE}<br/>
 								${list[j+(i*4)].NAME}<br/>
 								${list[j+(i*4)].PRICE}</a>
 							</td>
