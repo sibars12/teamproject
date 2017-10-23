@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shopping">
+	<insert id="addCart">
+		insert into cart(id, num, volume) values(#{id},#{num},#{volume})
+	</insert>
+	<select id="getCartList" resultType="java.util.HashMap">
+		select cs.*,p.imag from (select c.*,s.type,s.name,s.scale,s.color,s.price,s.ownernumber,s.comp,s.subname from (select * from cart where id='master') c 
+		left join stock s on c.num = s.no) cs left join product p on cs.ownernumber = p.ownernumber
+	</select>
+	<delete id="deleteCart">
+		delete from cart where num=#{dnum}
+	</delete>
+	<select id="checkCart" resultType="java.lang.Integer">
+		select count(*) from cart where num=#{num}
+	</select>
+	<update id="addCartVol">
+		update cart set volume=(select volume from cart where num=#{num})+#{volume} where num=#{num}
+	</update>
+</mapper>

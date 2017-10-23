@@ -95,7 +95,7 @@
 							value="1" min="1" />
 							<button type="button" id="plusA_B">+</button>&nbsp;&nbsp; <span
 							id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span> <input
-							type="hidden" id="stockNO" name="stockNO"
+							type="hidden" id="stockNo" name="stockNo"
 							value="${productInfo[0].NO }">
 						</span>
 						<hr>
@@ -275,7 +275,7 @@ $("#color_Select").change(function(){
 
 // 장바구니 버튼
 $("#cart_B").click(function(){
-	$("#selectListForm").attr("action","/shopping/cart");
+	$("#selectListForm").attr("action","/shopping/cartDb");
 	$("#selectListForm").submit();	
 });
 
