@@ -56,8 +56,7 @@ public class StockDao {
 	public List getOptionSchStockList(Map map) {
 		return sql.selectList("stock.getOptionSchStockList", map);
 	}
-	public String getOptionSchStockPage(Map map) {
-		int page = sql.selectOne("getOptionSchStockPage", map);
-		return Integer.toString(page/10+1);
+	public int getOptionSchStockPage(Map map) {
+		return sql.selectOne("getOptionSchStockPage", map);
 	}
 }
