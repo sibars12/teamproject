@@ -31,6 +31,10 @@ public class ShoppingController {
 		ModelAndView mav = new ModelAndView("t_expr");
 		List<String> stockNo = multiMap.get("stockNo");
 		List<String> stockCnt = multiMap.get("stockCnt");
+		
+		System.out.println(stockNo.get(0));
+		System.out.println(stockCnt.get(0));
+		
 		System.out.println(stockNo);
 		System.out.println(stockCnt);
 		mav.addObject("section", "shopping/buyNow");

@@ -125,6 +125,7 @@
 						<c:when test="${list[j+(i*4)]!=null}">
 							<td width="270" class="productList_Td" align="center" style="padding-top: 5px; padding-bottom: 20px; border-top: none;">
 								<a class="pList_A" href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }">
+
 								${list[j+(i*4)].NAME}<br/>
 								<font color="blue">${list[j+(i*4)].PRICE}</font></a>
 							</td>
