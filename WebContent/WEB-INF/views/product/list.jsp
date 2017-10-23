@@ -36,7 +36,7 @@
 						<c:when test="${list[j+(i*4)]!=null}">
 							<td width="280" align="center" class="productList_Td" style="border-bottom: none;">
 								<div align="left" class="deleteCheck_D"><input class="deleteCkbox_I" type="checkbox" value="${list[j+(i*4)].OWNERNUMBER }"></div>
-								<a href="/product/view?onum=${list[j+(i*4)].OWNERNUMBER }"><img width="180" height="180" src="/images/product/${list[j+(i*4)].IMAG}"></a>
+								<a href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }"><img width="180" height="180" src="/images/product/${list[j+(i*4)].IMAG}"></a>
 							</td>
 						</c:when>
 						<c:otherwise>
@@ -52,7 +52,7 @@
 					<c:choose>
 						<c:when test="${list[j+(i*4)]!=null}">
 							<td width="280" class="productList_Td" style="padding: 25;border-top: none;">
-								<a href="/product/view?onum=${list[j+(i*4)].OWNERNUMBER }">	${list[j+(i*4)].TYPE}<br/>
+								<a href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }">	${list[j+(i*4)].TYPE}<br/>
 								${list[j+(i*4)].NAME}<br/>
 								${list[j+(i*4)].PRICE}</a>
 							</td>

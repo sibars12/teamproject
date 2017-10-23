@@ -20,7 +20,7 @@ th, td {
 		총 <b>${cnt }</b> 개의 문의가 등록되어 있습니다.
 	</p>
 	<div class="w3-container">
-		<table class="w3-table-all w3-margin-top" id="nn">
+		<table class="w3-table-all w3-margin-top" >
 		<tr>
 		<th style="width: 20%;">아이디</th>
 		<th style="width: 20%;">이름</th>

@@ -11,7 +11,7 @@
 	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
 		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-	
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link href="/summernote/dist/summernote.css" rel="stylesheet">
 		<script src="/summernote/dist/summernote.js"></script>
 		<script src="/summernote/dist/summernote.min.js"></script>

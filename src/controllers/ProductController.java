@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.ProductDao;
 import models.StockDao;
+import models.inquire_Dao;
 
 @Controller
 @RequestMapping("/product")
@@ -43,11 +44,17 @@ public class ProductController {
 	ProductDao productDao;
 	@Autowired
 	StockDao stockDao;
+	@Autowired
+	inquire_Dao inquireDao;
 	
 	@RequestMapping("/view")
 	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
+		List<Map> li = inquireDao.readAll(ownernumber);
+		mav.addObject("list", li);
+		mav.addObject("cnt", li.size());
 		mav.addObject("section", "product/view");
+		mav.addObject("ownernumber", ownernumber);
 		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
 		return mav;
 	} 
