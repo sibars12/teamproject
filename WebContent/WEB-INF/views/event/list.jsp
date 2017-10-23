@@ -22,7 +22,7 @@ th, td {
 	<table style="width: 95%">
 		<thead>
 			<tr>
-				
+				<th style="width: 5%">삭제 체크</th>
 				<th style="width: 40%">이벤트 목록</th>
 				<th style="width: 20%">시작일</th>
 				<th style="width: 20%">마감일</th>
@@ -31,7 +31,9 @@ th, td {
 		<tbody>
 			<c:forEach var="obj" items="${list }">
 				<tr>
-					
+					<td>
+						<a> <input class="eventcb" type="checkbox" value="${obj.NUM}"></a>
+					</td>
 					<td>
 					
 						<a href="/event/view?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
@@ -49,7 +51,7 @@ th, td {
 		</tbody>
 	</table>
 	<p align="right" style="margin-right: 30px;">
-	
+		<button type="button" id="eventdel">체크 삭제 </button>
 		<a href="/event/add"><button type="button">이벤트 작성</button></a>
 	</p>
 </div>
@@ -74,3 +76,4 @@ th, td {
 </div>
 
 </div>
+
