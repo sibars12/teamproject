@@ -81,8 +81,16 @@ th, td {
 		}
 	</script>
 	<p align="right" style="margin-right: 30px;">
-	
+	<c:choose>
+		<c:when test="${empty param.ownernumber}">
+		<a href="/product/view?ownernumber=10000"><button type="button">상품 보기</button></a>
+		<a href="/inquire/add?ownernumber=10000"><button type="button">문의글 작성</button></a>
+		</c:when>
+		<c:otherwise>
+		<a href="/product/view?ownernumber=${param.ownernumber }"><button type="button">상품 보기</button></a>
 		<a href="/inquire/add?ownernumber=${param.ownernumber }"><button type="button">문의글 작성</button></a>
+		</c:otherwise>
+		</c:choose>
 	</p>
 </div>
 

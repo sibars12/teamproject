@@ -77,3 +77,28 @@ th, td {
 
 </div>
 
+<script>
+$(document).ready(function(){
+$("#eventdel").click(function(){
+	var dnum = "";
+	$('.eventcb:checked').each(function(idx) { 
+    	if(idx!=0)
+    		dnum+=",";
+    	dnum+=$(this).val();
+	});
+	if(confirm("정말 삭제하시겠습니까??")){
+		console.log(dnum);
+		$.get("/event/checkdel",{"dnum":dnum},function(data){
+			if(data=="YY"){
+				alert("삭제되었습니다");
+			}
+		});
+		location.href="/event/list";
+	}
+});
+
+	CheckPage(${tPage});
+//페이지 이동 막기
+
+});
+</script>

@@ -164,4 +164,21 @@ public class event_Controller {
 		}
 		return mav;
 }
+	//list에서 체크한 상품들 삭제 후 결과 반환
+		@ResponseBody
+		@RequestMapping("/checkdel")
+		public String deleteProduct(@RequestParam String dnum) {
+			String[] ar = dnum.split(",");
+			for(int i=0;i<ar.length;i++) {
+				eventDao.del(ar[i]);
+			}
+			return "YY";
+		}
+		@RequestMapping("/home")
+		public ModelAndView home() {
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("section", "event/home");
+			return mav;
+		}
+	
 }

@@ -20,7 +20,7 @@
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> BOARD <span class="caret"></span></a>
       </li>
       <li class="active"><a href="/QnA/list">QnA</a></li>
-      <li class="active"><a href="/notice/list">Notice</a></li>
+      <li class="active"><a href="/notice/list?page=1">Notice</a></li>
       <li class="active"><a href="/stock/addStock">Stock</a></li>
       <li class="active"><a href="/shopping/cart">Cart</a></li>
     </ul>
