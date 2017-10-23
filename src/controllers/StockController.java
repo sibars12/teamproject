@@ -40,7 +40,7 @@ public class StockController {
 			mav.addObject("result", false);
 		}
 		mav.addObject("list", sdao.getStockList("1"));
-		mav.addObject("page", sdao.getStockPage()/10+1);
+		mav.addObject("page", (sdao.getStockPage()-1)/10+1);
 		return mav;
 	}
 	
@@ -87,7 +87,7 @@ public class StockController {
 		boolean rst = sdao.updateStock(map);
 		mav.addObject("result", rst);
 		mav.addObject("list", sdao.getStockList(page));
-		mav.addObject("page", sdao.getStockPage()/10+1);
+		mav.addObject("page", (sdao.getStockPage()-1)/10+1);
 		return mav;
 	}
 	

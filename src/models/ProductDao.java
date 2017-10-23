@@ -10,15 +10,24 @@ public class ProductDao {
 	@Autowired
 	SqlSessionTemplate sql;
 
-	public List<Map> getProductList(String page) {
-		return sql.selectList("product.getProductList", page);
+	public List<Map> getClothList(Map map) {
+		return sql.selectList("product.getClothList", map);
+	}
+	public List<Map> getFeedList(Map map) {
+		return sql.selectList("product.getFeedList", map);
+	}
+	public List<Map> getSnackList(Map map) {
+		return sql.selectList("product.getSnackList", map);
+	}
+	public List<Map> getToyList(Map map) {
+		return sql.selectList("product.getToyList", map);
 	}
 	public List<Map> getProductInfo(String ownernumber){
 		return sql.selectList("product.getProductInfo", ownernumber);
 	}
 	//상품 등록
-	public int getProductPage() {
-		return sql.selectOne("product.getProductPage");
+	public int getProductPage(Map map) {
+		return sql.selectOne("product.getProductPage", map);
 	}
 	public boolean addProduct(Map map) {
 		sql.insert("product.addProduct", map);
