@@ -1,18 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
+
 	<insert parameterType="java.util.HashMap" id="addMember">
-	insert into member values(#{id},#{pw},#{email},#{address})
+		insert into member values(#{id},#{pw},#{email})
 	</insert>
+	
 	<insert parameterType="java.util.HashMap" id="addDetail">
-	insert into detail(id,name) values(#{id},#{name})
+		insert into detail(id) values(#{id})
 	</insert>
-	<select parameterType="java.lang.String" id="checkId">
-	select id from member where id=#{id}
-	</select>
-	<select parameterType="java.lang.String" id="checkEmail">
-	select email from member where email=#{email}
+	
+	<select parameterType="java.lang.String" id="checkId" resultType="java.lang.String">
+		select id from member where id=#{id}
 	</select>
 	
+	<select parameterType="java.lang.String" id="checkEmail" resultType="java.lang.String">
+		select email from member where email=#{email}
+	</select>
+	
+	<select parameterType="java.util.HashMap" id="login" resultType="java.util.HashMap">
+		select * from member where (id = #{id}) and pw = #{pw}
+	</select>
+	
+	<select id="readDetail" resultType="java.util.HashMap">
+		select * from detail where id = #{id}
+	</select>
+	
+	<!-- <update parameterType="java.util.HashMap" id="editDetail">
+		update detail set name=#{name,jdbcType=VARCHAR2}, birth=#{birth,jdbcType=DATE}, address=#{address,jdbcType=VARCHAR2}, tel=#{tel, jdbcType=VARCHAR2}, point=#{point,jdbcType=VARCHAR2} where id =#{id}
+	</update> -->
+	
 	<!-- 인증메일 보내는 것 추가하기 -->
+	
+	
 </mapper>
