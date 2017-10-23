@@ -4,12 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<html>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<body>
 
-	<div class="w3-container">
+	<div class="">
 		<h2>질문 게시판</h2>
 		<table class="w3-table-all w3-margin-top" id="nn">
 		<tr>
@@ -86,6 +83,4 @@
 		}
 	</script>
 	<a href="/QnA/add"><button type="button">QnA작성</button></a>
-</body>
-</html>
 

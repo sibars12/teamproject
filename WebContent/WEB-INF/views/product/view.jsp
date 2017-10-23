@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt"%>
+<%@ page import="java.util.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <style>
-	th,td{
-		padding:3px;
-	}
+.rkqms {
+	border-bottom: 1px solid;
+	text-align: left;
+}
+th, td {
+	padding: 10px;
+}
 </style>
+
 
 <div class="container-fluid">
 	<div class="row">
@@ -76,7 +84,6 @@
 								</c:choose>
 							</c:forEach>
 						</select> <span id="select_Span">
-							<hr>
 						</span> <span style="text-align: right" id="total_Span"></span>
 						<hr>
 						<button type="submit" id="buyNow_B" disabled>즉시구매</button>
@@ -129,7 +136,7 @@
 			<div id="menu2" class="tab-pane fade">
 				<div>			
 					<p>
-					<label> 작성자 </label>
+					<label for="reviewWriter_I"> 작성자 </label>
 					<input type="text" class="form-control" id="reviewWriter_I" name="reviewWriter_I" placeholder="작성자">
 					</p>
 					<p>
@@ -147,28 +154,67 @@
 						<textarea class="form-control" id="reviewContent_Ta" name="reviewContent_Ta" placeholder="내용"></textarea>
 					</div>
 					<div class="col-sm-12 form-group">
-							<button class="btn pull-right" type="submit" id="review_Submit">Send</button>
+						<button class="btn pull-right" type="submit" id="review_Submit">Send</button>
 					</div>
 				</div>
 				<div id="reviewList">
-					<label>후기 리스트</label>
 					
 				</div>
 			</div>
 			<!-- 상품 문의 -->
 			<div id="menu3" class="tab-pane fade">
 				<label id="inquiry_Label">상품 문의</label><br> 
-				<p><a href="/inquire/add">
+				<p><a href="/inquire/add?ownernumber=${productInfo[0].OWNERNUMBER }">
 					<button class="btn pull-right" id="inquiryAdd_B" name="ownernumber"	value="${productInfo[0].OWNERNUMBER }">
 					문의하기 </button>
 				</a></p>
-				<div id="inquiryList">문의 리스트</div>
-			</div>
+				<div id="inquiryList" align="center" style="line-height: 35px">
+					<p align="right" style="margin-right: 30px;">
+						총 <b>${cnt }</b> 개의 문의가 등록되어 있습니다.
+					</p>
+					<div class="w3-container">
+						<table class="w3-table-all w3-margin-top" id="nn">
+							<tr class="rkqms">
+								<th style="width: 20%;">아이디</th>
+								<th style="width: 20%;">이름</th>
+								<th style="width: 40%;">문의 제목</th>
+								<th style="width: 20%;">문의한 날자</th>
+							</tr>
+						<c:forEach var="obj" items="${list }" begin="0" end="4">
+							<tr>
+								<td>
+									<p>${obj.ID }</p>
+								</td>
+								<td>
+									<p>${obj.NAME }</p>
+								</td>
+								<td>
+									<button onclick="inquire('memo${obj.NUM}')"	class="w3-btn w3-block w3-black w3-left-align">
+										${fn:substring(obj.TITLE, 0, 12) }</button>
+									<div id="memo${obj.NUM}" class="w3-container w3-hide">
+										<p>${obj.CONTENT }</p>
+										<input type="hidden" id="truepass${obj.NUM }" value="${obj.PASS }" />
+										<input type="password" id="${obj.NUM }" onkeyup="passcheck(${obj.NUM });"maxlength="4" /> 
+										<a href="/inquire/del?num=${obj.NUM }&ownernumber=${obj.OWNERNUMBER}">
+											<button id="del${obj.NUM }" disabled="disabled"	type="button">삭제</button>
+										</a>
+									</div>
+								</td>
+								<td>
+									<p><fmt:formatDate pattern="yyyy.MM.dd " value="${obj.INDATE }" /></p>
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+					<a href="/inquire/list?page=1&ownernumber=${ownernumber }"><button type="button">문의 내용 더보기</button></a>
+					</div>
+				</div><!-- 문의 리스트 닫음 -->
+			</div><!-- 문의하기 tap 닫음 -->
 		</div>
 	</div>
 </div>
 
-<script>
+<script>	
 var cnt=0;
 var total=0;
 // 총액 표기
@@ -274,14 +320,12 @@ $("#color_Select").change(function(){
 
 // 장바구니 버튼 
 $("#cart_B").click(function(){
-	$("#selectListForm").attr("action","/shopping/cart");
+	$("#selectListForm").attr("action","/shopping/cartDb");
 	$("#selectListForm").submit();	
 });
 
 // 페이지 로드시 상세보기 클릭한 효과 강제 적용
 $("#home").trigger("click");
-
-//상품 문의
 
 // 상품 후기 ajax
 //후기 리스트
@@ -295,7 +339,7 @@ function reviewList(p){
 			"page":p,
 		}
 	}).done(function(obj){	
-		var list = "<hr><table class=\"table table-hover\"><tr><th>작성자</th><th>별점</th><th>후기</th><tr>";
+		var list = "<table class=\"table table-hover\"><tr><th>작성자</th><th>별점</th><th>후기</th><tr>";
 		for(i in obj.list){
 			var star =""; 
 			for(var j=0; j<obj.list[i].SCORE; j++){
@@ -331,7 +375,7 @@ $("#review_Submit").click(function () {
 			"id":'TEST', 
 			"writer":$("#reviewWriter_I").val(),
 			"score": score,
-			"contnet":con,
+			"content":con,
 		}
 	}).done(function(r){
 		var obj = JSON.parse(r);
@@ -341,4 +385,26 @@ $("#review_Submit").click(function () {
 		reviewList(1);
 	});
 });
+
+// 상품 문의
+// 클릭시 내용나오게
+	function inquire(id) {
+		var x = document.getElementById(id);
+		if (x.className.indexOf("w3-show") == -1) {
+			x.className += " w3-show";
+		} else {
+			x.className = x.className.replace(" w3-show", "");
+		}
+	}
+//비밀번호 맞으면 버튼 on
+	function passcheck(z){
+		var x = document.getElementById(z).value;
+		var y = document.getElementById("truepass"+z).value;
+		if(x==y){
+			$("#del"+z).removeAttr("disabled");
+		}else{
+			$("#del"+z).attr("disabled",true); 
+		}
+	}
+	
 </script>

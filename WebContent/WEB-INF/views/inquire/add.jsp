@@ -34,7 +34,7 @@
 			<p>
 				<button type="submit" >문의 등록</button>
 				<button type="reset">재작성 </button>
-				<a href="/inquire/list?page=1"><button type="button">목록으로</button></a>
+				<a href="/inquire/list?page=1&ownernumber=${ownernumber }"><button type="button">목록으로</button></a>
 			</p>
 		</form>
 		

@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.ProductDao;
 import models.StockDao;
+import models.inquire_Dao;
 
 @Controller
 @RequestMapping("/product")
@@ -44,22 +45,54 @@ public class ProductController {
 	ProductDao productDao;
 	@Autowired
 	StockDao stockDao;
+	@Autowired
+	inquire_Dao inquireDao;
 	
 	@RequestMapping("/view")
-	public ModelAndView ViewHandler(@RequestParam(defaultValue="10000") String ownernumber) {
+	public ModelAndView ViewHandler(@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
-		mav.addObject("section", "product/view");
-		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
+		List<Map> li = inquireDao.readAll(ownernumber);
 		productDao.updateCount(ownernumber);
+		mav.addObject("list", li);
+		mav.addObject("cnt", li.size());
+		mav.addObject("section", "product/view");
+		mav.addObject("ownernumber", ownernumber);
+		mav.addObject("productInfo", productDao.getProductInfo(ownernumber));
 		return mav;
 	} 
 	
+	// 상품리스트
 	@GetMapping("/list")
-	public ModelAndView ListHandler(@RequestParam(defaultValue="1") String page) {
+	public ModelAndView ListHandler(@RequestParam(defaultValue="1") String page, 
+			@RequestParam(defaultValue="signup") String option, @RequestParam(defaultValue="cloth") String type) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/list");
-		mav.addObject("list", productDao.getProductList(page));
-		mav.addObject("page", productDao.getProductPage()/12+1);
+		Map map = new HashMap();
+		map.put("page",page);
+		map.put("option", option);
+		map.put("type", type);
+		switch(type) { // list와 list의 size를 type별로 함께 뽑음
+		case "cloth":
+			mav.addObject("list", productDao.getClothList(map));
+			mav.addObject("lSize", (productDao.getClothList(map).size()-1)/4);
+			break;
+		case "feed":
+			mav.addObject("list", productDao.getFeedList(map));
+			mav.addObject("lSize", (productDao.getFeedList(map).size()-1)/4);
+			break;
+		case "snack":
+			mav.addObject("list", productDao.getSnackList(map));
+			mav.addObject("lSize", (productDao.getSnackList(map).size()-1)/4);
+			break;
+		case "toy":
+			mav.addObject("list", productDao.getToyList(map));
+			mav.addObject("lSize", (productDao.getToyList(map).size()-1)/4);
+			break;
+		}
+		mav.addObject("page", ((productDao.getProductPage(map)-1)/12)+1);
+		mav.addObject("tPage", page);
+		mav.addObject("option", option);
+		mav.addObject("type", type);
 		return mav;
 	}
 	//후기 입력
@@ -107,7 +140,7 @@ public class ProductController {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "product/addProduct");
 		mav.addObject("list", stockDao.getStockList(page));
-		mav.addObject("page", stockDao.getStockPage());
+		mav.addObject("page", ((stockDao.getStockPage()-1)/10)+1);
 		return mav;
 	}
 	
@@ -115,28 +148,30 @@ public class ProductController {
 	public ModelAndView profilePostHandle(@RequestParam Map param, 
 			@RequestParam(name="imag") MultipartFile f) throws IllegalStateException, IOException {
 		ModelAndView mav = new ModelAndView("t_expr");
-		mav.addObject("section","product/addProduct");
 		String fileName = null;
-		if(!f.isEmpty() && f.getContentType().startsWith("image")) {
+		if(!f.isEmpty() && f.getContentType().startsWith("image")) { //빈 파일이 아니고 img로 시작한다면
 			String path = application.getRealPath("/images/product");
-			File dir = new File(path);
+			File dir = new File(path); // 파일경로
 			if(!dir.exists()) {
 				dir.mkdirs();
 			}
-			fileName = (String)param.get("ownernumber")+".jpg";
+			fileName = (String)param.get("ownernumber")+".jpg"; // 파일이름
 			File target = new File(dir, fileName);
 			f.transferTo(target);
-			System.out.println(fileName);
+			System.out.println(path);
 			param.put("imag", fileName);
 		}
 		System.out.println("param: "+param);
 		productDao.addProduct(param);
+		mav.addObject("type", param.get("type"));
 		mav.addObject("list", stockDao.getStockList("1"));
-		mav.addObject("page", stockDao.getStockPage());
+		mav.addObject("page", ((stockDao.getStockPage()-1)/10)+1);
+		mav.addObject("section","product/addProduct");
 		mav.addObject("addResult", true);
 		return mav;
 	}
 	
+	//addProduct에서 summernote에 이미지 등록할 때 이미지 파일 생성 후 경로,이름 반환
 	@ResponseBody
 	@RequestMapping("/uploadImage")
 	public String uploadHandler(@RequestParam("file") MultipartFile f) throws IllegalStateException, IOException {
@@ -156,6 +191,7 @@ public class ProductController {
 		return "/images/product/content/"+fileName;
 	}
 	
+	//addProduct페이지에서 상품목록 반환
 	@ResponseBody
 	@RequestMapping(path="/getPageList", produces="application/json;charset=utf-8")
 	public String getPageListHandler(@RequestParam String page) throws JsonProcessingException {
@@ -163,6 +199,7 @@ public class ProductController {
 		return mapper.writeValueAsString(list);
 	}
 	
+	//addProduct페이지에서 검색한상품목록 반환
 	@ResponseBody
 	@RequestMapping(path="/getSchList", produces="application/json;charset=utf-8")
 	public String getSchListHandler(@RequestParam Map map) throws JsonProcessingException {
@@ -177,12 +214,16 @@ public class ProductController {
 		return mapper.writeValueAsString(list);
 	}
 	
+	//addProduct페이지에서 검색한 상품목록결과 수 반환
 	@ResponseBody
 	@RequestMapping("/getSchPage")
 	public String getSchPageHandler(@RequestParam Map map) {
-		return stockDao.getOptionSchStockPage(map);
+		int cnt = stockDao.getOptionSchStockPage(map);
+		int page = (cnt-1)/10+1;
+		return Integer.toString(page);
 	}
 	
+	//list에서 체크한 상품들 삭제 후 결과 반환
 	@ResponseBody
 	@RequestMapping("/deleteProduct")
 	public String deleteProduct(@RequestParam String dnum) {
