@@ -20,7 +20,7 @@
 		font-weight: bold;
 	}
 	#stock_D{
-		min-height: 300;
+		min-height: 335;
 	}
 	h2{
 		margin: 20;
@@ -34,8 +34,22 @@
 	<c:choose>
 		<c:when test="${addResult }">
 			<script>
-				if(confirm("등록되었습니다.\n확인하시겠습니까?")){
-					location.href="/product/list";
+				if(${type eq '의류'}){
+					if(confirm("등록되었습니다.\n확인하시겠습니까?")){
+						location.href="/product/list?type=cloth";
+					}
+				}else if(${type eq '간식'}){
+					if(confirm("등록되었습니다.\n확인하시겠습니까?")){
+						location.href="/product/list?type=snack";
+					}
+				}else if(${type eq '장난감'}){
+					if(confirm("등록되었습니다.\n확인하시겠습니까?")){
+						location.href="/product/list?type=toy";
+					}
+				}else if(${type eq '사료'}){
+					if(confirm("등록되었습니다.\n확인하시겠습니까?")){
+						location.href="/product/list?type=feed";
+					}
 				}
 			</script>
 		</c:when>
@@ -44,8 +58,8 @@
 		</c:otherwise>
 	</c:choose>
 </c:if>
-<div align="center">
-	<h2>상품 등록</h2>
+<div class="w3-container" align="center">
+	<h2>상품 등록 ${type}</h2>
 	<div id="stock_D">
 		<select id="schOption_S">
 			<option value="ownernumber">상품번호</option>
@@ -75,7 +89,7 @@
 			<c:forEach var="obj" items="${list }">
 				<tr align="center">
 					<td class="productOwnernumber">${obj.OWNERNUMBER}</td>
-					<td>${obj.TYPE}</td>
+					<td class="productType">${obj.TYPE}</td>
 					<td class="productName">${obj.NAME}</td>
 					<td class="productComp">${obj.COMP}</td>
 					<td class="productScale">${obj.SCALE}</td>
@@ -89,12 +103,13 @@
 		</table>
 	</div>
 	<p id="stockPage_P">
-		<c:forEach var="idx" begin="1" end="${page/10+1}">
+		<c:forEach var="idx" begin="1" end="${page}">
 			<a class="page_A">${idx}</a>
 		</c:forEach>
 	</p>
 	<form action="/product/addProduct" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="ownernumber" id="productOwnernumber_I">
+		<input type="hidden" name="type" id="productType_I">
 		<input type="text" placeholder="제목" class="mar" id="productTitle_I" name="name"><br/>
 		<img src="/images/basic.jpg" id="pre" alt="기본이미지" style="width:200; height:200"/><br/>
 		<input type="file" name="imag" id="profile" class="mar"><br/>
@@ -166,6 +181,7 @@
 			var value = "[" + $(this).children("td.productComp").text() + "] " + $(this).children("td.productName").text() + " " + $(this).children("td.productScale").text();
 			$("#productTitle_I").val(value);
 			$("#productOwnernumber_I").val($(this).children("td.productOwnernumber").text());
+			$("#productType_I").val($(this).children("td.productType").text());
 			
 			$(this).not(".thead").addClass("selected").css("background-color","pink");
 			
@@ -204,7 +220,7 @@
 		var html = "";
 		for(idx in data){
 			html += "<tr align=\"center\"><td class=\"productOwnernumber\">"+data[idx].OWNERNUMBER+"</td>"
-					+ "<td>"+data[idx].TYPE+"</td>"
+					+ "<td class=\"productType\">"+data[idx].TYPE+"</td>"
 					+ "<td class=\"productName\">"+data[idx].NAME+"</td>"
 					+ "<td class=\"productComp\">"+data[idx].COMP+"</td>"
 					+ "<td class=\"productScale\">"+data[idx].SCALE+"</td>"
