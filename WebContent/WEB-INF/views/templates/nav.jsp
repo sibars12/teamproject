@@ -25,19 +25,15 @@
 		<c:choose>
 			<c:when test="${!empty auth}">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/member/myInfo"><span
-							class="glyphicon glyphicon-user">MY INFO</span></a></li>
-					<li><a href="/member/logout"><span
-							class="glyphicon glyphicon-log-in"> LOGOUT </span></a></li>
+					<li><a href="/member/myInfo"><span class="glyphicon glyphicon-user">MY INFO</span></a></li>
+					<li><a href="/member/logout"><span class="glyphicon glyphicon-log-in"> LOGOUT </span></a></li>
 				</ul>
 			</c:when>
 			
 			<c:otherwise>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/member/join"><span
-							class="glyphicon glyphicon-user">Sign Up</span></a></li>
-					<li><a href="/member/login"><span
-							class="glyphicon glyphicon-log-in">Login</span></a></li>
+					<li><a href="/member/join"><span class="glyphicon glyphicon-user">Sign Up</span></a></li>
+					<li><a href="/member/login"><span class="glyphicon glyphicon-log-in">Login</span></a></li>
 				</ul>
 			</c:otherwise>
 		</c:choose>
