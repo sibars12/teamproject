@@ -10,6 +10,21 @@
 		padding: 4;
 		margin: 5;
 	}
+	.stockInfo_I{
+		padding: 3;
+	}
+	.stockContent_Td{
+		font-family: 'IropkeBatangM';
+		font-size: 12;
+	}
+	.stockTitle_Td{
+		font-family: 'IropkeBatangM';
+		font-size: 14;
+		font-weight: bold;
+	}
+	.stock_Td{
+		padding:3;
+	}
 </style>
 <c:if test="${result!=null }">
 	<c:choose>
@@ -21,41 +36,41 @@
 	 </c:otherwise>
 	</c:choose>
 </c:if>
-<div align="center">
+<div class="w3-container" align="center">
 	<h2>새 물품 추가</h2>
 	<form action="/stock/addStock" method="post">
 	<table>
 		<tr>
-			<td>상품명</td>
-			<td><input type="text" name="name" required></td>
+			<td class="stock_Td">상품명</td>
+			<td class="stock_Td"><input type="text" name="name" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
-			<td>분류</td>
-			<td><input type="text" name="type" required></td>
+			<td class="stock_Td">분류</td>
+			<td class="stock_Td"><input type="text" name="type" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
-			<td>제조사</td>
-			<td><input type="text" name="comp" required></td>
+			<td class="stock_Td">제조사</td>
+			<td class="stock_Td"><input type="text" name="comp" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
-			<td>사이즈</td>
-			<td><input type="text" name="scale" required></td>
+			<td class="stock_Td">사이즈</td>
+			<td class="stock_Td"><input type="text" name="scale" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
-			<td>색상</td>
-			<td><input type="text" name="color" required></td>
+			<td class="stock_Td">색상</td>
+			<td class="stock_Td"><input type="text" name="color" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
-			<td>가격</td>
-			<td><input type="text" name="price" required></td>
+			<td class="stock_Td">가격</td>
+			<td class="stock_Td"><input type="text" name="price" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
-			<td>수량</td>
-			<td><input type="text" name="volume" required></td>
+			<td class="stock_Td">수량</td>
+			<td class="stock_Td"><input type="text" name="volume" class="stockInfo_I" required></td>
 		</tr>
 		<tr>
 			<td>추가사항</td>
-			<td><input type="text" name="subname"></td>
+			<td class="stock_Td"><input type="text" name="subname" class="stockInfo_I"></td>
 		</tr>
 		<tr align="center">
 			<td colspan="2"><button type="submit">추가</button></td>
@@ -71,28 +86,28 @@
 	
 	<table style="border-collapse: collapse;">
 		<tr height="40" align="center" style="background-color: rgb(181,222,244);">
-			<td width="139">등록된 상품번호</td>
-			<td width="110">분류</td>
-			<td width="110">상품명</td>
-			<td width="110">제조사</td>
-			<td width="110">사이즈</td>
-			<td width="110">색상</td>
-			<td width="110">가격</td>
-			<td width="110">수량</td>
-			<td width="110">추가사항</td>
+			<td width="100" class="stockTitle_Td">상품번호</td>
+			<td width="100" class="stockTitle_Td">분류</td>
+			<td width="150" class="stockTitle_Td">상품명</td>
+			<td width="140" class="stockTitle_Td">제조사</td>
+			<td width="80" class="stockTitle_Td">사이즈</td>
+			<td width="100" class="stockTitle_Td">색상</td>
+			<td width="90" class="stockTitle_Td">가격</td>
+			<td width="80" class="stockTitle_Td">수량</td>
+			<td width="130" class="stockTitle_Td">추가사항</td>
 			<td></td>
 		</tr>
 		<c:forEach var="obj" items="${list }">
 			<tr align="center">
-				<td>${obj.OWNERNUMBER}</td>
-				<td>${obj.TYPE}</td>
-				<td>${obj.NAME}</td>
-				<td>${obj.COMP}</td>
-				<td>${obj.SCALE}</td>
-				<td>${obj.COLOR}</td>
-				<td>${obj.PRICE}</td>
-				<td>${obj.VOLUME}</td>
-				<td>${obj.SUBNAME}</td>
+				<td class="stockContent_Td">${obj.OWNERNUMBER}</td>
+				<td class="stockContent_Td">${obj.TYPE}</td>
+				<td class="stockContent_Td">${obj.NAME}</td>
+				<td class="stockContent_Td">${obj.COMP}</td>
+				<td class="stockContent_Td">${obj.SCALE}</td>
+				<td class="stockContent_Td">${obj.COLOR}</td>
+				<td class="stockContent_Td">${obj.PRICE}</td>
+				<td class="stockContent_Td">${obj.VOLUME}</td>
+				<td class="stockContent_Td">${obj.SUBNAME}</td>
 				<td><button class="updateStock_B" value="${obj.NO}">수정</button> <button class="deleteStock_B" value="${obj.NO}">삭제</button></td>
 			</tr>
 		</c:forEach>
@@ -145,5 +160,4 @@
 			document.getElementById("updateStock_D").innerHTML = html;
 		}
 	}
-	
 </script>

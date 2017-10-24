@@ -1,11 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
+	<!-- view 상품 상세내용 불러오기 -->
 	<select id="getProductInfo" resultType="java.util.HashMap">
 		SELECT P.OWNERNUMBER,P.IMAG,P.SIGNUP,P.CONTENTS,S.* FROM PRODUCT P LEFT OUTER JOIN STOCK S 
 		ON P.OWNERNUMBER = S.OWNERNUMBER WHERE P.OWNERNUMBER=#{OWNERNUMBER}
 	</select>
+	<!-- 조회수 올리기 -->
+	<update id="updateCount">
+		UPDATE PRODUCT SET CNT=CNT+1 WHERE OWNERNUMBER=#{OWNERNUMBER}
+	</update>
+	<!-- 상품등록 -->
 	<insert id="addProduct">
-		INSERT INTO PRODUCT(OWNERNUMBER, NAME, IMAG, SIGNUP, CONTENTS) VALUES(#{ownernumber}, #{name}, #{imag}, sysdate, #{content})
+		INSERT INTO PRODUCT(OWNERNUMBER, NAME, IMAG, SIGNUP, CONTENTS) VALUES(#{ownernumber}, #{name}, #{imag}, SYSDATE, #{content})
 	</insert>
+	<!-- 문의 리스트 가져오기 -->
+	<select id="getInquiryList" resultType="java.util.HashMap">
+		SELECT * FROM INQUIRE WHERE OWNERNUMBER=#{OWNERNUMBER} ORDER BY NUM DESC
+	</select>
+	<!-- 후기 등록 -->
+	<insert id="addReview" parameterType="java.util.HashMap">
+		insert into review values(review_seq.nextval, #{ownernumber}, #{id}, #{writer}, #{score}, #{content} )
+	</insert>
+	<!-- 후기 리스트 가져오기 -->
+	<select id="getReviewList" resultType="java.util.HashMap">
+		SELECT * FROM(SELECT ROWNUM R, A.* from(SELECT * FROM REVIEW WHERE ownernumber=#{ownernumber} ORDER BY NO DESC) A) WHERE R BETWEEN #{start} AND #{end}
+	</select>
+	<!-- 후기 리스트 갯수 -->
+	<select id="reviewListCount" resultType="java.lang.Integer">
+		select count(*) from review where ownernumber = #{ownernumber}
+	</select>
+	<select id="getProductList" resultType="java.util.HashMap">
+		select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 		left join stock s on t.ownernumber = s.ownernumber order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+	</select>
+	<!-- 의류리스트 -->
+	<select id="getClothList" resultType="java.util.HashMap">
+ 		<choose>
+ 			<when test="option == 'signup'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'priceHigh'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by s.price desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'priceLow'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by s.price) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'name'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by t.name) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 		</choose>
+	</select>
+	<!-- 사료리스트 -->
+	<select id="getFeedList" resultType="java.util.HashMap">
+ 		<choose>
+ 			<when test="option == 'signup'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'priceHigh'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by s.price desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'priceLow'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by s.price) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'name'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by t.name) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 		</choose>
+	</select>
+	<!-- 간식리스트 -->
+	<select id="getSnackList" resultType="java.util.HashMap">
+ 		<choose>
+ 			<when test="option == 'signup'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'priceHigh'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by s.price desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'priceLow'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by s.price) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'name'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by t.name) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 		</choose>
+	</select>
+	<!-- 장난감리스트 -->
+	<select id="getToyList" resultType="java.util.HashMap">
+ 		<choose>
+ 			<when test="option == 'signup'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'priceHigh'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by s.price desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'priceLow'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by s.price) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 			<when test="option == 'name'">
+ 				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by t.name) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 			</when>
+ 		</choose>
+	</select>
+	<!-- 페이지수 -->
+	<select id="getProductPage" resultType="java.lang.Integer">
+		<choose>
+			<when test="type == 'cloth'">
+				select count(*) from (select DISTINCT p.ownernumber,s.type from product p left join stock s on p.ownernumber = s.ownernumber where s.type='의류')
+			</when>
+			<when test="type == 'snack'">
+				select count(*) from (select DISTINCT p.ownernumber,s.type from product p left join stock s on p.ownernumber = s.ownernumber where s.type='간식')
+			</when>
+			<when test="type == 'feed'">
+				select count(*) from (select DISTINCT p.ownernumber,s.type from product p left join stock s on p.ownernumber = s.ownernumber where s.type='사료')
+			</when>
+			<when test="type == 'toy'">
+				select count(*) from (select DISTINCT p.ownernumber,s.type from product p left join stock s on p.ownernumber = s.ownernumber where s.type='장난감')
+			</when>
+		</choose>
+	</select>
+	<delete id="deleteProduct">
+		delete from product where ownernumber=#{dnum}
+	</delete>
+
 </mapper>

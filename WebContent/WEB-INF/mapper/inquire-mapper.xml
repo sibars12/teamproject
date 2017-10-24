@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="inquire">
+  	<insert id="add" parameterType="java.util.HashMap">
+  		insert into inquire values(inquire_SEQ.nextval, #{id},#{name},#{pass}, #{title}, #{content},#{ownernumber} ,SYSDATE)
+  	</insert>
+  	
+  	<!-- 오더넘버 보내서 조회 -->
+  	<select id="list" parameterType="java.lang.String" resultType="java.util.HashMap">
+  			select * from inquire where OWNERNUMBER = #{ownernumber} order by num desc
+  	</select>
+  	<select id="read" parameterType="java.lang.String" resultType="java.util.HashMap">
+  		select * from inquire where NUM=#{num}
+  	</select>
+  	<insert id="del" parameterType="java.lang.String">
+  	delete from inquire where num=#{num}
+  	</insert>
+  <select id="all" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(*) from inquire where OWNERNUMBER = #{ownernumber}
+	</select>
+	<select id="allist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select * from (select rownum r, a.* from (select * from inquire  where OWNERNUMBER = #{ownernumber} order by num desc) a) where r between #{start} and #{end}
+	</select>
+  </mapper>

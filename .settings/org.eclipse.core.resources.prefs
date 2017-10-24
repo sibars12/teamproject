@@ -1,4 +1,8 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding//WebContent/WEB-INF/views/member/join.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/member/login.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/member/myInfo.jsp=UTF-8
+=======
+encoding//WebContent/WEB-INF/views/QnA/list.jsp=UTF-8
+>>>>>>> refs/heads/master

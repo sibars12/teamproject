@@ -11,6 +11,23 @@
 	<definition name="t_expr" extends="t_base">
 		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
 	</definition>
+	<definition name="t_notice" extends="t_base">
+		<put-attribute name="title" value="notice"/>
+		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
+	</definition>
+	<definition name="t_QnA" extends="t_base">
+		<put-attribute name="title" value="QnA"/>
+		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
+	</definition>
+	<definition name="t_event" extends="t_base">
+		<put-attribute name="title" value="EVENT"/>
+		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
+	</definition>
+	<definition name="t_inquire" extends="t_base">
+		<put-attribute name="title" value="inquire"/>
+		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
+	</definition>
+	
 </tiles-definitions>
 
 
