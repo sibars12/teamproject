@@ -57,6 +57,13 @@ public class StockDao {
 		return sql.selectList("stock.getOptionSchStockList", map);
 	}
 	public int getOptionSchStockPage(Map map) {
-		return sql.selectOne("getOptionSchStockPage", map);
+		return sql.selectOne("stock.getOptionSchStockPage", map);
+	}
+	public boolean plusStock(Map map) {
+		sql.update("stock.plusStock", map);
+		return true;
+	}
+	public int checkPlusStock(Map map) {
+		return sql.selectOne("stock.checkPlusStock", map);
 	}
 }

@@ -58,5 +58,10 @@ public class ProductDao {
 		sql.delete("product.deleteProduct", dnum);
 		return true;
 	}
-	
+	public List<Map> getNewProductList(Map map){
+		return sql.selectList("product.getNewProductList",map);
+	}
+	public List<Map> getBestProductList(Map map){
+		return sql.selectList("product.getNewProductList",map);
+	}
 }
