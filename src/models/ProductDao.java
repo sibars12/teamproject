@@ -59,4 +59,25 @@ public class ProductDao {
 		return true;
 	}
 	
+	//관리자용
+	// 후기 리스트_관리자용
+	public List<Map> reviewList_master(Map map){
+		return sql.selectList("product.reviewList_master", map);
+	}
+	// 후기 리스트 총 갯수
+	public int reviewListAllCount(){
+		return sql.selectOne("product.reviewListAllCount");
+	}
+	// 후기 리스트 삭제
+	public int deleteReview(String[] ar) {
+		return sql.delete("product.deleteReview", ar);
+	}
+	// 후기 리스트 검색
+	public List<Map> searchReview(Map param){
+		return sql.selectList("product.searchReview", param);
+	}
+	//
+	public int searchCount(Map param){
+		return sql.selectOne("product.searchCount", param);
+	}
 }

@@ -116,15 +116,13 @@ public class ProductController {
 		Map map1 = new HashMap();
 		int size = productDao.reviewListCount(ownernumber); // count는 가져온 리스트 튜플 갯수
 		int pageCount=1; // 페이지 갯수
-		// param.page 처리 위한 계산
-		
 		// 한페이지에 보이는 갯수 계산
 		if(size%5==0){
-			pageCount = size/4;
+			pageCount = size/5;
 		}else{
-			pageCount = size/4+1; 
+			pageCount = size/5+1; 
 		}
-		map1.put("start", (page-1)*4+1);
+		map1.put("start", (page-1)*5+1);
 		map1.put("end", page*4);
 		map1.put("ownernumber", ownernumber);
 		List list = productDao.getReviewList(map1);
@@ -234,6 +232,68 @@ public class ProductController {
 		return "YY";
 	}
 	
+	// 관리자용
+	// 후기 리스트 관리자용
+	@GetMapping("/reviewList_Master")
+	public ModelAndView reviewList_masterHandler(@RequestParam(name="page", defaultValue="1") int page){
+		Map map = new HashMap();
+		int size = productDao.reviewListAllCount(); 
+		int pageCount=1; // 페이지 갯수
+		// 한페이지에 보이는 갯수 계산
+		if(size%5==0){
+			pageCount = size/5;
+		}else{
+			pageCount = size/5+1; 
+		}
+		map.put("start", (page-1)*5+1);
+		map.put("end", page*5);
+		List<Map> list = productDao.reviewList_master(map);
+
+		ModelAndView mav = new ModelAndView("t_expr");		
+		mav.addObject("list", list);
+		mav.addObject("pageCount",pageCount);
+		mav.addObject("page",page);
+		mav.addObject("section","product/reviewList_Master");
+		return mav;
+	}
+	// 후기 리스트 삭제
+	@RequestMapping(path="deleteReview",produces="text/plain;charset=utf-8")
+	@ResponseBody
+	public String deleteReviewHandler(@RequestParam String arr){
+		String[] ar = arr.split(",");
+		int r =	productDao.deleteReview(ar);
+		System.out.println(r);
+		String rst="";
+		if(ar.length==r){ rst="모두 삭제되었습니다.";}
+		else{			
+			rst = r+"개 삭제됨/"+(ar.length-r)+"개  미삭제";
+		}
+		return rst;
+	}
+	
+	// 후기 리스트 검색
+	@RequestMapping(path="searchReview",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Map searchReviewHandler(@RequestParam Map param,@RequestParam(name="page", defaultValue="1")int page){
+		Map map = new HashMap();
+		String word ="%";
+		word +=(String)param.get("key")+"%";		
+		param.put("word", word);
+		int size = productDao.searchCount(param);
+		int pageCount=1; // 페이지 갯수
+		// 한페이지에 보이는 갯수 계산
+		if(size%5==0){
+			pageCount = size/5;
+		}else{
+			pageCount = size/5+1; 
+		}
+		param.put("start", (page-1)*5+1);
+		param.put("end", page*5);
+		List<Map> list = productDao.searchReview(param);
+		map.put("schlist", list);
+		map.put("pageCount", pageCount);
+		return map;
+	}
 	
 	
 }

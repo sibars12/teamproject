@@ -20,7 +20,7 @@
 	</select>
 	<!-- 후기 등록 -->
 	<insert id="addReview" parameterType="java.util.HashMap">
-		insert into review values(review_seq.nextval, #{ownernumber}, #{id}, #{writer}, #{score}, #{content} )
+		insert into review values(review_seq.nextval, #{ownernumber}, #{id}, #{writer}, #{score}, #{content}, sysdate, #{pname} )
 	</insert>
 	<!-- 후기 리스트 가져오기 -->
 	<select id="getReviewList" resultType="java.util.HashMap">
@@ -30,6 +30,7 @@
 	<select id="reviewListCount" resultType="java.lang.Integer">
 		select count(*) from review where ownernumber = #{ownernumber}
 	</select>
+	<!-- 상품 리스트 -->
 	<select id="getProductList" resultType="java.util.HashMap">
 		select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select ownernumber,name,imag,signup from product) t
  		left join stock s on t.ownernumber = s.ownernumber order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
@@ -139,4 +140,49 @@
 		delete from product where ownernumber=#{dnum}
 	</delete>
 
+<!-- 관리자 페이지용 -->
+	<!-- 후기 리스트_관리자용 -->
+	<select id="reviewList_master" resultType="java.util.HashMap"> 
+		select * from(select rownum r, a.* from(select * from review order by to_char(adddate, 'yyyy-MM-dd') desc, ownernumber asc) a ) where r between #{start} and #{end}
+	</select>
+	<!-- 후기 리스트 총 갯수 -->
+	<select id="reviewListAllCount" resultType="java.lang.Integer">
+		select count(*) from review
+	</select>
+	<!-- 후기 리스트 삭제 -->
+	<delete id="deleteReview">
+		delete from review where no in 
+		<foreach item="ar" index="index" collection="array" open="(" separator="," close=")">
+        #{ar}
+  		</foreach>
+	</delete>
+	<!-- 후기 리스트 검색 -->
+	<select id="searchReview" resultType="java.util.HashMap">
+		<choose>
+			<when test="mode == 'pname'">
+			select * from (select rownum r, a.* from (select * from review where pname like #{word} order by no desc) a) where r between #{start} and #{end}
+			</when>
+			<when test="mode == 'id'">
+				select * from (select rownum r, a.* from (select * from review where id like #{word} order by no desc) a) where r between #{start} and #{end}
+			</when>
+			<when test="mode == 'ownernumber'">
+				select * from (select rownum r, a.* from (select * from review where ownernumber like #{word} order by no desc) a) where r between #{start} and #{end}
+			</when>
+		</choose>
+	</select>
+	<!-- 검색결과갯수 -->
+	<select id="searchCount" resultType="java.lang.Integer">
+		<choose>
+			<when test="mode=='pname'">
+				select count(*) from review where pname like #{word}
+			</when>
+			<when test="mode=='id'">
+				select count(*) from review where id like #{word}
+			</when>
+			<when test="mode=='ownernumber'">
+				select count(*) from review where ownernumber like #{word}
+			</when>		
+		</choose>		
+	</select>
+	
 </mapper>
