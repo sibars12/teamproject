@@ -21,10 +21,7 @@
 				<b>비밀번호</b> <input type="password" style="width: 20%;" name="pass" placeholder="비밀번호" maxlength="4"
 					 required/>
 			</p>
-			<p>
-				<b>문의 제목</b><br/>
-				<input type="text" name="title" placeholder="문의 제목" required> 
-			</p>
+			
 			<p>
 				<b>문의 내용</b><br/>
 			<textarea  id="summernote" name="content"placeholder="문의 내용" required 

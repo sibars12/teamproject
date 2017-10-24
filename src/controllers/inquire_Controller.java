@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.ProductDao;
@@ -31,19 +32,19 @@ public class inquire_Controller {
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_inquire");
 			System.out.println("size="+size);
-			if(page>size)
-				page = size;
+			double c=(size/5.0);
+			int cc=size/5;
+			if(c-cc>0) {
+				cc+=1; 
+			}
+			if(page>cc)
+				page = cc;
 			if(page <=0) 
 				page = 1;
 			Map a=new HashMap();
 			a.put("ownernumber", ownernumber);
 			a.put("start", (page*5)-4);
 			a.put("end", page*5);
-			double c=(size/5.0);
-			int cc=size/5;
-			if(c-cc>0) {
-				cc+=1; 
-			}
 			System.out.println("size cc=" +cc);
 			List<Map> ila = inquireDao.allist(a);
 		mav.addObject("list", ila);
@@ -81,11 +82,58 @@ public class inquire_Controller {
 		return mav;
 	}
 	@RequestMapping("/del")
-	public ModelAndView noticedelHandle(@RequestParam String num ,@RequestParam String ownernumber) throws SQLException {
+	public ModelAndView delhandle(@RequestParam String num ,@RequestParam String ownernumber) throws SQLException {
+		
 		boolean a=inquireDao.del(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("redirect:/product/view?ownernumber="+ownernumber);
 		
 		return mav;
 }
+	@ResponseBody
+	@RequestMapping("/msdel")
+	public String msdelhandle(@RequestParam String dnum ) throws SQLException {
+		String[] ar = dnum.split(",");
+		for(int i=0;i<ar.length;i++) {
+			inquireDao.del(ar[i]);
+		}
+		
+		return "YY";
+}
+	@RequestMapping("/master")
+	public ModelAndView masterhandle(@RequestParam(name="page" , defaultValue="1")int page ) throws SQLException {
+		ModelAndView mav = new ModelAndView();
+		List<Map> li = inquireDao.masterlist();
+		int size=li.size();
+			mav.setViewName("t_inquire");
+			System.out.println("size="+size);
+			if(page>size)
+				page = size;
+			if(page <=0) 
+				page = 1;
+			Map a=new HashMap();
+			a.put("start", (page*10)-9);
+			a.put("end", page*10);
+			double c=(size/10.0);
+			int cc=size/10;
+			if(c-cc>0) {
+				cc+=1; 
+			}
+			List<Map> lis = inquireDao.masteralllist(a);
+			mav.addObject("list", lis);
+			mav.addObject("cnt", li.size());
+			mav.addObject("size", cc);
+			mav.addObject("section", "inquire/masterlist");
+		return mav;
+		
+	}
+	@RequestMapping("/reply")
+	public ModelAndView replyhandle(@RequestParam Map map) throws SQLException {
+		ModelAndView mav = new ModelAndView();
+		boolean re = inquireDao.reply(map);
+		mav.setViewName("redirect:/inquire/master");
+		
+		return mav;
+}
+	
 }

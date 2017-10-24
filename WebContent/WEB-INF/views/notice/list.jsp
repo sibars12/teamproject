@@ -41,7 +41,6 @@ th, td {
 		</tbody>
 	</table>
 	<p align="right" style="margin-right: 30px;">
-		<a href="/notice/add"><button type="button">공지글작성</button></a>
 	</p>
 </div>
 <meta name="viewport" content="width=device-width, initial-scale=1">

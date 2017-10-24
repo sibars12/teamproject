@@ -22,6 +22,7 @@ th, td {
 	<div class="w3-container">
 		<table class="w3-table-all w3-margin-top" >
 		<tr>
+		<th style="width: 5%">삭제 체크<input id="inquireallcb" type="checkbox"></th>
 		<th style="width: 20%;">아이디</th>
 		<th style="width: 20%;">이름</th>
 		<th style="width: 40%;">문의 내용</th>
@@ -29,6 +30,9 @@ th, td {
 		</tr>
 		<c:forEach var="obj" items="${list }" >
 		<tr>
+			<td>
+			<input class="inquirecb" type="checkbox" value="${obj.NUM }"/>
+			</td>
 					<td>
 					<p>${obj.ID }</p>
 					</td>
@@ -42,12 +46,11 @@ th, td {
 							</button>
 						<div id="memo${obj.NUM}" class="w3-container w3-hide">
 							<p>${obj.TITLE }</p>
-							<input type="hidden" id="truepass${obj.NUM }" value="${obj.PASS }"/>
-							<input type="password" placeholder="비밀번호"
-							 id="${obj.NUM }" onkeyup="passcheck(${obj.NUM })"
-							 maxlength="4"/>
-							<a href="/inquire/del?num=${obj.NUM }&ownernumber=${obj.OWNERNUMBER}">
-							<button id="del${obj.NUM }" disabled="disabled" type="button">삭제</button></a>
+							<form action="/inquire/reply" method="post">
+							<input type="hidden" name="num" value="${obj.NUM }">
+							<input type="text" name="reply" placeholder="답글" required/>
+							<button type="submit">답글 달기</button>
+							</form>
 						</div>
 						</td>
 						<td><p><fmt:formatDate
@@ -67,49 +70,68 @@ th, td {
 				x.className = x.className.replace(" w3-show", "");
 			}
 		}
-	//비밀번호 맞으면 버튼 on
-		function passcheck(z){
-			var x = document.getElementById(z).value;
-			var y = document.getElementById("truepass"+z).value;
-			if(x==y){
-				$("#del"+z).removeAttr("disabled");
-			}else{
-				$("#del"+z).attr("disabled",true); 
-			}
-		}
+	function reply(id){
+		var x = document.getElementById(id).value;
+		
+	}
 	</script>
-	<p align="right" style="margin-right: 30px;">
-	<c:choose>
-		<c:when test="${empty param.ownernumber}">
-		<a href="/product/view?ownernumber=10000"><button type="button">상품 보기</button></a>
-		<a href="/inquire/add?ownernumber=10000"><button type="button">문의글 작성</button></a>
-		</c:when>
-		<c:otherwise>
-		<a href="/product/view?ownernumber=${param.ownernumber }"><button type="button">상품 보기</button></a>
-		<a href="/inquire/add?ownernumber=${param.ownernumber }"><button type="button">문의글 작성</button></a>
-		</c:otherwise>
-		</c:choose>
-	</p>
 </div>
-
+	<button id="inmsbt" class="plist_B">삭제</button>
 
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/inquire/list?page=${param.page-1 }&ownernumber=${param.ownernumber}">&laquo;</a></c:if>
+ <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/inquire/master?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
 					<a class="w3-button" class="active">${i }</a>
 				</c:when>
 				<c:otherwise>
-					<a href="/inquire/list?page=${i }&ownernumber=${param.ownernumber}" class="w3-button"
+					<a href="/inquire/master?page=${i }" class="w3-button"
 						><b style="color: #9c9892;">${i }</b></a>	
 				</c:otherwise>
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page ne size }"><a class="w3-button" href="/inquire/list?page=${param.page+1 }&ownernumber=${param.ownernumber}">&raquo;</a></c:if>
+  <c:if test="${param.page ne size }"><a class="w3-button" href="/inquire/master?page=${param.page+1 }">&raquo;</a></c:if>
 </div>
 
 </div>
+<script>
+$(document).ready(function(){
+	// 문의글  버튼클릭 -> 삭제
+	$("#inmsbt").click(function(){
+		var dnum = "";
+		$('.inmscb:checked').each(function(idx) { 
+	    	if(idx!=0)
+	    		dnum+=",";
+	    	dnum+=$(this).val();
+		});
+		if(confirm("정말 삭제하시겠습니까??")){
+			console.log(dnum);
+			$.get("/inquire/msdel",{"dnum":dnum},function(data){
+				if(data=="YY"){
+					alert("삭제되었습니다");
+					location.href="/inquire/master?page=1";
+				}
+			});
+		}
+	});
+	
+});
+//전체선택 /취소
+$("#inquireallcb").change(function(){
+	$(".inquirecb").prop("checked", $("#inquireallcb").prop("checked") );
+});
+//체크박스 전부선택시 전체선택 온/아닐시 오프
+$(".inquirecb").change(function(){
+		var ab=$(".inquirecb").length;
+		var ac=$(".inquirecb:checked").length;
+	if(ab==ac){
+		$("#inquireallcb").prop("checked", true);
+	}else{
+			$("#inquireallcb").prop("checked", false);
+		 }
+});
+</script>
 

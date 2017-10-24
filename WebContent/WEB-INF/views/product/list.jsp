@@ -101,7 +101,7 @@
 	
 	<!-- 상품List 테이블 -->
 	<table id="productList_T">
-		<c:forEach var="i" begin="0" end="${lSize}">
+		<c:forEach var="i" begin="0" end="3">
 			<tr>
 				<c:forEach var="j" begin="0" end="3">
 					<c:choose>

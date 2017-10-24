@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.notice_Dao;
@@ -22,6 +23,34 @@ public class notice_Controller {
 	notice_Dao noticeDao;
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
+		System.out.println("??");
+		int size=noticeDao.all();
+		System.out.println(size);
+		double c=(size/5.0);
+		int cc=size/10;
+		if(c-cc>0) {
+			cc+=1;
+		}
+		if(page>cc)
+			page = cc;
+		if(page <=0) 
+			page = 1;
+		Map a=new HashMap();
+		a.put("start", (page*10)-9);
+		a.put("end", page*10);
+		System.out.println(cc);
+		List<Map> ila = noticeDao.allist(a);
+		List<Map> li = noticeDao.readAll();
+		ModelAndView mav = new ModelAndView();
+			mav.setViewName("t_notice");
+			mav.addObject("list", ila);
+			mav.addObject("cnt", li.size());
+			mav.addObject("size" , cc);
+			mav.addObject("section", "notice/list");
+		return mav;
+	}
+	@RequestMapping("/masterlist")
+	public ModelAndView noticemsListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
 		System.out.println("??");
 		int size=noticeDao.all();
 		System.out.println(size);
@@ -45,7 +74,7 @@ public class notice_Controller {
 			mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size" , cc);
-			mav.addObject("section", "notice/list");
+			mav.addObject("section", "notice/masterlist");
 		return mav;
 	} 
 	@GetMapping("/add")
@@ -77,7 +106,7 @@ public class notice_Controller {
 			mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size" , cc);
-			mav.addObject("section", "notice/list");
+			mav.addObject("section", "notice/masterlist");
 		}else {
 		mav.addObject("addt", false);
 		mav.addObject("section", "notice/add");
@@ -112,4 +141,13 @@ public class notice_Controller {
 		}
 		return mav;
 }
+	@ResponseBody
+	@RequestMapping("/checkdel")
+	public String deleteProduct(@RequestParam String dnum) {
+		String[] ar = dnum.split(",");
+		for(int i=0;i<ar.length;i++) {
+			noticeDao.del(ar[i]);
+		}
+		return "YY";
+	}
 }

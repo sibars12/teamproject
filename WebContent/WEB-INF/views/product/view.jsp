@@ -177,7 +177,7 @@ th, td {
 							<tr class="rkqms">
 								<th style="width: 20%;">아이디</th>
 								<th style="width: 20%;">이름</th>
-								<th style="width: 40%;">문의 제목</th>
+								<th style="width: 40%;">문의 내용</th>
 								<th style="width: 20%;">문의한 날자</th>
 							</tr>
 						<c:forEach var="obj" items="${list }" begin="0" end="4">
@@ -190,9 +190,9 @@ th, td {
 								</td>
 								<td>
 									<button onclick="inquire('memo${obj.NUM}')"	class="w3-btn w3-block w3-black w3-left-align">
-										${fn:substring(obj.TITLE, 0, 12) }</button>
+										${obj.CONTENT }</button>
 									<div id="memo${obj.NUM}" class="w3-container w3-hide">
-										<p>${obj.CONTENT }</p>
+										<p>${obj.TITLE }</p>
 										<input type="hidden" id="truepass${obj.NUM }" value="${obj.PASS }" />
 										<input type="password" id="${obj.NUM }" onkeyup="passcheck(${obj.NUM });"maxlength="4" /> 
 										<a href="/inquire/del?num=${obj.NUM }&ownernumber=${obj.OWNERNUMBER}">

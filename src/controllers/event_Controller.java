@@ -34,7 +34,37 @@ public class event_Controller {
 	@Autowired
 	event_Dao eventDao;
 	@RequestMapping("/list")
-	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
+	public ModelAndView eventListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
+		System.out.println("??");
+		int size=eventDao.all();
+		System.out.println(size);
+		double c=(size/10.0);
+		int cc=size/10;
+		if(c-cc>0) {
+			cc+=1;
+		}
+		if(page>cc) {
+			page = cc;
+		}
+		if(page <=1) {
+			page = 1;
+		}
+		Map a=new HashMap();
+		a.put("start", (page*10)-9);
+		a.put("end", page*10);
+		System.out.println(cc);
+		List<Map> ila = eventDao.allist(a);
+		List<Map> li = eventDao.readAll();
+		ModelAndView mav = new ModelAndView();
+			mav.setViewName("t_event");
+			mav.addObject("list", ila);
+			mav.addObject("cnt", li.size());
+			mav.addObject("size" , cc);
+			mav.addObject("section", "event/list");
+		return mav;
+	}
+	@RequestMapping("/masterlist")
+	public ModelAndView masterListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
 		System.out.println("??");
 		int size=eventDao.all();
 		System.out.println(size);
@@ -58,7 +88,7 @@ public class event_Controller {
 			mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size" , cc);
-			mav.addObject("section", "event/list");
+			mav.addObject("section", "event/masterlist");
 		return mav;
 	} 
 	@GetMapping("/add")
@@ -105,7 +135,7 @@ public class event_Controller {
 			File target = new File(dir, fileName);
 			f.transferTo(target);
 			System.out.println("파일 이름   "+target.getPath());
-			map.put("eventimg", target.getPath());
+			map.put("eventimg", fileName);
 		}else {
 			map.put("eventimg", null);
 		}
@@ -128,7 +158,7 @@ public class event_Controller {
 			mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size" , cc);
-			mav.addObject("section", "event/list");
+			mav.addObject("section", "event/masterlist");
 		}else {
 		mav.addObject("addt", false);
 		mav.addObject("section", "event/add");
