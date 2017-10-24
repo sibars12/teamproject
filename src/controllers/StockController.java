@@ -27,6 +27,10 @@ public class StockController {
 	@PostMapping("/addStock")
 	public ModelAndView PostAddStockHandler(@RequestParam Map map) {
 		ModelAndView mav = new ModelAndView("t_expr");
+		//대문자, 소문자 처리
+		map.put("name", ((String)map.get("name")).toUpperCase());
+		map.put("scale", ((String)map.get("scale")).toUpperCase());
+		map.put("color", ((String)map.get("color")).toLowerCase());
 		mav.addObject("section", "stock/addStock");
 		if(sdao.checkAdd(map)) {
 			List<Map> list;
@@ -50,9 +54,10 @@ public class StockController {
 		mav.addObject("section", "stock/addStock");
 		if(sch==null) {
 			mav.addObject("list", sdao.getStockList(page));
-			mav.addObject("page", sdao.getStockPage()/10+1);
+			mav.addObject("page", (sdao.getStockPage()-1)/10+1);
 		}else {
-			int schpage = sdao.getSearchStockPage(sch)/10+1;
+			sch = sch.toUpperCase();
+			int schpage = (sdao.getSearchStockPage(sch)-1)/10+1;
 			mav.addObject("page", schpage);
 			Map map = new HashMap();
 			map.put("page", schpage);
@@ -66,7 +71,7 @@ public class StockController {
 	@ResponseBody
 	@RequestMapping("/search")
 	public String SearchHandler(@RequestBody String name) throws JsonProcessingException {
-		name = name.trim();
+		name = name.trim().toUpperCase();
 		List list = sdao.searchName(name);
 		return mapper.writeValueAsString(list);
 	}
@@ -87,6 +92,22 @@ public class StockController {
 		boolean rst = sdao.updateStock(map);
 		mav.addObject("result", rst);
 		mav.addObject("list", sdao.getStockList(page));
+		mav.addObject("page", (sdao.getStockPage()-1)/10+1);
+		return mav;
+	}
+	
+	@PostMapping("/plus")
+	public ModelAndView plusHandler(@RequestParam Map map) {
+		System.out.println(map);
+		ModelAndView mav = new ModelAndView("t_expr");
+		mav.addObject("section", "stock/addStock");
+		if(sdao.checkPlusStock(map)>0) {
+			mav.addObject("result", false);
+		}else {
+			boolean rst = sdao.plusStock(map);
+			mav.addObject("result", rst);
+		}
+		mav.addObject("list", sdao.getStockList("1"));
 		mav.addObject("page", (sdao.getStockPage()-1)/10+1);
 		return mav;
 	}

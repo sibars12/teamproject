@@ -86,29 +86,29 @@
 	
 	<table style="border-collapse: collapse;">
 		<tr height="40" align="center" style="background-color: rgb(181,222,244);">
-			<td width="100" class="stockTitle_Td">상품번호</td>
-			<td width="100" class="stockTitle_Td">분류</td>
+			<td width="90" class="stockTitle_Td">상품번호</td>
+			<td width="90" class="stockTitle_Td">분류</td>
 			<td width="150" class="stockTitle_Td">상품명</td>
 			<td width="140" class="stockTitle_Td">제조사</td>
 			<td width="80" class="stockTitle_Td">사이즈</td>
-			<td width="100" class="stockTitle_Td">색상</td>
-			<td width="90" class="stockTitle_Td">가격</td>
-			<td width="80" class="stockTitle_Td">수량</td>
+			<td width="80" class="stockTitle_Td">색상</td>
+			<td width="80" class="stockTitle_Td">가격</td>
+			<td width="70" class="stockTitle_Td">수량</td>
 			<td width="130" class="stockTitle_Td">추가사항</td>
 			<td></td>
 		</tr>
 		<c:forEach var="obj" items="${list }">
 			<tr align="center">
 				<td class="stockContent_Td">${obj.OWNERNUMBER}</td>
-				<td class="stockContent_Td">${obj.TYPE}</td>
-				<td class="stockContent_Td">${obj.NAME}</td>
-				<td class="stockContent_Td">${obj.COMP}</td>
-				<td class="stockContent_Td">${obj.SCALE}</td>
+				<td class="stockContent_Td type_Td">${obj.TYPE}</td>
+				<td class="stockContent_Td name_Td">${obj.NAME}</td>
+				<td class="stockContent_Td comp_Td">${obj.COMP}</td>
+				<td class="stockContent_Td scale_Td">${obj.SCALE}</td>
 				<td class="stockContent_Td">${obj.COLOR}</td>
-				<td class="stockContent_Td">${obj.PRICE}</td>
+				<td class="stockContent_Td price_Td">${obj.PRICE}</td>
 				<td class="stockContent_Td">${obj.VOLUME}</td>
-				<td class="stockContent_Td">${obj.SUBNAME}</td>
-				<td><button class="updateStock_B" value="${obj.NO}">수정</button> <button class="deleteStock_B" value="${obj.NO}">삭제</button></td>
+				<td class="stockContent_Td subname_Td">${obj.SUBNAME}</td>
+				<td><button class="plusStock_B" value="${obj.OWNERNUMBER}">추가</button> <button class="updateStock_B" value="${obj.NO}">수정</button> <button class="deleteStock_B" value="${obj.NO}">삭제</button></td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -160,4 +160,19 @@
 			document.getElementById("updateStock_D").innerHTML = html;
 		}
 	}
+	$(document).ready(function(){
+		$(".plusStock_B").click(function(){
+			var num = $(this).val();
+			var html2 = "<form action=\"/stock/plus\" method=\"post\">"+
+				"색상" + "<input type=\"text\" name=\"color\">" + "<input type=\"hidden\" name=\"ownernumber\" value=\"" + num + "\">" +
+				"수량" + "<input type=\"text\" name=\"volume\">"+ "<input type=\"hidden\" name=\"type\" value=\"" + $(this).parent().siblings(".type_Td").text() + "\">" +
+				"<input type=\"hidden\" name=\"name\" value=\"" + $(this).parent().siblings(".name_Td").text() + "\">" +
+				"<input type=\"hidden\" name=\"scale\" value=\"" + $(this).parent().siblings(".scale_Td").text() + "\">" +
+				"<input type=\"hidden\" name=\"price\" value=\"" + $(this).parent().siblings(".price_Td").text() + "\">" +
+				"<input type=\"hidden\" name=\"comp\" value=\"" + $(this).parent().siblings(".comp_Td").text() + "\">" +
+				"<input type=\"hidden\" name=\"subname\" value=\"" + $(this).parent().siblings(".subname_Td").text() + "\">" +
+				"<button type=\"submit\">추가</button></form>";
+			$("#updateStock_D").html(html2);
+		});
+	});
 </script>

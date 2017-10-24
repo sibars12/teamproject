@@ -109,7 +109,7 @@
 							<td width="270" align="center" class="productList_Td" style="border-bottom: none;">
 								<div align="left" class="deleteCheck_D"><input class="deleteCkbox_I" type="checkbox" value="${list[j+(i*4)].OWNERNUMBER }"></div>
 								<a class="pList_A" href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }"><img width="220" height="220" src="/images/product/${list[j+(i*4)].IMAG}"></a>
-ㄴ							</td>
+							</td>
 						</c:when>
 						<c:otherwise>
 							<td width="270" align="center" style="border-bottom: none; border-right: none;">
