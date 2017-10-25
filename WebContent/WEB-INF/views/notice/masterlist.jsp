@@ -35,7 +35,7 @@ th, td {
 					</td>
 					<td>
 					
-						<a href="/notice/view?num=${obj.NUM}">${fn:substring(obj.TITLE, 0, 12) } </a>
+						<a href="/notice/masterview?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
 					</td>
 					<td>${obj.MASTER }</td>
 				</tr>
@@ -43,6 +43,7 @@ th, td {
 		</tbody>
 	</table>
 	<p align="right" style="margin-right: 30px;">
+		<button type="button" id="noticealldel">체크 삭제 </button>
 		<a href="/notice/add"><button type="button">공지글작성</button></a>
 	</p>
 </div>
@@ -70,7 +71,7 @@ th, td {
 <script>
 //체크 해서 삭제
 $(document).ready(function(){
-	$("#noticeallcb").click(function(){
+	$("#noticealldel").click(function(){
 		if(!($("input:checkbox[class=noticecb]").is(":checked"))){
 				
 	        alert("체크목록이 없습니다.확인해주세요.");

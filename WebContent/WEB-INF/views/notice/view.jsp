@@ -14,7 +14,6 @@
 				</p>
 				<pre>${obj.CONTENT }</pre>
 				
-				<a href="/notice/del?num=${obj.NUM }"><button type="button">공지 삭제</button></a>
 				</c:forEach>
-				<a href="/notice/list"><button type="button">목록으로</button></a>
+				<a href="/notice/list?page=${param.page }"><button type="button">목록으로</button></a>
 			</div>

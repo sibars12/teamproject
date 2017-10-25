@@ -101,61 +101,43 @@ th, td {
 		총 <b>${cnt }</b> 개의 이벤트가 진행중입니다.
 	</p>
 	<table id="productList_T">
-				<c:forEach var="obj" items="${list }" >
-			<tr>
-			<c:when test="${list!=null }">
+			<c:forEach var="i" begin="0" end="2">
+				<tr>
+					<c:forEach var="j" begin="0" end="2">
+							<c:choose>
+						<c:when test="${list[j+(i*3)]!=null}">
 								<td width="270" align="center" class="productList_Td" style="border-bottom: none;">
-								<a class="pList_A" href="/event/view?num=${obj.NUM}&page=${param.page}"><img width="220" height="220" src="/event/eventimg/${obj.EVENTIMG }"></a>
-ㄴ							</td>
-				</c:when>
+								<a class="pList_A" href="/event/view?num=${list[j+(i*3)].NUM}&page=${param.page}"><img width="260" height="260" src="/event/eventimg/${list[j+(i*3)].EVENTIMG }"></a>
+							</td>
+							</c:when>
 						<c:otherwise>
-							<td width="270" align="center" style="border-bottom: none; border-right: none;">
+						<td width="270" align="center" style="border-bottom: none; border-right: none;">
 								<div align="left" class="deleteCheck_D"></div>
 							</td>
 						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 			</tr>
 			<tr class="productList_Tr">
-					<c:choose>
+			<c:forEach var="j" begin="0" end="2">
+				<c:choose>
+						<c:when test="${list[j+(i*3)]!=null}">
 							<td width="270" class="productList_Td" align="center" style="padding-top: 5px; padding-bottom: 20px; border-top: none;">
-								<a class="pList_A" href="/event/view?num=${obj.NUM}&page=${param.page}">
-								<font color="blue">시작일:<fmt:formatDate pattern="yyyy.MM.dd " value="${obj.STARTDATE }" /></font><br/>
-								<font color="blue">종료일<fmt:formatDate	pattern="yyyy.MM.dd " value="${obj.ENDDATE }" />
+								<a class="pList_A" href="/event/view?num=${list[j+(i*3)].NUM}&page=${param.page}">
+								<font color="blue">시작일:<fmt:formatDate pattern="yyyy.MM.dd " value="${list[j+(i*3)].STARTDATE }" /></font><br/>
+								<font color="blue">종료일<fmt:formatDate	pattern="yyyy.MM.dd " value="${list[j+(i*3)].ENDDATE }" />
 								</font></a>
 							</td>
+							</c:when>
 						<c:otherwise>
 							<td width="270" style="padding: 25;"></td>
 						</c:otherwise>
 					</c:choose>
+							</c:forEach>
 			</tr>
 				</c:forEach>
 	</table>
-	<table style="width: 95%">
-		<thead>
-			<tr>
-				<th style="width: 40%">이벤트 목록</th>
-				<th style="width: 20%">시작일</th>
-				<th style="width: 20%">마감일</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="obj" items="${list }">
-				<tr>
-					<td>
-					
-						<a href="/event/view?num=${obj.NUM}&page=${param.page}"><img width="100" height="100" src="/event/eventimg/${obj.EVENTIMG }"></a>
-					</td>
-					<td>
-						<p><fmt:formatDate
-							pattern="yyyy.MM.dd " value="${obj.STARTDATE }" /></p>
-					</td>
-					<td>
-						<p><fmt:formatDate
-							pattern="yyyy.MM.dd " value="${obj.ENDDATE }" /></p>
-					</td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
+	
 	<p align="right" style="margin-right: 30px;">
 	</p>
 </div>

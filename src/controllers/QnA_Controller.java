@@ -23,7 +23,6 @@ public class QnA_Controller {
 	QnA_Dao QnADao;
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle() throws SQLException {
-		System.out.println("??");
 		List<Map> li = QnADao.readAll();
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_QnA");
@@ -35,18 +34,18 @@ public class QnA_Controller {
 	@RequestMapping("/masterlist")
 	public ModelAndView masterListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
 		int size=QnADao.all();
-		if(page>size)
-			page = size;
-		if(page <=0) 
-			page = 1;
-		Map a=new HashMap();
-		a.put("start", (page*10)-9);
-		a.put("end", page*10);
 		double c=(size/10.0);
 		int cc=size/10;
 		if(c-cc>0) {
 			cc+=1;
 		}
+		if(page>cc)
+			page = cc;
+		if(page <=0) 
+			page = 1;
+		Map a=new HashMap();
+		a.put("start", (page*10)-9);
+		a.put("end", page*10);
 		List<Map> ila = QnADao.allist(a);
 		List<Map> li = QnADao.readAll();
 		ModelAndView mav = new ModelAndView();

@@ -36,7 +36,7 @@ th, td {
 					</td>
 					<td>
 					
-						<a href="/event/view?num=${obj.NUM}&page=${param.page}"><img width="100" height="100" src="/event/eventimg/${obj.EVENTIMG }"></a>
+						<a href="/event/masterview?num=${obj.NUM}&page=${param.page}"><img width="100" height="100" src="/event/eventimg/${obj.EVENTIMG }"></a>
 					</td>
 					<td>
 						<p><fmt:formatDate

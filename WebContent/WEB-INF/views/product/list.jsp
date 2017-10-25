@@ -101,7 +101,7 @@
 	
 	<!-- 상품List 테이블 -->
 	<table id="productList_T">
-		<c:forEach var="i" begin="0" end="3">
+		<c:forEach var="i" begin="0" end="${lSize}">
 			<tr>
 				<c:forEach var="j" begin="0" end="3">
 					<c:choose>
@@ -109,7 +109,7 @@
 							<td width="270" align="center" class="productList_Td" style="border-bottom: none;">
 								<div align="left" class="deleteCheck_D"><input class="deleteCkbox_I" type="checkbox" value="${list[j+(i*4)].OWNERNUMBER }"></div>
 								<a class="pList_A" href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }"><img width="220" height="220" src="/images/product/${list[j+(i*4)].IMAG}"></a>
-							</td>
+ㄴ							</td>
 						</c:when>
 						<c:otherwise>
 							<td width="270" align="center" style="border-bottom: none; border-right: none;">

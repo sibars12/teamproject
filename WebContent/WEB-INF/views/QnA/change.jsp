@@ -14,12 +14,12 @@
 			</p>
 			<p>
 				<b>질문</b><br /> <input type="text" name="title" value="${title }"
-					autocomplete="off" style="width: 100%;" />
+					autocomplete="off" style="width: 100%;" required/>
 			</p>
 			<p>
 				<b>답변</b><br />
 				<input  name="content" value="${content }"
-					style="width: 100%;"/>
+					style="width: 100%;" required/>
 			</p>
 				<button type="submit">Q&A등록</button>
 				<button type="reset">재작성</button>

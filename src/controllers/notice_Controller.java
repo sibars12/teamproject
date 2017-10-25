@@ -54,10 +54,6 @@ public class notice_Controller {
 		System.out.println("??");
 		int size=noticeDao.all();
 		System.out.println(size);
-		if(page>size)
-			page = size;
-		if(page <=0) 
-			page = 1;
 		Map a=new HashMap();
 		a.put("start", (page*10)-9);
 		a.put("end", page*10);
@@ -66,6 +62,10 @@ public class notice_Controller {
 		if(c-cc>0) {
 			cc+=1;
 		}
+		if(page>cc)
+			page = cc;
+		if(page <=0) 
+			page = 1;
 		System.out.println(cc);
 		List<Map> ila = noticeDao.allist(a);
 		List<Map> li = noticeDao.readAll();
@@ -120,6 +120,16 @@ public class notice_Controller {
 		mav.setViewName("t_notice");
 		mav.addObject("list", list);
 		mav.addObject("section", "notice/view");
+		return mav;
+		
+}
+	@RequestMapping("/masterview")
+	public ModelAndView masterViewHandle(@RequestParam String num ) throws SQLException {
+		List<Map> list=noticeDao.readOne(num);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("t_notice");
+		mav.addObject("list", list);
+		mav.addObject("section", "notice/masterview");
 		return mav;
 		
 }

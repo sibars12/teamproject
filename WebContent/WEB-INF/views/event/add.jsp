@@ -15,7 +15,7 @@
 			</p>
 			<p>
 				<b>이벤트 내용</b><br/>
-			<textarea  id="summernote" name="content"placeholder="이벤트 내용" required 
+			<textarea title="asd" id="summernote" name="content"placeholder="이벤트 내용" required 
 					style="width: 100%;"></textarea>
 			</p>
 			<p>
