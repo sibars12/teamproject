@@ -106,8 +106,12 @@ $("#delete_B").click(function(){
 	}	
 });
 
-// 검색
+// 검색용 함수
 function search(p){
+	if($("#schKey").val().length==0){
+		window.alert("검색어를 입력해주세요");
+		return;
+	}
 	$.ajax({
 		"type":"get",
 		"url":"/product/searchReview",
@@ -121,7 +125,7 @@ function search(p){
 		schList += "<th>상품명</th><th>id</th><th>score</th><th>content</th></tr>";
 		for(i in obj.schlist){
 			schList += "<tr><td><input type=\"checkbox\" class=\"checks\" value=\""+obj.schlist[i].NO+"\"></td>";
-			schList += "<td>"+obj.schlist[i].DATE +"</td>";
+			schList += "<td>"+obj.schlist[i].ADDDATE +"</td>";
 			schList += "<td>"+obj.schlist[i].OWNERNUMBER +"</td><td>"+obj.schlist[i].PNAME+"</td>"
 			schList +=	"<td>"+obj.schlist[i].ID +"</td>";
 			schList += "<td>"+obj.schlist[i].SCORE +"</td><td>"+obj.schlist[i].CONTENT +"</td></tr>";
@@ -164,9 +168,11 @@ function search(p){
 	});	
 }
 
+//검색버튼 누름
 $("#sch_B").click(function(){
 	console.log($("#schMode").val());
 	search(1);	
+	
 });
 
 </script>

@@ -83,6 +83,7 @@
 				<td width="110">가격</td>
 				<td width="100">수량</td>
 				<td width="110">추가사항</td>
+				<td width="100">등록</td>
 			</tr>
 			</thead>
 			<tbody>
@@ -97,6 +98,7 @@
 					<td>${obj.PRICE}</td>
 					<td>${obj.VOLUME}</td>
 					<td>${obj.SUBNAME}</td>
+					<td class="productRegist">${obj.REGIST }</td>
 				</tr>
 			</c:forEach>
 			</tbody>
@@ -107,7 +109,8 @@
 			<a class="page_A">${idx}</a>
 		</c:forEach>
 	</p>
-	<form action="/product/addProduct" method="post" enctype="multipart/form-data">
+	<div id="form">
+	<form id="productForm" action="/product/addProduct" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="ownernumber" id="productOwnernumber_I">
 		<input type="hidden" name="type" id="productType_I">
 		<input type="text" placeholder="제목" class="mar" id="productTitle_I" name="name"><br/>
@@ -115,7 +118,9 @@
 		<input type="file" name="imag" id="profile" class="mar"><br/>
 		<div align="left" style="width: 800;"><textarea name="content" id="summernote"></textarea></div>
 		<button type="submit" class="mar">작성</button>
+		<button type="button" id="edit_B">수정</button>
 	</form>
+	</div>
 </div>
 
 <script>
@@ -129,7 +134,6 @@
 	
 	$(document).ready(function(){
 		$('#summernote').summernote({ // 노트
-			placeholder: '내용',
 			tabsize: 2,
 			height: 400,
 			width: 800,
@@ -182,14 +186,45 @@
 			$("#productTitle_I").val(value);
 			$("#productOwnernumber_I").val($(this).children("td.productOwnernumber").text());
 			$("#productType_I").val($(this).children("td.productType").text());
-			
+			// 선택시 배경색 변경
 			$(this).not(".thead").addClass("selected").css("background-color","pink");
-			
 			$(this).siblings().not(".thead").removeClass("selected").css("background-color","white");
+			
+			if($(this).children("td.productRegist").text()=="Y"){
+				$.ajax({
+					"type":"get",
+					"url":"/product/loadPInfo",
+					"data":{
+						"ownernumber" : $(this).children("td.productOwnernumber").text(),				
+					}
+				}).done(function(obj){
+					console.log(obj.NAME);
+					var src = "/images/product/";
+					src += obj.IMAG;
+					console.log(src);
+					
+					$("#pre").attr("src",src);
+					$("#pre").attr("alt","상품이미지");
+					$(".note-editable").children("p").html(obj.CONTENTS);
+				});
+			}
+			else{
+				var src = "/images/basic.jpg";
+				$("#pre").attr("src",src);
+				$("#pre").attr("alt","기본이미지");
+				$(".note-editable").children("p").html("");
+			}
 		});
 	}
+
+	// 상품 수정
+	$("#edit_B").click(function(){
+		$("#productForm").attr("action","/product/updateProduct");
+		$("#productForm").submit();	
+	});
 	
-	var schKey = function(){ // 검색했을 때 테이블 세팅하는 함수
+	// 검색했을 때 테이블 세팅하는 함수
+	var schKey = function(){ 
 		var schValue = $("#schName_I").val();
 		var schOption = $("#schOption_S").val();
 		$("#schValueSave_I").val(schValue);
@@ -227,7 +262,8 @@
 					+ "<td>"+data[idx].COLOR+"</td>"
 					+ "<td>"+data[idx].PRICE+"</td>"
 					+ "<td>"+data[idx].VOLUME+"</td>"
-					+ "<td>"+(data[idx].SUBNAME==null ? '' : data[idx].SUBNAME)+"</td></tr>";
+					+ "<td>"+(data[idx].SUBNAME==null ? '' : data[idx].SUBNAME)+"</td>"
+					+ "<td class=\"productRegist\">"+(data[idx].REGIST==null ? "N" : data[idx].REGIST)+"</td></tr>";
 		}
 		$("tbody").html(html);
 		select_F();

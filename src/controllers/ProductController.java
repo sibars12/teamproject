@@ -48,6 +48,7 @@ public class ProductController {
 	@Autowired
 	inquire_Dao inquireDao;
 	
+	// 상품상세보기
 	@RequestMapping("/view")
 	public ModelAndView ViewHandler(@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
@@ -226,11 +227,32 @@ public class ProductController {
 	@RequestMapping("/deleteProduct")
 	public String deleteProduct(@RequestParam String dnum) {
 		String[] ar = dnum.split(",");
+		
 		for(int i=0;i<ar.length;i++) {
-			productDao.deleteProduct(ar[i]);
-		}
+			// 이미지 파일들 지우기
+			Map info = productDao.loadPInfo(ar[i]);
+		      String cont = (String) info.get("CONTENT");
+			int flag = 0;
+		      while (true) {
+		         int idx = cont.indexOf("/images/product/content", flag);
+		         if(idx == -1)
+		            break;
+		         String url = cont.substring(idx, cont.indexOf("\"", idx));
+		         System.out.println("url=" + url);
+		         File file =new File(application.getRealPath(url));
+		         file.delete();
+		         flag = idx + 10;
+		      }
+		      
+		      File mainfile =new File(application.getRealPath("/images/product/content"+(String)info.get("IMAG")));
+		      mainfile.delete();			
+			
+		    // DB에서 삭제 
+			boolean r = productDao.deleteProduct(ar[i]);
+			boolean rr = productDao.editRegist(ar[i]);			
+		}		
 		return "YY";
-	}
+	}	
 	
 	// 관리자용
 	// 후기 리스트 관리자용
@@ -295,5 +317,41 @@ public class ProductController {
 		return map;
 	}
 	
+	// addProduct 상품내용 불러오기
+		@RequestMapping(path="/loadPInfo",produces="application/json;charset=utf-8")
+		@ResponseBody
+		public Map loadPInfoHandler(@RequestParam Map param){
+			String ownernumber = (String)param.get("ownernumber"); 
+			Map map = productDao.loadPInfo(ownernumber);
+			//map.put("info", productDao.loadPInfo(param));
+			return map;
+		}
 	
+	// 상품 내용 수정
+		@RequestMapping("/updateProduct")
+		public String updateProductHandler(@RequestParam Map param,@RequestParam(name="imag") MultipartFile f) throws IllegalStateException, IOException{
+			System.out.println(param);
+			String fileName = null;
+			int r=0;
+			if(!f.isEmpty() && f.getContentType().startsWith("image")){ // 빈파일이 아니고 이미지파일이면
+				String path = application.getRealPath("/images/product");
+				File dir = new File(path); // 파일경로
+				fileName = (String)param.get("ownernumber")+".jpg"; // 파일 이름
+				File target = new File(dir, fileName);
+				System.out.println("target: "+target);
+				target.delete();
+				f.transferTo(target);
+				System.out.println("path:"+path);
+				param.put("imag", fileName);
+				r = productDao.updateProduct(param);
+			}
+			if(r==1){return "redirect:/product/addProduct";}
+			else{return "redirect:/product/list";}
+		}
+		
+		
+		
+		
+		
+		
 }
