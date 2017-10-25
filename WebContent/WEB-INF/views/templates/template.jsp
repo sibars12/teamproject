@@ -103,7 +103,7 @@
 			<t:insertAttribute name="nav" />
 		</nav>
 
-		<div class="container-fluid text-center">
+		<div class="container text-center">
 			<div class="row content">
 				<div class="col-sm-12 text-left">
 					<t:insertAttribute name="section" />

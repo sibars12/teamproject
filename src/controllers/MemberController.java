@@ -132,7 +132,7 @@ public class MemberController {
 	public String getLogoutHandle(HttpSession session) {
 		System.out.println(session.getAttribute("auth") + "´Ô ·Î±×¾Æ¿ô");
 		session.invalidate();
-		return "redirect:/member/login";
+		return "home";
 	}
 
 	// myInfo
