@@ -35,9 +35,7 @@ public class event_Controller {
 	event_Dao eventDao;
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
-		System.out.println("??");
 		int size=eventDao.all();
-		System.out.println(size);
 		if(page>size)
 			page = size;
 		if(page <=0) 
@@ -50,7 +48,6 @@ public class event_Controller {
 		if(c-cc>0) {
 			cc+=1;
 		}
-		System.out.println(cc);
 		List<Map> ila = eventDao.allist(a);
 		List<Map> li = eventDao.readAll();
 		ModelAndView mav = new ModelAndView();

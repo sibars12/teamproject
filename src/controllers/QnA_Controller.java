@@ -21,12 +21,11 @@ public class QnA_Controller {
 	QnA_Dao QnADao;
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle() throws SQLException {
-		System.out.println("??");
 		List<Map> li = QnADao.readAll();
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_QnA");
 			mav.addObject("list", li);
-		mav.addObject("cnt", li.size());	
+			mav.addObject("cnt", li.size());	
 			mav.addObject("section", "QnA/list"); 
 		return mav;
 	} 
