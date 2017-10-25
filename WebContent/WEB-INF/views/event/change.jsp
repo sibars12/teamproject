@@ -1,38 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <div align="center" style="line-height: 35px">
 
-	<h2>반품 신청</h2>
+	<h2>이벤트 수정</h2>
 	
 	<div align="left" style="width: 80%;">
 	
 		
-		<form action="/retrun/add" method="post" enctype="multipart/form-data">
+		<form action="/event/add" method="post" enctype="multipart/form-data">
 			<p>
-				<b>제목</b><br /> <input type="text"  name="title" placeholder="이벤트 제목"
+				<b>이벤트 제목</b><br /> <input type="text"  name="title" placeholder="이벤트 제목" value="${title }"
 					autocomplete="off" style="width: 100%;" required/>
 			</p>
 			<p>
-				<b>반품 내용</b><br/>
-			<textarea title="asd" id="summernote" name="content" 
+				<b>이벤트 내용</b><br/>
+			<textarea id="summernote" name="content" placeholder="이벤트 내용" required 
 					style="width: 100%;"></textarea>
 			</p>
 			<p>
-				<div align="left" style="width: 700;" class="mar">
+			<b>시작일</b><br/>
+			  <input type="date" name="startdate" id="startdate" class="eventtime" value="<fmt:formatDate
+							pattern="yyyy-MM-dd" value="${startdate }"/>" required />
+			</p>
+			<p>
+			<b>마감일</b><br/>
+			  <input type="date" name="enddate" id="enddate" class="eventtime" value="<fmt:formatDate
+							pattern="yyyy-MM-dd" value="${enddate }"/>" required/>
+			</p>
+			<p>
+			<b>이미지</b><br/>
+			<input type="file" name="eventimg" id="profile" required/>
+			<img  id="pre" src="/event/eventimg/${eventimg }"  alt="기본이미지" style="width:200; height:200"/><br/>
+			</p>
+			<div align="left" style="width: 700;" class="mar">
 		
 		</div>
 			<p>
 			<span id="eventaddcheck"></span>
-				<button type="submit" id="eventaddbt">반품 등록</button>
+				<button type="submit" id="eventaddbt">이벤트 등록</button>
 				<button type="reset">재작성 </button>
-				<a href="/return/list?page=1"><button type="button">목록으로</button></a>
+				<a href="/event/masterlist?page=1"><button type="button">목록으로</button></a>
 			</p>
 		</form>
 		
 	</div>
 </div>
 <script>
+//메인 파일 업로드
+document.getElementById("profile").onchange = function(){
+	
+	var reader = new FileReader();
+	reader.onload = function(e){
+		document.getElementById("pre").src = e.target.result;
+	}
+	reader.readAsDataURL(this.files[0]);
+}
 //내부 텍스트에리 업로드
 $(document).ready(function(){
 	
@@ -47,6 +71,7 @@ $(document).ready(function(){
 			}
 		},
 	});
+	$(".note-editable").children("p").html('${content}');
 	$("tr").hover(function(){
 		$(this).not(".selected, .thead").css({"background-color":"rgb(230,230,230)","cursor":"pointer"});
 	},function(){
@@ -64,6 +89,7 @@ $(document).ready(function(){
 	});
 	
 });
+
 	
 
 //내부 파일 업로드
@@ -73,7 +99,7 @@ function sendFile(file, el){
 	$.ajax({
 		data: form_data,
 		type: "POST",
-		url: '/return/returnimg',
+		url: '/event/uploadImage',
 		cache: false,
 		contentType: false,
 		enctype: 'multipart/form-data',
@@ -85,5 +111,15 @@ function sendFile(file, el){
 	});
 }
 
+//시작일 마감일 체크
+$(".eventtime").change(function(){
+	if($('#startdate').val() <= $('#enddate').val()){
+		$("#eventaddbt").removeAttr("disabled");
+
+	}else{
+		
+		$("#eventaddbt").attr("disabled",true); 
+	}
+});
 </script>
 	

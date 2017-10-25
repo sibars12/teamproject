@@ -23,21 +23,21 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.event_Dao;
+import models.return_Dao;
 
 @Controller
-@RequestMapping("/event")
-public class event_Controller {
+@RequestMapping("/return")
+public class retrun_Controller {
 	@Autowired
 	ServletContext application;
 	@Autowired
 	SimpleDateFormat sdf;
 	@Autowired
-	event_Dao eventDao;
-
+	return_Dao returnDao;
 	@RequestMapping("/list")
 	public ModelAndView eventListHandle(@RequestParam(name = "page", defaultValue = "1") int page) throws SQLException {
 		System.out.println("??");
-		int size = eventDao.all();
+		int size = returnDao.all();
 		System.out.println(size);
 		double c = (size / 12.0);
 		int cc = size / 12;
@@ -54,8 +54,8 @@ public class event_Controller {
 		a.put("start", (page * 9) - 8);
 		a.put("end", page * 9);
 		System.out.println(cc);
-		List<Map> ila = eventDao.allist(a);
-		List<Map> li = eventDao.readAll();
+		List<Map> ila = returnDao.allist(a);
+		List<Map> li = returnDao.readAll();
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
 		mav.addObject("list", ila);
@@ -71,7 +71,7 @@ public class event_Controller {
 	public ModelAndView masterListHandle(@RequestParam(name = "page", defaultValue = "1") int page)
 			throws SQLException {
 		System.out.println("??");
-		int size = eventDao.all();
+		int size = returnDao.all();
 		System.out.println(size);
 		double c = (size / 10.0);
 		int cc = size / 10;
@@ -89,8 +89,8 @@ public class event_Controller {
 		a.put("end", page * 10);
 		System.out.println("page="+page);
 		System.out.println(cc);
-		List<Map> ila = eventDao.allist(a);
-		List<Map> li = eventDao.readAll();
+		List<Map> ila = returnDao.allist(a);
+		List<Map> li = returnDao.readAll();
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
 		mav.addObject("list", ila);
@@ -149,10 +149,10 @@ public class event_Controller {
 			map.put("eventimg", null);
 		}
 		System.out.println(map);
-		boolean a = eventDao.addOnd(map);
+		boolean a = returnDao.addOnd(map);
 		mav.setViewName("t_event");
 		if (a == true) {
-			int size = eventDao.all();
+			int size = returnDao.all();
 			Map abc = new HashMap();
 			abc.put("start", 1);
 			abc.put("end", 9);
@@ -162,8 +162,8 @@ public class event_Controller {
 				cc += 1;
 			}
 			System.out.println(cc);
-			List<Map> ila = eventDao.allist(abc);
-			List<Map> li = eventDao.readAll();
+			List<Map> ila = returnDao.allist(abc);
+			List<Map> li = returnDao.readAll();
 			mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size", cc);
@@ -176,7 +176,7 @@ public class event_Controller {
 	}
 	@GetMapping("/change")
 	public ModelAndView getChangeHandle(@RequestParam String num) {
-		List<Map> list = eventDao.readOne(num);
+		List<Map> list = returnDao.readOne(num);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
@@ -198,7 +198,7 @@ public class event_Controller {
 	}
 	@RequestMapping("/view")
 	public ModelAndView noticeViewHandle(@RequestParam String num, @RequestParam String page) throws SQLException {
-		List<Map> list = eventDao.readOne(num);
+		List<Map> list = returnDao.readOne(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
 		mav.addObject("list", list);
@@ -210,7 +210,7 @@ public class event_Controller {
 
 	@RequestMapping("/masterview")
 	public ModelAndView masterViewHandle(@RequestParam String num, @RequestParam String page) throws SQLException {
-		List<Map> list = eventDao.readOne(num);
+		List<Map> list = returnDao.readOne(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
 		mav.addObject("list", list);
@@ -222,7 +222,7 @@ public class event_Controller {
 
 	@RequestMapping("/del")
 	public ModelAndView noticedelHandle(@RequestParam String num) throws SQLException {
-		List<Map> fle = eventDao.readOne(num);
+		List<Map> fle = returnDao.readOne(num);
 		String tre = (String) fle.get(0).get("CONTENT");
 
 		int flag = 0;
@@ -238,17 +238,17 @@ public class event_Controller {
 		}
 		File mainfile =new File(application.getRealPath("/event/eventimg/"+(String) fle.get(0).get("EVENTIMG")));
 		mainfile.delete();
-		boolean a = eventDao.del(num);
+		boolean a = returnDao.del(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
 		if (a == true) {
-			List<Map> li = eventDao.readAll();
+			List<Map> li = returnDao.readAll();
 			mav.addObject("list", li);
 			mav.addObject("cnt", li.size());
 			mav.addObject("section", "event/masterlist");
 
 		} else {
-			List<Map> list = eventDao.readOne(num);
+			List<Map> list = returnDao.readOne(num);
 			mav.addObject("list", list);
 			mav.addObject("addt", false);
 			mav.addObject("section", "event/view");
@@ -262,7 +262,7 @@ public class event_Controller {
 	public String deleteProduct(@RequestParam String dnum) {
 		String[] ar = dnum.split(",");
 		for (int i = 0; i < ar.length; i++) {
-			eventDao.del(ar[i]);
+			returnDao.del(ar[i]);
 		}
 		return "YY";
 	}
