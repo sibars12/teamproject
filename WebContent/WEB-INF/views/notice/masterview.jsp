@@ -16,5 +16,6 @@
 				
 				<a href="/notice/del?num=${obj.NUM }"><button type="button">공지 삭제</button></a>
 				</c:forEach>
+				<a href="/notice/masterlist?page=${param.page }"><button type="button">수정 하기</button></a>
 				<a href="/notice/masterlist?page=${param.page }"><button type="button">목록으로</button></a>
 			</div>
