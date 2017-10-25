@@ -129,7 +129,7 @@
 	
 	$(document).ready(function(){
 		$('#summernote').summernote({ // 노트
-			placeholder: '내용',
+			placeholder: "내용..",
 			tabsize: 2,
 			height: 400,
 			width: 800,

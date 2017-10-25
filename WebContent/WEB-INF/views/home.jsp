@@ -57,7 +57,6 @@
 		text-decoration: none;
 	}
 	#slide_D{
-		margin-top: 30px;
 	}
 	.pName_A{
 		color: black;
