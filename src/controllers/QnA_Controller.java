@@ -27,7 +27,7 @@ public class QnA_Controller {
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_QnA");
 			mav.addObject("list", li);
-		mav.addObject("cnt", li.size());	
+			mav.addObject("cnt", li.size());	
 			mav.addObject("section", "QnA/list"); 
 		return mav;
 	} 

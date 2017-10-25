@@ -37,6 +37,26 @@
 			url('/fonts/Inconsolata-Regular.ttf') format('truetype');
 			src:local(※), url('/fonts/Inconsolata-Regular.woff') format('woff');
 		}
+		@font-face{
+			font-family:"Saira-Medium";
+			src:url('/fonts/Saira-Medium.eot');
+			src:url('/fonts/Saira-Medium.eot?#iefix') format('embedded-opentype'),
+			url('/fonts/Saira-Medium.woff') format('woff'),
+			url('/fonts/Saira-Medium.ttf') format('truetype');
+			src:local(※), url('/fonts/Saira-Medium.woff') format('woff');
+		}
+		@font-face{
+			font-family:"Saira-Light";
+			src:url('/fonts/Saira-Light.eot');
+			src:url('/fonts/Saira-Light.eot?#iefix') format('embedded-opentype'),
+			url('/fonts/Saira-Light.woff') format('woff'),
+			url('/fonts/Saira-Light.ttf') format('truetype');
+			src:local(※), url('/fonts/Saira-Light.woff') format('woff');
+		}
+		.container-fluid{
+			padding-right: 0!important;
+			padding-left: 0!important;
+		}
 	</style>
 	
 	<title><t:getAsString name="title" /></title>
@@ -58,14 +78,14 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
-	<div class="container">
-		<header class="container">
+	<div class="container-fluid">
+		<header class="container-fluid">
 			<t:insertAttribute name="header" />
 		</header>
-		<nav class="navbar navbar-inverse">
+		<nav class="container">
 			<t:insertAttribute name="nav" />
 		</nav>
-		<div class="container-fluid text-center">
+		<div class="container text-center">
 			<div class="row content">
 				<!-- <div class="col-sm-1 sidenav"></div>-->
 				<div class="col-sm-12 text-center">
