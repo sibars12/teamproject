@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 	#head_D{
 		height: 40;
@@ -35,9 +36,18 @@
 </style>
 <div id="head_D" align="center">
 	<div id="subHead_D" class="row content">
-		<div id="head1_D" class="col-sm-4 text-right">
-			<a href="#" id="login_A">Login</a><a href="#" id="join_A">Join</a>
-		</div>
+		<c:choose>
+			<c:when test="${!empty auth}">
+				<div id="head1_D" class="col-sm-4 text-right">
+					<a href="#" id="login_A">Login</a><a href="#" id="join_A">Join</a>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div id="head1_D" class="col-sm-4 text-right">
+					<a href="#" id="login_A">Login</a><a href="#" id="join_A">Join</a>
+				</div>
+			</c:otherwise>
+		</c:choose>
 		<div id="head2_D" class="col-sm-3">
 		</div>
 		<div id="head3_D" class="col-sm-5 text-left">
