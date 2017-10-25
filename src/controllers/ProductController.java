@@ -162,6 +162,7 @@ public class ProductController {
 		}
 		System.out.println("param: "+param);
 		productDao.addProduct(param);
+		stockDao.updateRegist(param);
 		mav.addObject("type", param.get("type"));
 		mav.addObject("list", stockDao.getStockList("1"));
 		mav.addObject("page", ((stockDao.getStockPage()-1)/10)+1);
@@ -231,7 +232,8 @@ public class ProductController {
 		for(int i=0;i<ar.length;i++) {
 			// 이미지 파일들 지우기
 			Map info = productDao.loadPInfo(ar[i]);
-		      String cont = (String) info.get("CONTENT");
+		      String cont = (String) info.get("CONTENTS");
+		      System.out.println("내용: "+cont);
 			int flag = 0;
 		      while (true) {
 		         int idx = cont.indexOf("/images/product/content", flag);
@@ -239,12 +241,12 @@ public class ProductController {
 		            break;
 		         String url = cont.substring(idx, cont.indexOf("\"", idx));
 		         System.out.println("url=" + url);
-		         File file =new File(application.getRealPath(url));
+		         File file = new File(application.getRealPath(url));
 		         file.delete();
 		         flag = idx + 10;
 		      }
-		      
-		      File mainfile =new File(application.getRealPath("/images/product/content"+(String)info.get("IMAG")));
+		      //System.out.println("리얼패스: "+application.getRealPath("/images/product/content"+(String)info.get("IMAG")));
+		      File mainfile = new File(application.getRealPath("/images/product/"+(String)info.get("IMAG")));
 		      mainfile.delete();			
 			
 		    // DB에서 삭제 
@@ -342,6 +344,7 @@ public class ProductController {
 				target.delete();
 				f.transferTo(target);
 				System.out.println("path:"+path);
+				System.out.println("파일이름 : "+fileName);
 				param.put("imag", fileName);
 				r = productDao.updateProduct(param);
 			}

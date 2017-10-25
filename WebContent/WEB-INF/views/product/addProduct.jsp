@@ -111,6 +111,7 @@
 	</p>
 	<div id="form">
 	<form id="productForm" action="/product/addProduct" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="regist" value="Y">
 		<input type="hidden" name="ownernumber" id="productOwnernumber_I">
 		<input type="hidden" name="type" id="productType_I">
 		<input type="text" placeholder="제목" class="mar" id="productTitle_I" name="name"><br/>
@@ -118,7 +119,7 @@
 		<input type="file" name="imag" id="profile" class="mar"><br/>
 		<div align="left" style="width: 800;"><textarea name="content" id="summernote"></textarea></div>
 		<button type="submit" class="mar">작성</button>
-		<button type="button" id="edit_B">수정</button>
+		<button type="button" id="edit_B" disabled>수정</button>
 	</form>
 	</div>
 </div>
@@ -198,7 +199,6 @@
 						"ownernumber" : $(this).children("td.productOwnernumber").text(),				
 					}
 				}).done(function(obj){
-					console.log(obj.NAME);
 					var src = "/images/product/";
 					src += obj.IMAG;
 					console.log(src);
@@ -206,10 +206,11 @@
 					$("#pre").attr("src",src);
 					$("#pre").attr("alt","상품이미지");
 					$(".note-editable").children("p").html(obj.CONTENTS);
+					$("#edit_B").prop("disabled",false);
 				});
 			}
 			else{
-				var src = "/images/basic.jpg";
+				var src = "/images/basic.jpg";				
 				$("#pre").attr("src",src);
 				$("#pre").attr("alt","기본이미지");
 				$(".note-editable").children("p").html("");

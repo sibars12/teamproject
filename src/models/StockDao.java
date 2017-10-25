@@ -47,6 +47,10 @@ public class StockDao {
 		sql.update("stock.updateStock", map);
 		return true;
 	}
+	public boolean updateRegist(Map param){
+		sql.update("stock.updateRegist", param);
+		return true;
+	}
 	public List getOwnernumber(Map map) {
 		return sql.selectList("stock.getOwnernumber", map);
 	}
