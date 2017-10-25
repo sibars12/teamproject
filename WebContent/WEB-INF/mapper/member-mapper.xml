@@ -22,13 +22,13 @@
 		select * from member where (id = #{id}) and pw = #{pw}
 	</select>
 	
-	<select id="readDetail" resultType="java.util.HashMap">
+	<select id="readDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select * from detail where id = #{id}
 	</select>
 	
-	<!-- <update parameterType="java.util.HashMap" id="editDetail">
-		update detail set name=#{name,jdbcType=VARCHAR2}, birth=#{birth,jdbcType=DATE}, address=#{address,jdbcType=VARCHAR2}, tel=#{tel, jdbcType=VARCHAR2}, point=#{point,jdbcType=VARCHAR2} where id =#{id}
-	</update> -->
+	<update parameterType="java.util.HashMap" id="editDetail">
+		update detail set id=#{id,jdbcType=VARCHAR}, name=#{name,jdbcType=VARCHAR}, birth=#{birth,jdbcType=DATE}, address=#{address,jdbcType=VARCHAR}, tel=#{tel, jdbcType=VARCHAR}, point=#{point,jdbcType=NUMERIC} where id =#{id}
+	</update>
 	
 	<!-- 인증메일 보내는 것 추가하기 -->
 	

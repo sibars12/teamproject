@@ -43,6 +43,8 @@
   </form>
 </div>
 
+
+<!-- 로그인 유지 -->
 <script>
 	function keeps() {
 		var k = document.getElementById("keep")
@@ -52,6 +54,7 @@
 				document.getElementById("keep").checked==true;
 				check=true;
 			}
+			
 		}
 	}
 </script>
