@@ -19,12 +19,16 @@
 		padding-left: 120;
 	}
 	
-	#title_D {
-		padding-left: 60;
+	#mainTitle_D {
+		padding-left: 90;
 		font-size: 22;
 	}
 	
-	#title_A:hover {
+	.title_A:hover {
+		text-decoration: none;
+		color: black;
+	}
+	.menu_A:hover{
 		text-decoration: none;
 		color: black;
 	}
