@@ -76,4 +76,11 @@
 			<when test="option == 'subname'">select count(*) from stock where subname like '%'||#{value}||'%'</when>
 		</choose>
 	</select>
+	<insert id="plusStock">
+		insert into stock(no, type, name, scale, color, price, volume, comp, subname, ownernumber)
+		 values(stock_seq.nextval, #{type}, #{name}, #{scale}, #{color}, #{price}, #{volume}, #{comp}, #{subname, jdbcType=VARCHAR}, #{ownernumber})
+	</insert>
+	<select id="checkPlusStock" resultType="java.lang.Integer">
+		select count(*) from stock where ownernumber=#{ownernumber} and color=#{color}
+	</select>
 </mapper>

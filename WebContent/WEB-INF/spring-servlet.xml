@@ -18,6 +18,20 @@
 	<context:component-scan base-package="filter" />
 	<context:component-scan base-package="models" />
 	
+	<!-- mail sender -->
+	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com" />
+      <property name="port" value="587" />
+      <property name="username" value="rkqms1" />
+      <property name="password" value="rkqmsrkqms" />
+      <property name="javaMailProperties">
+         <props>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+         </props>
+      </property>
+   </bean>
+	
 	<!-- Multipartreslover -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="uploadTempDir" value="/temp"/>

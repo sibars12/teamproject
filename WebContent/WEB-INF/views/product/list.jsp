@@ -21,9 +21,15 @@
 	.content_S{
 	}
 	.plist_B{
-		margin: 3;
+		margin: 2;
+		padding: 6;
+		font-family: 'Daum_Regular';
+		font-size: 12;
+		padding-right: 10;
+		padding-left: 10;
+		color: rgb(71,106,188)!important;
 	}
-	.pPage_P{
+	.pPage_D{
 		margin-top: 10;
 	}
 	.pList_A{
@@ -86,7 +92,7 @@
 </style>
 <div class="w3-container" align="center">
 	<!-- Product Nav -->
-	<br/><div align="left" id="tabName_D">${type}</div>
+	<div align="left" id="tabName_D">${type}</div>
 	<p id="productNav_P" align="left">
 		<a class="pType_A" href="/product/list?type=cloth">cloth</a> | <a class="pType_A" href="/product/list?type=feed">feed</a> | 
 		<a class="pType_A" href="/product/list?type=snack">snack</a> | <a class="pType_A" href="/product/list?type=toy">toy</a>
@@ -139,17 +145,20 @@
 		</c:forEach>
 	</table>
 	<!-- 페이지 -->
-	<p class="pPage_P">
-		<a href="/product/list?page=${tPage-1}&option=${option}&type=${type}" id="provPage_A" class="pPage_A">◀</a>
-		<c:forEach var="idx" begin="1" end="${page }">
-			<a class="pPage_A" href="/product/list?page=${idx }&option=${option}&type=${type}">${idx }</a>
-		</c:forEach>
-		<a href="/product/list?page=${tPage+1}&option=${option}&type=${type}" id="nextPage_A" class="pPage_A">▶</a>
-	</p>
+	<div class="w3-center">
+		<div class="pPage_D w3-bar w3-border w3-round">
+			<a href="/product/list?page=${tPage-1}&option=${option}&type=${type}" id="provPage_A" class="pPage_A w3-bar-item w3-button">&laquo;</a>
+			<c:forEach var="idx" begin="1" end="${page }">
+				<a class="pPage_A w3-bar-item w3-button" href="/product/list?page=${idx }&option=${option}&type=${type}">${idx }</a>
+			</c:forEach>
+			<a href="/product/list?page=${tPage+1}&option=${option}&type=${type}" id="nextPage_A" class="pPage_A w3-bar-item w3-button">&raquo;</a>
+		</div>
+	</div>
+	
 	<!-- 상품 추가,삭제버튼 -->
 	<div id="addBt_D" align="right">
-		<button id="addProduct_B" class="plist_B">추가</button>
-		<button id="deleteProduct_B" class="plist_B">삭제</button>
+		<button id="addProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue w3-round-large">추가</button>
+		<button id="deleteProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue w3-round-large">삭제</button>
 	</div>
 </div>
 

@@ -58,11 +58,11 @@ public class ProductDao {
 		sql.delete("product.deleteProduct", dnum);
 		return true;
 	}
+	
 	public boolean editRegist(String dnum){
 		sql.update("product.editRegist", dnum);
 		return true;
 	}
-	
 	//관리자용
 	// 후기 리스트_관리자용
 	public List<Map> reviewList_master(Map map){
@@ -92,5 +92,12 @@ public class ProductDao {
 	// 상품 정보 가져오기
 	public Map loadPInfo(String ownernumber){
 		return sql.selectOne("product.loadPInfo",ownernumber);
+	}
+	//????
+	public List<Map> getNewProductList(Map map){
+		return sql.selectList("product.getNewProductList",map);
+	}
+	public List<Map> getBestProductList(Map map){
+		return sql.selectList("product.getNewProductList",map);
 	}
 }

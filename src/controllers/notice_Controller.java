@@ -22,9 +22,7 @@ public class notice_Controller {
 	notice_Dao noticeDao;
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
-		System.out.println("??");
 		int size=noticeDao.all();
-		System.out.println(size);
 		if(page>size)
 			page = size;
 		if(page <=0) 
@@ -37,7 +35,6 @@ public class notice_Controller {
 		if(c-cc>0) {
 			cc+=1;
 		}
-		System.out.println(cc);
 		List<Map> ila = noticeDao.allist(a);
 		List<Map> li = noticeDao.readAll();
 		ModelAndView mav = new ModelAndView();
