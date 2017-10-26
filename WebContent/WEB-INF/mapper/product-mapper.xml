@@ -32,26 +32,27 @@
 	</select>
 	<!-- 상품 리스트 -->
 	<select id="getProductList" resultType="java.util.HashMap">
-		select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price, s.regist from (select ownernumber,name,imag,signup from product) t
- 		left join stock s on t.ownernumber = s.ownernumber order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
-	</select>	<!-- 의류리스트 -->
+		select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price,s.regist from (select * from product) t
+ 		left join stock s on t.ownernumber = s.ownernumber order by t.signup desc) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
+	</select>
+	<!-- 의류리스트 -->
 	<select id="getClothList" resultType="java.util.HashMap">
  		<choose>
  			<when test="option == 'signup'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by t.signup desc) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'priceHigh'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by s.price desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by s.price desc) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'priceLow'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by s.price) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by s.price) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'name'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by t.name) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='의류' order by t.name) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  		</choose>
 	</select>
@@ -60,19 +61,19 @@
  		<choose>
  			<when test="option == 'signup'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by t.signup desc) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'priceHigh'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by s.price desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by s.price desc) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'priceLow'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by s.price) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by s.price) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'name'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by t.name) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='사료' order by t.name) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  		</choose>
 	</select>
@@ -81,19 +82,19 @@
  		<choose>
  			<when test="option == 'signup'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by t.signup desc) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'priceHigh'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by s.price desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by s.price desc) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'priceLow'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by s.price) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by s.price) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'name'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by t.name) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='간식' order by t.name) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  		</choose>
 	</select>
@@ -102,19 +103,19 @@
  		<choose>
  			<when test="option == 'signup'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by t.signup desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by t.signup desc) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'priceHigh'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by s.price desc) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by s.price desc) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'priceLow'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by s.price) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by s.price) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  			<when test="option == 'name'">
  				select * from (select rownum as r,tt.* from (select distinct t.ownernumber,t.name,t.imag,t.signup,s.type,s.price from (select * from product) t
- 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by t.name) tt) ttt where r between (#{page}-1)*12+1 and (#{page}-1)*12+12
+ 				left join stock s on t.ownernumber = s.ownernumber where s.type='장난감' order by t.name) tt) ttt where r between (#{page}-1)*16+1 and (#{page}-1)*16+16
  			</when>
  		</choose>
 	</select>
