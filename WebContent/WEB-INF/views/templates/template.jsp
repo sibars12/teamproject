@@ -60,7 +60,14 @@
 		url('/fonts/Saira-Light.ttf') format('truetype');
 	src: local(※), url('/fonts/Saira-Light.woff') format('woff');
 }
-
+@font-face {
+	font-family: "NanumBarunGothic";
+	src: url('/fonts/NanumBarunGothic.eot');
+	src: url('/fonts/NanumBarunGothic.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/NanumBarunGothic.woff') format('woff'),
+		url('/fonts/NanumBarunGothic.ttf') format('truetype');
+	src: local(※), url('/fonts/NanumBarunGothic.woff') format('woff');
+}
 .container-fluid {
 	padding-right: 0 !important;
 	padding-left: 0 !important;
@@ -95,19 +102,20 @@
 <body>
 
 	<div class="container-fluid">
-		<header class="container-fluid">
-			<t:insertAttribute name="header" />
-		</header>
-
-		<nav class="container">
-			<t:insertAttribute name="nav" />
-		</nav>
-
+		<div class="navbar-fixed-top">
+			<header class="container-fluid">
+				<t:insertAttribute name="header" />
+			</header>
+	
+			<nav class="container">
+				<t:insertAttribute name="nav" />
+			</nav>
+		</div>
+		<div style="min-height: 130;"></div>
 		<div class="container text-center">
 			<div class="row content">
 				<div class="col-sm-12 text-left">
 					<t:insertAttribute name="section" />
-					</br> </br>
 				</div>
 			</div>
 		</div>
