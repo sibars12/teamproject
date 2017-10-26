@@ -215,6 +215,8 @@
 				$(".note-editable").children("p").html("");
 			}
 		});
+		
+		
 	}
 
 	// 상품 수정

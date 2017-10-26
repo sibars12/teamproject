@@ -48,9 +48,12 @@
 	}
 	.pPage_A{
 		font-family: 'Daum_Regular';
-		font-size: 14;
+		font-size: 12;
 		color: black;
-		margin: 2;
+		padding-top: 5!important;
+		padding-bottom: 5!important;
+		padding-right: 8!important;
+		padding-left: 9!important;
 	}
 	#productNav_P{
 		padding-top: 9;
@@ -114,7 +117,7 @@
 						<c:when test="${list[j+(i*4)]!=null}">
 							<td width="270" align="center" class="productList_Td" style="border-bottom: none;">
 								<div align="left" class="deleteCheck_D"><input class="deleteCkbox_I" type="checkbox" value="${list[j+(i*4)].OWNERNUMBER }"></div>
-								<a class="pList_A" href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }"><img width="220" height="220" src="/images/product/${list[j+(i*4)].IMAG}"></a>
+								<a class="pList_A" href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }"><img width="95%" src="/images/product/${list[j+(i*4)].IMAG}"></a>
 							</td>
 						</c:when>
 						<c:otherwise>
@@ -147,18 +150,25 @@
 	<!-- 페이지 -->
 	<div class="w3-center">
 		<div class="pPage_D w3-bar w3-border w3-round">
-			<a href="/product/list?page=${tPage-1}&option=${option}&type=${type}" id="provPage_A" class="pPage_A w3-bar-item w3-button">&laquo;</a>
-			<c:forEach var="idx" begin="1" end="${page }">
-				<a class="pPage_A w3-bar-item w3-button" href="/product/list?page=${idx }&option=${option}&type=${type}">${idx }</a>
+			<a href="/product/list?page=${tPage-1}&option=${option}&type=${type}" id="provPage_A" class="pPage_A w3-bar-item w3-button w3-hover-white">&laquo;</a>
+			<c:forEach var="idx" begin="${startPage }" end="${endPage }">
+				<c:choose>
+					<c:when test="${tPage eq idx }">
+						<a class="pPage_A w3-bar-item w3-button w3-Khaki w3-hover-Khaki" href="/product/list?page=${idx}&option=${option}&type=${type}">${idx }</a>
+					</c:when>
+					<c:otherwise>
+						<a class="pPage_A w3-bar-item w3-button w3-hover-white" href="/product/list?page=${idx}&option=${option}&type=${type}">${idx }</a>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
-			<a href="/product/list?page=${tPage+1}&option=${option}&type=${type}" id="nextPage_A" class="pPage_A w3-bar-item w3-button">&raquo;</a>
+			<a href="/product/list?page=${tPage+1}&option=${option}&type=${type}" id="nextPage_A" class="pPage_A w3-bar-item w3-button w3-hover-white">&raquo;</a>
 		</div>
 	</div>
 	
 	<!-- 상품 추가,삭제버튼 -->
 	<div id="addBt_D" align="right">
-		<button id="addProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue w3-round-large">추가</button>
-		<button id="deleteProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue w3-round-large">삭제</button>
+		<button id="addProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue">추가</button>
+		<button id="deleteProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue">삭제</button>
 	</div>
 </div>
 
@@ -187,15 +197,13 @@
 				location.href="/product/list";
 			}
 		});
-		
-			CheckPage(${tPage});
 		//페이지 이동 막기
+		CheckPage(${tPage});
 		
 	});
 	
 	var CheckPage = function(page){
-		var MaxPage = ${page};
-		console.log("page: " + page + "MaxPage: " + MaxPage);
+		var MaxPage = ${MaxPage};
 		if(page == 1){
 			$("#provPage_A").attr("href", "#");
 		}else if(page == MaxPage){
