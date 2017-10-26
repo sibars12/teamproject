@@ -17,4 +17,7 @@
 	<update id="addCartVol">
 		update cart set volume=(select volume from cart where num=#{num})+#{volume} where num=#{num}
 	</update>
+	<select id="getCartCnt" resultType="java.lang.Integer">
+		select count(*) cart where id='master'
+	</select>
 </mapper>

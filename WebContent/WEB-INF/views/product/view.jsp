@@ -21,11 +21,11 @@ th, td {
 		<!-- 내용 -->
 		<div class="col-sm-6">
 			<%-- 사진 	--%>
-			<div>
+			<div align="center">
 				<c:choose>
 					<c:when test="${!empty productInfo[0].IMAG}">
 						<img src="/images/product/${productInfo[0].IMAG}"
-							class="img-rounded" alt="상품이미지" width="280" height="200" />
+							class="img-rounded" alt="상품이미지" width="70%"/>
 					</c:when>
 					<c:otherwise>
 						<img src="/images/default.png" class="img-rounded" alt="기본 사진"

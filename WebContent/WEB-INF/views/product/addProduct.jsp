@@ -129,7 +129,6 @@
 	
 	$(document).ready(function(){
 		$('#summernote').summernote({ // 노트
-			placeholder: "내용..",
 			tabsize: 2,
 			height: 400,
 			width: 800,
@@ -187,6 +186,8 @@
 			
 			$(this).siblings().not(".thead").removeClass("selected").css("background-color","white");
 		});
+		
+		
 	}
 	
 	var schKey = function(){ // 검색했을 때 테이블 세팅하는 함수

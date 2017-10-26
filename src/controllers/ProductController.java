@@ -89,8 +89,17 @@ public class ProductController {
 			mav.addObject("lSize", (productDao.getToyList(map).size()-1)/4);
 			break;
 		}
-		mav.addObject("page", ((productDao.getProductPage(map)-1)/12)+1);
+		//페이지 처리
+		int MPage = ((productDao.getProductPage(map)-1)/16)+1;
+		int pPage = Integer.parseInt(page);
 		mav.addObject("tPage", page);
+		int startPage = pPage-(pPage%5)+1;
+		mav.addObject("startPage", startPage);
+		if((startPage+4)>MPage)
+			mav.addObject("endPage", MPage);
+		else
+			mav.addObject("endPage", startPage+4);
+		mav.addObject("MaxPage", MPage);
 		mav.addObject("option", option);
 		mav.addObject("type", type);
 		return mav;
