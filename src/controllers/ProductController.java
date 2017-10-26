@@ -335,19 +335,22 @@ public class ProductController {
 			System.out.println(param);
 			String fileName = null;
 			int r=0;
+			fileName = (String)param.get("ownernumber")+".jpg"; // 파일 이름
 			if(!f.isEmpty() && f.getContentType().startsWith("image")){ // 빈파일이 아니고 이미지파일이면
+				File old = new File(application.getRealPath("/images/product")+fileName);
+				old.delete();
 				String path = application.getRealPath("/images/product");
 				File dir = new File(path); // 파일경로
-				fileName = (String)param.get("ownernumber")+".jpg"; // 파일 이름
 				File target = new File(dir, fileName);
 				System.out.println("target: "+target);
-				target.delete();
 				f.transferTo(target);
 				System.out.println("path:"+path);
 				System.out.println("파일이름 : "+fileName);
 				param.put("imag", fileName);
-				r = productDao.updateProduct(param);
+			}else{
+				param.put("imag", fileName);
 			}
+			r = productDao.updateProduct(param);
 			if(r==1){return "redirect:/product/addProduct";}
 			else{return "redirect:/product/list";}
 		}
