@@ -94,14 +94,14 @@ th, td {
 					<form id="selectListForm" name="selectListForm"
 						action="/shopping/buyNow" method="get">
 						<span id="select_Span"> <label>${productInfo[0].NAME }</label>
-							&nbsp;&nbsp; <!-- 수량 -->
-							<button type="button" id="minusA_B">-</button> <input
-							id="stockCnt" name="stockCnt" type="number" style="width: 40px;"
-							value="1" min="1" />
-							<button type="button" id="plusA_B">+</button>&nbsp;&nbsp; <span
-							id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span> <input
-							type="hidden" id="stockNo" name="stockNo"
-							value="${productInfo[0].NO }">
+							&nbsp;&nbsp; 
+							<!-- 수량 -->
+							<button type="button" id="minusA_B">-</button>
+							<input id="stockCnt" name="stockCnt" type="number" style="width: 40px;"	value="1" min="1" />
+							<button type="button" id="plusA_B">+</button>&nbsp;&nbsp; 
+							<span id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span>
+							<input type="hidden" id="stockNo" name="stockNo" value="${productInfo[0].NO }">
+							<input type="hidden" id="stockPrice" name="stockPrice" value="0">
 						</span>
 						<hr>
 						<span style="text-align: right" id="total_Span"></span>
@@ -223,10 +223,10 @@ function print() {
 	if(${productInfo[0].COLOR == "none"}){
 		var t = ${productInfo[0].PRICE}*parseInt($("#stockCnt").val());
 		console.log(t);
-		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+t+"원</large></b><input type=\"hidden\" name=\"total\" value=\""+t+"\">");
+		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+t+"원</large></b><input type=\"hidden\" name=\"totPrice\" value=\""+t+"\">");
 	}
 	else{
-		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+total+"원</large></b><input type=\"hidden\" name=\"total\" value=\""+t+"\">");
+		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+total+"원</large></b><input type=\"hidden\" name=\"totPrice\" value=\""+total+"\">");
 	}
 }
 print();
@@ -238,6 +238,7 @@ $("#minusA_B").click(function(){
 		var n = $("#stockCnt").val();
 		var price = ${productInfo[0].PRICE }*n;
 		$("#priceA_Span").html("<b>"+price+"원</b>");
+		$("#stockPrice").val(price);
 		print();
 	}
 });
@@ -247,6 +248,7 @@ $("#plusA_B").click(function(){
 	var n = $("#stockCnt").val();
 	var price = ${productInfo[0].PRICE }*n;
 	$("#priceA_Span").html("<b>"+price+"원</b>");
+	$("#stockPrice").val(price)
 	print();
 });
  
@@ -277,7 +279,8 @@ $("#color_Select").change(function(){
 		selectOption += "<button type=\"button\" class=\"plus_B\">+</button>";
 		selectOption += "&nbsp;<button type=\"button\" class=\"remove_B\">X</button>";
 		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"</span>";
-		selectOption += "<input type=\"hidden\" name=\"stockNo\" value=\""+sno+"\"><p>";
+		selectOption += "<input type=\"hidden\" name=\"stockNo\" value=\""+sno+"\">";
+		selectOption += "<input type=\"hidden\" name=\"stockPrice\" value=\""+${productInfo[0].PRICE }+"\"></p>";
 		$("#select_Span").append(selectOption);
 		$("#color_Select").val("색상 옵션 선택");
 		total+=${productInfo[0].PRICE };
@@ -293,7 +296,9 @@ $("#color_Select").change(function(){
 			if(parseInt($(this).next().val()) > 1){
 				$(this).next().val(parseInt($(this).next().val())-1);
 				var n = parseInt($(this).next().val());
-				$(this).next().next().next().next().html(${productInfo[0].PRICE }*n);
+				var price = ${productInfo[0].PRICE }*n;
+				$(this).next().next().next().next().html(price);
+				$(this).next().next().next().next().next().next().val(price);
 				total-=${productInfo[0].PRICE };
 				print();
 			}
@@ -303,7 +308,9 @@ $("#color_Select").change(function(){
 			$(this).prev().val(parseInt($(this).prev().val())+1);
 			console.log($(this).prev().val());	
 			var n = parseInt($(this).prev().val());
-			$(this).next().next().html(${productInfo[0].PRICE }*n);
+			var price = ${productInfo[0].PRICE }*n;
+			$(this).next().next().html(price);
+			$(this).next().next().next().next().val(price);
 			total+=${productInfo[0].PRICE };
 			print();
 		});

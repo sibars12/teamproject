@@ -29,14 +29,18 @@ public class ShoppingController {
 	@GetMapping("/buyNow")
 	public ModelAndView BuyNowHandler(@RequestParam MultiValueMap<String,String> multiMap){
 		ModelAndView mav = new ModelAndView("t_expr");
+		//System.out.println(multiMap);
 		List<String> stockNo = multiMap.get("stockNo");
 		List<String> stockCnt = multiMap.get("stockCnt");
+		List<String> stockPrice = multiMap.get("stockPrice");
+		List<String> totPrice = multiMap.get("totPrice");
 		
-		System.out.println(stockNo.get(0));
-		System.out.println(stockCnt.get(0));
 		
 		System.out.println(stockNo);
 		System.out.println(stockCnt);
+		System.out.println(stockPrice);
+		System.out.println(totPrice);
+		
 		mav.addObject("section", "shopping/buyNow");
 		return mav;
 	}
