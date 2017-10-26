@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import models.event_Dao;
+import models.return_Dao;
 import models.return_Dao;
 
 @Controller
@@ -35,12 +35,10 @@ public class retrun_Controller {
 	@Autowired
 	return_Dao returnDao;
 	@RequestMapping("/list")
-	public ModelAndView eventListHandle(@RequestParam(name = "page", defaultValue = "1") int page) throws SQLException {
-		System.out.println("??");
+	public ModelAndView returnListHandle(@RequestParam(name = "page", defaultValue = "1") int page) throws SQLException {
 		int size = returnDao.all();
-		System.out.println(size);
-		double c = (size / 12.0);
-		int cc = size / 12;
+		double c = (size / 10.0);
+		int cc = size / 10;
 		if (c - cc > 0) {
 			cc += 1;
 		}
@@ -51,25 +49,25 @@ public class retrun_Controller {
 			page = 1;
 		}
 		Map a = new HashMap();
-		a.put("start", (page * 9) - 8);
-		a.put("end", page * 9);
+		a.put("start", (page * 10) - 9);
+		a.put("end", page * 10);
 		System.out.println(cc);
 		List<Map> ila = returnDao.allist(a);
-		List<Map> li = returnDao.readAll();
+		List<Map> li = returnDao.list();
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_event");
+		mav.setViewName("t_return");
 		mav.addObject("list", ila);
 		mav.addObject("cnt", li.size());
-		mav.addObject("lSize", (size - 1) / 3);
 		mav.addObject("size", cc);
-		mav.addObject("section", "event/list");
+		mav.addObject("section", "return/list");
 		return mav;
 	}
 	
 
 	@RequestMapping("/masterlist")
-	public ModelAndView masterListHandle(@RequestParam(name = "page", defaultValue = "1") int page)
+	public ModelAndView masterListHandle(@RequestParam(name = "page", defaultValue = "1") int page , HttpSession session)
 			throws SQLException {
+		session.setAttribute("auth", "관리자");
 		System.out.println("??");
 		int size = returnDao.all();
 		System.out.println(size);
@@ -90,13 +88,13 @@ public class retrun_Controller {
 		System.out.println("page="+page);
 		System.out.println(cc);
 		List<Map> ila = returnDao.allist(a);
-		List<Map> li = returnDao.readAll();
+		List<Map> li = returnDao.list();
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_event");
+		mav.setViewName("t_return");
 		mav.addObject("list", ila);
 		mav.addObject("cnt", li.size());
 		mav.addObject("size", cc);
-		mav.addObject("section", "event/masterlist");
+		mav.addObject("section", "return/masterlist");
 		return mav;
 	}
 
@@ -106,7 +104,7 @@ public class retrun_Controller {
 	public String uploadHandler(@RequestParam("file") MultipartFile f) throws IllegalStateException, IOException {
 		String fileName = null;
 		if (!f.isEmpty() && f.getContentType().startsWith("image")) {
-			String path = application.getRealPath("/event/content");
+			String path = application.getRealPath("/return/returnimg");
 			File dir = new File(path);
 			if (!dir.exists()) {
 				dir.mkdirs();
@@ -116,41 +114,66 @@ public class retrun_Controller {
 			File target = new File(dir, fileName);
 			f.transferTo(target);
 		}
-		return "/event/content/" + fileName;
+		return "/return/returnimg/" + fileName;
 	}
 	@GetMapping("/add")
 	public ModelAndView add() {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_event");
-		mav.addObject("section", "event/add");
+		mav.setViewName("t_return");
+		mav.addObject("section", "return/add");
 		return mav;
 	}
 
 	@PostMapping("/add")
-	public ModelAndView noticeaddHandle(@RequestParam Map map, @RequestParam(name = "eventimg") MultipartFile f,
-			HttpServletRequest request, HttpSession session) throws SQLException, IllegalStateException, IOException {
+	public ModelAndView noticeaddHandle(@RequestParam Map map, 	HttpServletRequest request, HttpSession session) throws SQLException, IllegalStateException, IOException {
 		System.out.println("맵" + map);
 		ModelAndView mav = new ModelAndView();
-
-		String fileName = null;
-		if (!f.isEmpty() && f.getContentType().startsWith("image")) {
-			String path = application.getRealPath("/event/eventimg");
-			System.out.println("위치     " + path);
-			File dir = new File(path);
-			if (!dir.exists()) {
-				dir.mkdirs();
-			}
-			fileName = System.currentTimeMillis() + ".jpg";
-			File target = new File(dir, fileName);
-			f.transferTo(target);
-			System.out.println("파일 이름   " + target.getPath());
-			map.put("eventimg", fileName);
-		} else {
-			map.put("eventimg", null);
-		}
 		System.out.println(map);
-		boolean a = returnDao.addOnd(map);
-		mav.setViewName("t_event");
+		boolean a = returnDao.add(map);
+		mav.setViewName("t_return");
+		if (a == true) {
+			int size = returnDao.all();
+			Map abc = new HashMap();
+			abc.put("start", 1);
+			abc.put("end", 9);
+			double c = (size / 10.0);
+			int cc = size / 10;
+			if (c - cc > 0) {
+				cc += 1;
+			}
+		
+			System.out.println(cc);
+			List<Map> ila = returnDao.allist(abc);
+			List<Map> li = returnDao.list();
+			mav.addObject("list", ila);
+			mav.addObject("cnt", li.size());
+			mav.addObject("size", cc);
+			mav.addObject("section", "return/masterlist");
+		} else {
+			mav.addObject("addt", false);
+			mav.addObject("section", "return/add");
+		}
+		return mav;
+	}
+	@GetMapping("/change")
+	public ModelAndView getChangeHandle(@RequestParam String num) {
+		List<Map> list = returnDao.read(num);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("t_return");
+		mav.addObject("num", list.get(0).get("NUM"));
+		mav.addObject("title", list.get(0).get("TITLE"));
+		mav.addObject("content", list.get(0).get("CONTENT"));
+		mav.addObject("section", "return/change");
+		return mav;
+	}
+	@PostMapping("/change")
+	public ModelAndView changeHandle(@RequestParam Map map) throws SQLException, IllegalStateException, IOException {
+		ModelAndView mav = new ModelAndView();
+
+		
+		boolean a = returnDao.change(map);
+		mav.setViewName("t_return");
 		if (a == true) {
 			int size = returnDao.all();
 			Map abc = new HashMap();
@@ -163,71 +186,49 @@ public class retrun_Controller {
 			}
 			System.out.println(cc);
 			List<Map> ila = returnDao.allist(abc);
-			List<Map> li = returnDao.readAll();
+			List<Map> li = returnDao.list();
 			mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size", cc);
-			mav.addObject("section", "event/masterlist");
+			mav.addObject("section", "return/list");
 		} else {
 			mav.addObject("addt", false);
-			mav.addObject("section", "event/add");
+			mav.addObject("section", "return/list");
 		}
 		return mav;
 	}
-	@GetMapping("/change")
-	public ModelAndView getChangeHandle(@RequestParam String num) {
-		List<Map> list = returnDao.readOne(num);
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_event");
-		mav.addObject("title", list.get(0).get("TITLE"));
-		mav.addObject("content", list.get(0).get("CONTENT"));
-		mav.addObject("startdate", list.get(0).get("STARTDATE"));
-		mav.addObject("enddate", list.get(0).get("ENDDATE"));
-		mav.addObject("eventimg", list.get(0).get("EVENTIMG"));
-		mav.addObject("section", "event/change");
-		return mav;
-	}
-	@PostMapping("change")
-	public ModelAndView psChangeHandle(@RequestParam String num) {
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("section", "event/masterlist");
-		return mav;
-		
-	}
 	@RequestMapping("/view")
 	public ModelAndView noticeViewHandle(@RequestParam String num, @RequestParam String page) throws SQLException {
-		List<Map> list = returnDao.readOne(num);
+		List<Map> list = returnDao.read(num);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_event");
+		mav.setViewName("t_return");
 		mav.addObject("list", list);
 		mav.addObject("page", page);
-		mav.addObject("section", "event/view");
+		mav.addObject("section", "return/view");
 		return mav;
 
 	}
 
 	@RequestMapping("/masterview")
 	public ModelAndView masterViewHandle(@RequestParam String num, @RequestParam String page) throws SQLException {
-		List<Map> list = returnDao.readOne(num);
+		List<Map> list = returnDao.read(num);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_event");
+		mav.setViewName("t_return");
 		mav.addObject("list", list);
 		mav.addObject("page", page);
-		mav.addObject("section", "event/masterview");
+		mav.addObject("section", "return/masterview");
 		return mav;
 
 	}
 
 	@RequestMapping("/del")
 	public ModelAndView noticedelHandle(@RequestParam String num) throws SQLException {
-		List<Map> fle = returnDao.readOne(num);
+		List<Map> fle = returnDao.read(num);
 		String tre = (String) fle.get(0).get("CONTENT");
 
 		int flag = 0;
 		while (true) {
-			int idx = tre.indexOf("/event/content", flag);
+			int idx = tre.indexOf("/return/returnimg", flag);
 			if(idx == -1)
 				break;
 			String url = tre.substring(idx, tre.indexOf("\"", idx));
@@ -236,22 +237,21 @@ public class retrun_Controller {
 			file.delete();
 			flag = idx + 10;
 		}
-		File mainfile =new File(application.getRealPath("/event/eventimg/"+(String) fle.get(0).get("EVENTIMG")));
+		File mainfile =new File(application.getRealPath("/return/returnimg/"+(String) fle.get(0).get("returnIMG")));
 		mainfile.delete();
 		boolean a = returnDao.del(num);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_event");
+		mav.setViewName("t_return");
 		if (a == true) {
-			List<Map> li = returnDao.readAll();
+			List<Map> li = returnDao.list();
 			mav.addObject("list", li);
 			mav.addObject("cnt", li.size());
-			mav.addObject("section", "event/masterlist");
+			mav.addObject("section", "return/masterlist");
 
 		} else {
-			List<Map> list = returnDao.readOne(num);
+			List<Map> list = returnDao.read(num);
 			mav.addObject("list", list);
-			mav.addObject("addt", false);
-			mav.addObject("section", "event/view");
+			mav.addObject("section", "return/view");
 		}
 		return mav;
 	}
@@ -262,16 +262,45 @@ public class retrun_Controller {
 	public String deleteProduct(@RequestParam String dnum) {
 		String[] ar = dnum.split(",");
 		for (int i = 0; i < ar.length; i++) {
+			System.out.println("ar="+ar[i]);
 			returnDao.del(ar[i]);
 		}
 		return "YY";
 	}
-
-	@RequestMapping("/home")
-	public ModelAndView home() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("section", "event/home");
+	@RequestMapping("/coment")
+	public ModelAndView comenthandle(@RequestParam Map map) {
+		ModelAndView mav = new ModelAndView("t_return");
+		returnDao.coment(map);
+		int size = returnDao.all();
+		int page=1;
+		System.out.println(size);
+		double c = (size / 10.0);
+		int cc = size / 10;
+		if (c - cc > 0) {
+			cc += 1;
+		}
+		if (page > cc) {
+			page = cc;
+			}
+		if (page <= 0) {
+			page = 1;
+		}
+		Map a = new HashMap();
+		a.put("start", (page * 10) - 9);
+		a.put("end", page * 10);
+		System.out.println("page="+page);
+		System.out.println(cc);
+		List<Map> ila = returnDao.allist(a);
+		List<Map> li = returnDao.list();
+		mav.setViewName("t_return");
+		mav.addObject("list", ila);
+		mav.addObject("cnt", li.size());
+		mav.addObject("size", cc);
+		mav.addObject("section", "return/masterlist");
+		
 		return mav;
+		
 	}
+
 
 }

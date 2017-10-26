@@ -180,6 +180,7 @@ public class event_Controller {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
+		mav.addObject("num", list.get(0).get("NUM"));
 		mav.addObject("title", list.get(0).get("TITLE"));
 		mav.addObject("content", list.get(0).get("CONTENT"));
 		mav.addObject("startdate", list.get(0).get("STARTDATE"));
@@ -188,13 +189,55 @@ public class event_Controller {
 		mav.addObject("section", "event/change");
 		return mav;
 	}
-	@PostMapping("change")
-	public ModelAndView psChangeHandle(@RequestParam String num) {
-		
+	@PostMapping("/change")
+	public ModelAndView ㅔㄴchangeHandle(@RequestParam Map map, @RequestParam(name = "eventimg") MultipartFile f,
+			HttpServletRequest request, HttpSession session) throws SQLException, IllegalStateException, IOException {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("section", "event/masterlist");
+
+		String fileName = null;
+		if (!f.isEmpty() && f.getContentType().startsWith("image")) {
+			//기존 이미지 파일 삭제
+			File file =new File(application.getRealPath("/event/eventimg/"+map.get("defimg")));
+			file.delete();
+			String path = application.getRealPath("/event/eventimg");
+			System.out.println("위치     " + path);
+			File dir = new File(path);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			fileName = System.currentTimeMillis() + ".jpg";
+			File target = new File(dir, fileName);
+			f.transferTo(target);
+			System.out.println("파일 이름   " + target.getPath());
+			map.put("eventimg", fileName);
+		} else {
+			map.put("eventimg" , map.get("defimg"));
+		}
+		System.out.println(map);
+		boolean a = eventDao.change(map);
+		mav.setViewName("t_event");
+		if (a == true) {
+			int size = eventDao.all();
+			Map abc = new HashMap();
+			abc.put("start", 1);
+			abc.put("end", 9);
+			double c = (size / 10.0);
+			int cc = size / 10;
+			if (c - cc > 0) {
+				cc += 1;
+			}
+			System.out.println(cc);
+			List<Map> ila = eventDao.allist(abc);
+			List<Map> li = eventDao.readAll();
+			mav.addObject("list", ila);
+			mav.addObject("cnt", li.size());
+			mav.addObject("size", cc);
+			mav.addObject("section", "event/masterlist");
+		} else {
+			mav.addObject("addt", false);
+			mav.addObject("section", "event/add");
+		}
 		return mav;
-		
 	}
 	@RequestMapping("/view")
 	public ModelAndView noticeViewHandle(@RequestParam String num, @RequestParam String page) throws SQLException {

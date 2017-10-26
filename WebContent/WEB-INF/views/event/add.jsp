@@ -27,7 +27,7 @@
 			  <input type="date" name="enddate" id="enddate" class="eventtime" required/>
 			</p>
 			<p>
-			<b>이미지</b><br/>
+			<b>대표이미지</b><br/>
 			<input type="file" name="eventimg" id="profile" required/>
 			<img  id="pre" alt="기본이미지" style="width:200; height:200"/><br/>
 			</p>
@@ -38,7 +38,7 @@
 			<span id="eventaddcheck"></span>
 				<button type="submit" id="eventaddbt">이벤트 등록</button>
 				<button type="reset">재작성 </button>
-				<a href="/event/list?page=1"><button type="button">목록으로</button></a>
+				<a href="/event/masterlist?page=1"><button type="button">목록으로</button></a>
 			</p>
 		</form>
 		

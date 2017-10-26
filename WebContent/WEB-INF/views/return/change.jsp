@@ -4,70 +4,35 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <div align="center" style="line-height: 35px">
 
-	<h2>이벤트 수정</h2>
+	<h2>반품 수정</h2>
 
 	<div align="left" style="width: 80%;">
 
 
-		<form action="/event/change" method="post"
+		<form action="/return/change" method="post"
 			enctype="multipart/form-data">
 			<p>
-				<input type="hidden" name="num" value="${num }">
+			<input type="hidden" name="num" value="${num }">
 			</p>
 			<p>
-				<b>이벤트 제목</b><br /> <input type="text" name="title"
-					placeholder="이벤트 제목" value="${title }" autocomplete="off"
+				<b>반품 제목</b><br /> <input type="text" name="title"
+					placeholder="반품 제목" value="${title }" autocomplete="off"
 					style="width: 100%;" required />
 			</p>
 			<p>
-				<b>이벤트 내용</b><br />
-				<textarea id="summernote" name="content" placeholder="이벤트 내용"
+				<b>반품 내용</b><br />
+				<textarea id="summernote" name="content" placeholder="반품 내용"
 					required style="width: 100%;"></textarea>
 
 			</p>
-			<p>
-				<b>시작일</b><br /> <input type="date" name="startdate" id="startdate"
-					class="eventtime"
-					value="<fmt:formatDate
-							pattern="yyyy-MM-dd" value="${startdate }"/>"
-					required />
-			</p>
-			<p>
-				<b>마감일</b><br /> <input type="date" name="enddate" id="enddate"
-					class="eventtime"
-					value="<fmt:formatDate
-							pattern="yyyy-MM-dd" value="${enddate }"/>"
-					required />
-			</p>
-			<p>
-				<b>대표이미지</b><br /> <input type="file" name="eventimg" id="profile" />
-				<img id="pre" src="/event/eventimg/${eventimg }"
-					style="width: 200; height: 200" /><br />
-			</p>
-			<p>
-				<input type="hidden" name="defimg" value="${eventimg }">
-			</p>
-			<div align="left" style="width: 700;" class="mar"></div>
-			<p>
-				<span id="eventaddcheck"></span>
-				<button type="submit" id="eventaddbt">이벤트 수정</button>
+				<button type="submit" id="returnaddbt">반품 수정</button>
 				<button type="reset">재작성</button>
-				<a href="/event/masterlist?page=1"><button type="button">목록으로</button></a>
+				<a href="/return/list?page=1"><button type="button">목록으로</button></a>
 		</form>
 
 	</div>
 </div>
 <script>
-	//내부 텍스트에리 업로드
-	//메인 파일 업로드
-	document.getElementById("profile").onchange = function() {
-
-		var reader = new FileReader();
-		reader.onload = function(e) {
-			document.getElementById("pre").src = e.target.result;
-		}
-		reader.readAsDataURL(this.files[0]);
-	}
 	$(document).ready(
 			function() {
 
@@ -127,7 +92,7 @@
 				.ajax({
 					data : form_data,
 					type : "POST",
-					url : '/event/uploadImage',
+					url : '/return/uploadImage',
 					cache : false,
 					contentType : false,
 					enctype : 'multipart/form-data',
@@ -141,14 +106,4 @@
 				});
 	}
 
-	//시작일 마감일 체크
-	$(".eventtime").change(function() {
-		if ($('#startdate').val() <= $('#enddate').val()) {
-			$("#eventaddbt").removeAttr("disabled");
-
-		} else {
-
-			$("#eventaddbt").attr("disabled", true);
-		}
-	});
 </script>

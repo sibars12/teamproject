@@ -39,4 +39,8 @@ public class event_Dao {
 	public List<Map> allist(Map map) {
 		return template.selectList("event.allist",map);
 	}
+	public boolean change(Map map) {
+		int d= template.insert("event.change",map);
+		return d==1;
+	}
 }

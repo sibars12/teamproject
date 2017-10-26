@@ -8,9 +8,9 @@
 	<div align="left" style="width: 80%;">
 	
 		
-		<form action="/retrun/add" method="post" enctype="multipart/form-data">
+		<form action="/return/add" method="post" enctype="multipart/form-data">
 			<p>
-				<b>제목</b><br /> <input type="text"  name="title" placeholder="이벤트 제목"
+				<b>제목</b><br /> <input type="text"  name="title" placeholder="반품 신청 제목"
 					autocomplete="off" style="width: 100%;" required/>
 			</p>
 			<p>
@@ -18,12 +18,12 @@
 			<textarea title="asd" id="summernote" name="content" 
 					style="width: 100%;"></textarea>
 			</p>
+			<input type="hidden" name="writer" value="${auth}">
 			<p>
 				<div align="left" style="width: 700;" class="mar">
 		
 		</div>
 			<p>
-			<span id="eventaddcheck"></span>
 				<button type="submit" id="eventaddbt">반품 등록</button>
 				<button type="reset">재작성 </button>
 				<a href="/return/list?page=1"><button type="button">목록으로</button></a>
@@ -33,7 +33,6 @@
 	</div>
 </div>
 <script>
-//내부 텍스트에리 업로드
 $(document).ready(function(){
 	
 	$('#summernote').summernote({
@@ -73,7 +72,7 @@ function sendFile(file, el){
 	$.ajax({
 		data: form_data,
 		type: "POST",
-		url: '/return/returnimg',
+		url: '/return/uploadImage',
 		cache: false,
 		contentType: false,
 		enctype: 'multipart/form-data',

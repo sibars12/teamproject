@@ -27,6 +27,10 @@
 		<put-attribute name="title" value="inquire"/>
 		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
 	</definition>
+	<definition name="t_return" extends="t_base">
+		<put-attribute name="title" value="return"/>
+		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
+	</definition>
 	
 </tiles-definitions>
 
