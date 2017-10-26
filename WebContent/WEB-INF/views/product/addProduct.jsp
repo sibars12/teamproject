@@ -109,19 +109,17 @@
 			<a class="page_A">${idx}</a>
 		</c:forEach>
 	</p>
-	<div id="form">
 	<form id="productForm" action="/product/addProduct" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="regist" value="Y">
 		<input type="hidden" name="ownernumber" id="productOwnernumber_I">
 		<input type="hidden" name="type" id="productType_I">
 		<input type="text" placeholder="제목" class="mar" id="productTitle_I" name="name"><br/>
 		<img src="/images/basic.jpg" id="pre" alt="기본이미지" style="width:200; height:200"/><br/>
-		<input type="file" name="imag" id="profile" class="mar"><br/>
+		<input type="file" name="imag" id="profile" style="margin:20px;"><br/>
 		<div align="left" style="width: 800;"><textarea name="content" id="summernote"></textarea></div>
-		<button type="submit" class="mar">작성</button>
+		<button type="submit" id="send_B" class="mar">작성</button>
 		<button type="button" id="edit_B" disabled>수정</button>
 	</form>
-	</div>
 </div>
 
 <script>
@@ -147,7 +145,6 @@
 				}
 			}
 		});
-		
 		$(".page_A").click(function(){ // 페이지 이동할 때 테이블 세팅하는 함수
 			var pageNum = $(this).text();
 			$.get("/product/getPageList", {"page":pageNum}, function(data){
@@ -192,6 +189,7 @@
 			$(this).siblings().not(".thead").removeClass("selected").css("background-color","white");
 			
 			if($(this).children("td.productRegist").text()=="Y"){
+				$("#send_B").prop("disabled",true);
 				$.ajax({
 					"type":"get",
 					"url":"/product/loadPInfo",
@@ -205,7 +203,8 @@
 					
 					$("#pre").attr("src",src);
 					$("#pre").attr("alt","상품이미지");
-					$(".note-editable").children("p").html(obj.CONTENTS);
+					//$(".note-editable").children("p").html(obj.CONTENTS);
+					$("#summernote").summernote('code',obj.CONTENTS);
 					$("#edit_B").prop("disabled",false);
 				});
 			}
