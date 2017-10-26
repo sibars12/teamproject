@@ -48,6 +48,7 @@ public class ProductController {
 	@Autowired
 	inquire_Dao inquireDao;
 	
+	// 상품상세보기
 	@RequestMapping("/view")
 	public ModelAndView ViewHandler(@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) {
 		ModelAndView mav = new ModelAndView("t_expr");
@@ -125,15 +126,13 @@ public class ProductController {
 		Map map1 = new HashMap();
 		int size = productDao.reviewListCount(ownernumber); // count는 가져온 리스트 튜플 갯수
 		int pageCount=1; // 페이지 갯수
-		// param.page 처리 위한 계산
-		
 		// 한페이지에 보이는 갯수 계산
 		if(size%5==0){
-			pageCount = size/4;
+			pageCount = size/5;
 		}else{
-			pageCount = size/4+1; 
+			pageCount = size/5+1; 
 		}
-		map1.put("start", (page-1)*4+1);
+		map1.put("start", (page-1)*5+1);
 		map1.put("end", page*4);
 		map1.put("ownernumber", ownernumber);
 		List list = productDao.getReviewList(map1);
@@ -172,6 +171,7 @@ public class ProductController {
 		}
 		System.out.println("param: "+param);
 		productDao.addProduct(param);
+		stockDao.updateRegist(param);
 		mav.addObject("type", param.get("type"));
 		mav.addObject("list", stockDao.getStockList("1"));
 		mav.addObject("page", ((stockDao.getStockPage()-1)/10)+1);
@@ -237,12 +237,136 @@ public class ProductController {
 	@RequestMapping("/deleteProduct")
 	public String deleteProduct(@RequestParam String dnum) {
 		String[] ar = dnum.split(",");
+		
 		for(int i=0;i<ar.length;i++) {
-			productDao.deleteProduct(ar[i]);
-		}
+			// 이미지 파일들 지우기
+			Map info = productDao.loadPInfo(ar[i]);
+		      String cont = (String) info.get("CONTENTS");
+		      System.out.println("내용: "+cont);
+			int flag = 0;
+		      while (true) {
+		         int idx = cont.indexOf("/images/product/content", flag);
+		         if(idx == -1)
+		            break;
+		         String url = cont.substring(idx, cont.indexOf("\"", idx));
+		         System.out.println("url=" + url);
+		         File file = new File(application.getRealPath(url));
+		         file.delete();
+		         flag = idx + 10;
+		      }
+		      //System.out.println("리얼패스: "+application.getRealPath("/images/product/content"+(String)info.get("IMAG")));
+		      File mainfile = new File(application.getRealPath("/images/product/"+(String)info.get("IMAG")));
+		      mainfile.delete();			
+			
+		    // DB에서 삭제 
+			boolean r = productDao.deleteProduct(ar[i]);
+			boolean rr = productDao.editRegist(ar[i]);			
+		}		
 		return "YY";
+	}	
+	
+	// 관리자용
+	// 후기 리스트 관리자용
+	@GetMapping("/reviewList_Master")
+	public ModelAndView reviewList_masterHandler(@RequestParam(name="page", defaultValue="1") int page){
+		Map map = new HashMap();
+		int size = productDao.reviewListAllCount(); 
+		int pageCount=1; // 페이지 갯수
+		// 한페이지에 보이는 갯수 계산
+		if(size%5==0){
+			pageCount = size/5;
+		}else{
+			pageCount = size/5+1; 
+		}
+		map.put("start", (page-1)*5+1);
+		map.put("end", page*5);
+		List<Map> list = productDao.reviewList_master(map);
+
+		ModelAndView mav = new ModelAndView("t_expr");		
+		mav.addObject("list", list);
+		mav.addObject("pageCount",pageCount);
+		mav.addObject("page",page);
+		mav.addObject("section","product/reviewList_Master");
+		return mav;
+	}
+	// 후기 리스트 삭제
+	@RequestMapping(path="deleteReview",produces="text/plain;charset=utf-8")
+	@ResponseBody
+	public String deleteReviewHandler(@RequestParam String arr){
+		String[] ar = arr.split(",");
+		int r =	productDao.deleteReview(ar);
+		System.out.println(r);
+		String rst="";
+		if(ar.length==r){ rst="모두 삭제되었습니다.";}
+		else{			
+			rst = r+"개 삭제됨/"+(ar.length-r)+"개  미삭제";
+		}
+		return rst;
 	}
 	
+	// 후기 리스트 검색
+	@RequestMapping(path="searchReview",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Map searchReviewHandler(@RequestParam Map param,@RequestParam(name="page", defaultValue="1")int page){
+		Map map = new HashMap();
+		String word ="%";
+		word +=(String)param.get("key")+"%";		
+		param.put("word", word);
+		int size = productDao.searchCount(param);
+		int pageCount=1; // 페이지 갯수
+		// 한페이지에 보이는 갯수 계산
+		if(size%5==0){
+			pageCount = size/5;
+		}else{
+			pageCount = size/5+1; 
+		}
+		param.put("start", (page-1)*5+1);
+		param.put("end", page*5);
+		List<Map> list = productDao.searchReview(param);
+		map.put("schlist", list);
+		map.put("pageCount", pageCount);
+		return map;
+	}
 	
+	// addProduct 상품내용 불러오기
+		@RequestMapping(path="/loadPInfo",produces="application/json;charset=utf-8")
+		@ResponseBody
+		public Map loadPInfoHandler(@RequestParam Map param){
+			String ownernumber = (String)param.get("ownernumber"); 
+			Map map = productDao.loadPInfo(ownernumber);
+			//map.put("info", productDao.loadPInfo(param));
+			return map;
+		}
 	
+	// 상품 내용 수정
+		@RequestMapping("/updateProduct")
+		public String updateProductHandler(@RequestParam Map param,@RequestParam(name="imag") MultipartFile f) throws IllegalStateException, IOException{
+			System.out.println(param);
+			String fileName = null;
+			int r=0;
+			fileName = (String)param.get("ownernumber")+".jpg"; // 파일 이름
+			if(!f.isEmpty() && f.getContentType().startsWith("image")){ // 빈파일이 아니고 이미지파일이면
+				File old = new File(application.getRealPath("/images/product")+fileName);
+				old.delete();
+				String path = application.getRealPath("/images/product");
+				File dir = new File(path); // 파일경로
+				File target = new File(dir, fileName);
+				System.out.println("target: "+target);
+				f.transferTo(target);
+				System.out.println("path:"+path);
+				System.out.println("파일이름 : "+fileName);
+				param.put("imag", fileName);
+			}else{
+				param.put("imag", fileName);
+			}
+			r = productDao.updateProduct(param);
+			if(r==1){return "redirect:/product/addProduct";}
+			else{return "redirect:/product/list";}
+		}
+		
+		
+		
+		
+		
+		
 }

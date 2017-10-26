@@ -45,6 +45,9 @@
 			<when test="option == 'volume'">update stock set volume=#{value} where no=#{no}</when>
 		</choose>
 	</update>
+	<update id="updateRegist">
+		update stock set regist=#{regist} where ownernumber =#{ownernumber}
+	</update>
 	<select id="getOptionSchStockList" resultType="java.util.HashMap">
 		<choose>
 			<when test="option == 'ownernumber'">select * from 

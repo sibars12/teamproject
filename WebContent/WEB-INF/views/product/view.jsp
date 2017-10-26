@@ -138,6 +138,7 @@ th, td {
 					<p>
 					<label for="reviewWriter_I"> 작성자 </label>
 					<input type="text" class="form-control" id="reviewWriter_I" name="reviewWriter_I" placeholder="작성자" >
+					<input type="hidden" id="pname" value="${productInfo[0].NAME }">
 					</p>
 					<p>
 					<label> 별점 : </label>&nbsp;
@@ -365,10 +366,12 @@ reviewList(1);
 //후기 작성
 $("#review_Submit").click(function () {
 	var writer = $("#reviewWriter_I").val();
-	var score = $(":input[name=score]:radio:checked").length;
-	console.log(score);
+	var score = $(":input[name=score]:radio:checked").val();
+	var scoreSelected = $(":input[name=score]:radio:checked").length;
 	var con = $("#reviewContent_Ta").val();
-	if(writer=="" || score==0 || con==""){
+	var pname=$("#pname").val();
+	console.log(pname);
+	if(writer=="" || scoreSelected==0 || con==""){
 		window.alert("항목을 모두 기입해주세요");
 		return;
 	}
@@ -378,6 +381,7 @@ $("#review_Submit").click(function () {
 		"url":"/product/addReview",
 		"data":{
 			"ownernumber":${productInfo[0].OWNERNUMBER},
+			"pname": pname,
 			"id":'TEST', 
 			"writer":writer,
 			"score": score,

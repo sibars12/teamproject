@@ -53,11 +53,47 @@ public class ProductDao {
 	public int reviewListCount(String ownernumber){
 		return sql.selectOne("product.reviewListCount", ownernumber);
 	}
-	
+	// 상품 삭제
 	public boolean deleteProduct(String dnum) {
 		sql.delete("product.deleteProduct", dnum);
 		return true;
 	}
+	
+	public boolean editRegist(String dnum){
+		sql.update("product.editRegist", dnum);
+		return true;
+	}
+	//관리자용
+	// 후기 리스트_관리자용
+	public List<Map> reviewList_master(Map map){
+		return sql.selectList("product.reviewList_master", map);
+	}
+	// 후기 리스트 총 갯수
+	public int reviewListAllCount(){
+		return sql.selectOne("product.reviewListAllCount");
+	}
+	// 후기 리스트 삭제
+	public int deleteReview(String[] ar) {
+		return sql.delete("product.deleteReview", ar);
+	}
+	// 후기 리스트 검색
+	public List<Map> searchReview(Map param){
+		return sql.selectList("product.searchReview", param);
+	}
+	// 검색 리스트 갯수
+	public int searchCount(Map param){
+		return sql.selectOne("product.searchCount", param);
+	}
+	
+	// 상품 리스트 수정
+	public int updateProduct(Map param){
+		return sql.update("product.updateProduct", param);
+	}
+	// 상품 정보 가져오기
+	public Map loadPInfo(String ownernumber){
+		return sql.selectOne("product.loadPInfo",ownernumber);
+	}
+	//????
 	public List<Map> getNewProductList(Map map){
 		return sql.selectList("product.getNewProductList",map);
 	}

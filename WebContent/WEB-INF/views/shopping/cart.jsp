@@ -81,8 +81,9 @@
 						<td class="cart_Td" width="70">번호</td>
 						<td class="cart_Td">사진</td>
 						<td class="cart_Td" width="500">제품명</td>
+						<td class="cart_Td" width="80">판매가</td>
 						<td class="cart_Td" width="150">수량</td>
-						<td class="cart_Td" width="80">가격</td>
+						<td class="cart_Td" width="80">합계</td>
 					</tr>
 				</thead>
 				<tbody align="center">
@@ -93,20 +94,27 @@
 							<td class="cart_Td">${idx+1 }</td>
 							<td class="cart_Td"><img width="70" height="70" src="/images/product/${list[idx].IMAG }"></td>
 							<td class="cart_Td">[${list[idx].COMP}] ${list[idx].NAME}${list[idx].SCALE} ${list[idx].COLOR}</td>
+							<td class="price_Td cart_Td">${list[idx].PRICE}</td>
 							<td class="vol_Td cart_Td">
 								<button type="button" class="volminus_B w3-button w3-black w3-hover-black w3-padding-small w3-tiny">-</button>
 								<input type="text" name="stockCnt" class="cartVol_I" value="${list[idx].VOLUME }">
 								<button type="button" class="volplus_B w3-button w3-black w3-hover-black w3-padding-small w3-tiny">+</button>
 								<input type="hidden" name="stockNo" value="${list[idx].NUM }">
 							</td>
-							<td class="price_Td cart_Td">${list[idx].PRICE }</td>
+							<td class="sPrice_Td cart_Td">
+								<span id="sPrice_S"></span>
+								<input type="hidden" name="stockPrice" value="">
+							</td>
 						</tr>
 					</c:forEach>
 					</c:if>
 				</tbody>
 				<tfoot align="right">
 					<tr>
-						<td class="cart_Td cartTP_Td" colspan="6">총 구매금액: <span id="totalPrice_S"></span></td>
+						<td class="cart_Td cartTP_Td" colspan="7">
+							총 구매금액: <span id="totalPrice_S"></span>
+							<input type="hidden" name="totPrice" id="totalPrice_I">
+						</td>
 					</tr>
 					<tr>
 						<td class="cartBt_Td" colspan="6" align="right">
@@ -179,11 +187,14 @@
 	
 	var totalPrice = function(){
 		var tPrice = 0;
+		var sPrice = 0;
 		$(".price_Td").each(function(){
-			console.log($(this).text());
-			console.log($(this).prev().children("input").val());
-			tPrice+=parseInt($(this).text()) * parseInt($(this).prev().children("input").val());
+			sPrice = parseInt($(this).text()) * parseInt($(this).next().children("input.cartVol_I").val());
+			tPrice += parseInt($(this).text()) * parseInt($(this).next().children("input.cartVol_I").val());
+			$(this).siblings(".sPrice_Td").children("#sPrice_S").text(sPrice);
+			$(this).siblings(".sPrice_Td").children("input").val(sPrice);
 		});
 		$("#totalPrice_S").text(tPrice);
+		$("#totalPrice_I").val(tPrice);
 	}
 </script>
