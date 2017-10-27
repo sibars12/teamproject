@@ -28,4 +28,7 @@ public class ShoppingDao {
 		sql.update("shopping.addCartVol",map);
 		return true;
 	}
+	public int getCartCnt(String id) {
+		return sql.selectOne("shopping.getCartCnt", id);
+	}
 }

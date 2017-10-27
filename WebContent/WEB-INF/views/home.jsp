@@ -118,7 +118,9 @@
 		</tr>
 	</table>
 </div>
+<div align="center">
 <a href="#"><img src="/images/home/5.jpg" class="w3-opacity-min"></a>
+</div>
 <!-- 베스트 상품 -->
 <div align="center" id="bestProduct_D">
 	<p class="pTitle_P">Best Product</p>
