@@ -95,7 +95,7 @@
 				if(this.readyState == 4) {
 					if(this.responseText.trim() == "false") {
 						document.getElementById("checkEmail").innerHTML = "<b style=\"color:green\">사용가능 Email</b>"
-						document.getElementById("sbt").disabled = "disabled";
+						//document.getElementById("sbt").disabled = "disabled";
 					}else {
 						document.getElementById("checkEmail").innerHTML = "<b style=\"color:red\">사용불가능 Email</b>"
 					}
@@ -120,22 +120,24 @@
 //*	//가입이메일 인증
 	document.getElementById("en").onclick = function() {
 		var email = document.getElementById("email").value;
-		var xhr = new XMLHttpRequest();
-		xhr.open("get","/member/join/auth?email=" + email, false);
-		xhr.send();
-		xhr.onreadystatechange==function() {
+		var xhrr = new XMLHttpRequest();
+		xhrr.open("get","/member/join/auth?email=" + email, false);
+		xhrr.onreadystatechange=function() {
 			if(this.readyState == 4) {
 				window.alert("<" + email + "> 로 인증번호가 전송되었습니다.");
 				document.getElementById("en").style.display="none";
 			}
 		}
+		xhrr.send();
 		document.getElementById("em").innerHTML="인증번호 : <input type=\"text\" id=\"cre\"><button type=\"button\" id=\"tr\">Email 인증하기</button>";
 		document.getElementById("tr").onclick=function() {
 			var xh = new XMLHttpRequest();
 			var ee = document.getElementById("cre").value;
 			xh.open("get","/member/join/tre?tre="+ee, false);
 			xh.send();
+			window.alert("ㄴㅇㄴㄹ");
 			xh.onreadystatechange=function() {
+				window.alert(this.responseText);
 				if(this.readyState == 4) {
 					window.alert(this.responseText);
 					var obj = JSON.parse(this.responseText);

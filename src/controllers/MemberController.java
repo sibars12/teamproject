@@ -75,7 +75,8 @@ public class MemberController {
 
 	// 가입인증 이메일
 	@RequestMapping("/join/auth")
-	public void joinAuth(@RequestParam(name = "email") String email, HttpSession session) {
+	@ResponseBody
+	public String joinAuth(@RequestParam(name = "email") String email, HttpSession session) {
 		UUID u = UUID.randomUUID();
 		session.setAttribute("tre", u.toString());
 		SimpleMailMessage msg = new SimpleMailMessage();
@@ -86,8 +87,10 @@ public class MemberController {
 			String text = "인증번호는" + u.toString() + "입니다.";
 			msg.setText(text);
 			sender.send(msg); // 발송
+			return "Y";
 		} catch (Exception r) {
 			System.out.println(r);
+			return "N";
 		}
 	}
 
