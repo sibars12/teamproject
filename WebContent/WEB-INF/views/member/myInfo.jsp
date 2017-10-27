@@ -55,12 +55,17 @@
       <label class="control-label col-sm-2" for="point">Point : </label>
     </div>
     
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="joinDay">가입일 : </label>
+    </div>
+    
     <div class="form-group">        
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-default">MODIFY</button>
         <button type="reset" class="btn btn-default">RESET</button>
       </div>
     </div>
+    
   </form>
 </div>
 

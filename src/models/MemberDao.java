@@ -47,5 +47,16 @@ public class MemberDao {
 		int r = template.update("member.editDetail", map);
 		return r;
 	}
+	
+	// 아이디 찾기
+	public String findId(Map map) {
+		return template.selectOne("member.findId", map);
+	}
+	
+	// 비밀번호 변경
+	public int editPw(Map map) {
+		int r = template.update("member.editPw", map);
+		return r;
+	}
 
 }

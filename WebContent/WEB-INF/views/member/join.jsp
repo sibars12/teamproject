@@ -44,8 +44,8 @@
 				<label class="control-label col-sm-2" for="email">Email : </label>
 				<div class="col-sm-7">
 					<input type="email" class="form-control" id="email"
-						placeholder="Enter Email" name="email"> <span
-						id="checkEmail"></span>
+						placeholder="Enter Email" name="email"> 
+						<span id="checkEmail"></span><br/>
 					<button type="button" id="en">Email 인증하기</button>
 					<span id="em"></span>
 				</div>
@@ -117,11 +117,11 @@
 		}
 	}
 	
-	//가입이메일 인증
-	document.getElementById("en").onblur = function() {
+//*	//가입이메일 인증
+	document.getElementById("en").onclick = function() {
 		var email = document.getElementById("email").value;
 		var xhr = new XMLHttpRequest();
-		xhr.open("get","/join/auth?email=" + email, false);
+		xhr.open("get","/member/join/auth?email=" + email, false);
 		xhr.send();
 		xhr.onreadystatechange==function() {
 			if(this.readyState == 4) {
@@ -133,12 +133,12 @@
 		document.getElementById("tr").onclick=function() {
 			var xh = new XMLHttpRequest();
 			var ee = document.getElementById("cre").value;
-			xh.open("get","/join/tre?tre="+ee, false);
+			xh.open("get","/member/join/tre?tre="+ee, false);
 			xh.send();
 			xh.onreadystatechange=function() {
 				if(this.readyState == 4) {
-					var obj = JSON.parse(this.responseText);
 					window.alert(this.responseText);
+					var obj = JSON.parse(this.responseText);
 					if(obj.tre) {
 						window.alert("인증이 확인되었습니다.")
 					}else {
@@ -149,13 +149,5 @@
 		}
 	}
 	
-	
+	//
 </script>
-
-
-
-
-
-
-
-

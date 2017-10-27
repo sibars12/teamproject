@@ -2,35 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 
+	<!-- 회원가입시 입력한 정보 member에 저장 -->
 	<insert parameterType="java.util.HashMap" id="addMember">
 		insert into member values(#{id},#{pw},#{email})
 	</insert>
 	
+	<!-- 회원가입시 입력한 정보 detail에 저장 -->
 	<insert parameterType="java.util.HashMap" id="addDetail">
 		insert into detail(id) values(#{id})
 	</insert>
 	
+	<!-- 회원가입 시 ID 사용여부 -->
 	<select parameterType="java.lang.String" id="checkId" resultType="java.lang.String">
 		select id from member where id=#{id}
 	</select>
 	
+	<!-- 회원가입 시 EMAIL 사용여부 -->
 	<select parameterType="java.lang.String" id="checkEmail" resultType="java.lang.String">
 		select email from member where email=#{email}
 	</select>
 	
+	<!-- 로그인 -->
 	<select parameterType="java.util.HashMap" id="login" resultType="java.util.HashMap">
 		select * from member where (id = #{id}) and pw = #{pw}
 	</select>
 	
+	<!-- 정보입력창 화면에 저장되어있는 값 출력 -->
 	<select id="readDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select * from detail where id = #{id}
 	</select>
 	
+	<!-- 정보수정 -->
 	<update parameterType="java.util.HashMap" id="editDetail">
 		update detail set id=#{id,jdbcType=VARCHAR}, name=#{name,jdbcType=VARCHAR}, birth=#{birth,jdbcType=DATE}, address=#{address,jdbcType=VARCHAR}, tel=#{tel, jdbcType=VARCHAR}, point=#{point,jdbcType=NUMERIC} where id =#{id}
 	</update>
 	
 	<!-- 인증메일 보내는 것 추가하기 -->
 	
+	
+	<!-- 입력한 값 받아서 아이디 출력 -->
+	<select id="findId" parameterType="java.util.HashMap" resultType="java.lang.String">
+		select id from detail where name=#{name} and birth=#{birth} and tel=#{tel}
+	</select>
+	
+	<!-- 비밀번호 재설정 -->
+	<update id="editPw" parameterType="java.util.HashMap">
+		update member set pw=#{pw}
+	</update>
 	
 </mapper>

@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.MemberDao;
 
-
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -73,7 +72,7 @@ public class MemberController {
 		}
 		return b;
 	}
-	
+
 	// 가입인증 이메일
 	@RequestMapping("/join/auth")
 	public void joinAuth(@RequestParam(name = "email") String email, HttpSession session) {
@@ -96,6 +95,8 @@ public class MemberController {
 	@ResponseBody
 	public String tretre(@RequestParam(name = "tre") String tre, HttpSession session) {
 		String tru = (String) session.getAttribute("tre");
+		System.out.println("String" + tru);
+		System.out.println(tre);
 		return "{ \"tre\" : " + tre.equals(tru) + "}";
 	}
 
@@ -132,7 +133,13 @@ public class MemberController {
 	public String getLogoutHandle(HttpSession session) {
 		System.out.println(session.getAttribute("auth") + "님 로그아웃");
 		session.invalidate();
-		return "home";
+		return "redirect:/member/logoutOk";
+	}
+
+	@GetMapping("/logoutOk")
+	public String getLogoutOkHandle(Map map) {
+		map.put("section", "member/logoutOk");
+		return "t_expr";
 	}
 
 	// myInfo
@@ -158,8 +165,39 @@ public class MemberController {
 		}
 	}
 
+	// 아이디 찾기 결과
+	@PostMapping("/findIdOk")
+	public String getFindIdOkHandle(Map map) {
+		String id = memberDao.findId(map);
+		
+		map.put("section", "member/findIdOk");
+		return "t_expr";
+	}
+	// 아이디,비밀번호 찾기 메인 창
+	@GetMapping("/find")
+	public String getFindHandle(Map map) {
+		map.put("section", "member/find");
+		return "t_expr";
+	}
+
+	// 아이디 찾기 입력 창
+	@GetMapping("/findId")
+	public String getFindIdHandle(Map map) {
+		map.put("section", "member/findId");
+		return "t_expr";
+	}
+
+
+	@PostMapping("/find/editPw")
+	public String postFindIdHandle(HttpSession session, @RequestParam Map map, ModelMap mMap) {
+		try { // 아이디 찾기 성공한 경우
+
+			return "";
+		} catch (Exception e) { // 해당 정보에 대한 아이디가 없을 경우
+			mMap.addAttribute("section", "member/find");
+			e.printStackTrace();
+			return "t_expr";
+		}
+	}
+
 }
-
-
-
-

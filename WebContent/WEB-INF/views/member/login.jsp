@@ -38,6 +38,7 @@
     <div class="form-group">        
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-default">Login</button>
+        <a href="/member/find"><button type="button" class="btn btn-default">Find ID/PW</button></a>
       </div>
     </div>
   </form>
