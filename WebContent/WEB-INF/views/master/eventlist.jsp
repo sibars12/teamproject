@@ -36,7 +36,7 @@ th, td {
 					</td>
 					<td>
 					
-						<a href="/event/masterview?num=${obj.NUM}&page=${param.page}"><img width="100" height="100" src="/event/eventimg/${obj.EVENTIMG }"></a>
+						<a href="/master/eventview?num=${obj.NUM}&page=${param.page}"><img width="100" height="100" src="/event/eventimg/${obj.EVENTIMG }"></a>
 					</td>
 					<td>
 						<p><fmt:formatDate
@@ -52,27 +52,27 @@ th, td {
 	</table>
 	<p align="right" style="margin-right: 30px;">
 		<button type="button" id="eventdel">체크 삭제 </button>
-		<a href="/event/add"><button type="button">이벤트 작성</button></a>
+		<a href="/master/eventadd"><button type="button">이벤트 작성</button></a>
 	</p>
 </div>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/event/masterlist?page=${param.page-1 }">&laquo;</a></c:if>
+ <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/master/eventlist?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
 					<a class="w3-button" class="active">${i }</a>
 				</c:when>
 				<c:otherwise>
-					<a href="/event/masterlist?page=${i }" class="w3-button"
+					<a href="/master/eventlist?page=${i }" class="w3-button"
 						><b style="color: #9c9892;">${i }</b></a>	
 				</c:otherwise>
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page ne size }"><a class="w3-button" href="/event/masterlist?page=${param.page+1 }">&raquo;</a></c:if>
+  <c:if test="${param.page lt size }"><a class="w3-button" href="/master/eventlist?page=${param.page+1 }">&raquo;</a></c:if>
 </div>
 
 </div>

@@ -37,7 +37,7 @@ th, td {
 					</td>
 					<td>
 					
-						<a href="/return/masterview?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
+						<a href="/master/returnview?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
 					</td>
 					<td>${obj.WRITER }</td>
 				</tr>

@@ -17,7 +17,7 @@
 				
 				<b>관리자 답글</b>  작성일 :<fmt:formatDate	pattern="yyyy.MM.dd HH:mm:ss" value="${obj.WRITEDATE }" /><br/>
 				<p> ${obj.COMENT }</p>
-				<a href="/return/masterlist?page=${page }"><button type="button">목록으로</button></a>
+				<a href="/master/returnlist?page=${page }"><button type="button">목록으로</button></a>
 				<form action="/master/returncoment" method="post">
 				<p><input type="hidden" name="num"  value="${obj.NUM}"></p>
 				<p><input type="hidden" name="page" value="${page }" ></p>

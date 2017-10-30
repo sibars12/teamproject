@@ -13,13 +13,13 @@
 	}
 	
 	.menu_A {
-		margin-right: 35;
-		margin_left: 35;
+		margin-right: 10;
+		margin_left: 10;
 	}
 	
 	#menu_D {
 		font-family: 'Saira-Medium';
-		padding-left: 120;
+		padding-left: 140;
 	}
 	
 	#mainTitle_D {
@@ -43,14 +43,17 @@
 	<div id="menu_D" class="col-sm-7 text-center">
 		<a class="menu_A" href="/product/list">PRODUCT</a>
 		<c:if test="${'MASTER' eq auth }">
-		<a class="menu_A" href="/event/masterlist">EVENT</a>
-		<a class="menu_A" href="/QnA/masterlist">QnA</a>
+		<a class="menu_A" href="/master/eventlist">EVENT</a>
+		<a class="menu_A" href="/master/QnAlist">QnA</a>
 		<a class="menu_A" href="/master/noticelist">NOTICE</a>
+		<a class="menu_A" href="/master/inquirelist">INQUIRE</a>
+		<a class="menu_A" href="/master/returnlist">RETURN</a>
 		</c:if>
 		<c:if test="${'MASTER' ne auth}">
 		<a class="menu_A" href="/event/list">EVENT</a>
 		<a class="menu_A" href="/QnA/list">QnA</a>
 		<a class="menu_A" href="/notice/list">NOTICE</a>
+		<a class="menu_A" href="/return/list">RETURN</a>
 		</c:if>
 		<a class="menu_A" href="/stock/addStock">STOCK</a>
 	</div>

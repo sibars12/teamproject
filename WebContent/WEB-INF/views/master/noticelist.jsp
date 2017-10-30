@@ -51,7 +51,7 @@ th, td {
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/master/noticelist?page=${param.page-1 }">&laquo;</a></c:if>
+ <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/master/noticelist?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
@@ -64,7 +64,7 @@ th, td {
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page ne size }"><a class="w3-button" href="/master/noticelist?page=${param.page+1 }">&raquo;</a></c:if>
+  <c:if test="${param.page lt size }"><a class="w3-button" href="/master/noticelist?page=${param.page+1 }">&raquo;</a></c:if>
 </div>
 
 </div>

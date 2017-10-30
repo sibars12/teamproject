@@ -31,7 +31,7 @@
 		</table>
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/master/QnAlist?page=${param.page-1 }">&laquo;</a></c:if>
+ <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/master/QnAlist?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
@@ -44,7 +44,7 @@
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page ne size }"><a class="w3-button" href="/master/QnAlist?page=${param.page+1 }">&raquo;</a></c:if>
+  <c:if test="${param.page lt size }"><a class="w3-button" href="/master/QnAlist?page=${param.page+1 }">&raquo;</a></c:if>
 </div>
 
 </div>
