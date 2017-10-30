@@ -66,4 +66,5 @@ public class MemberDao {
 		r += template.delete("member.dropDetail", map);
 		return r;
 	}
+	
 }

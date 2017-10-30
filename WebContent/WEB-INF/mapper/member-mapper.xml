@@ -4,7 +4,7 @@
 
 	<!-- 회원가입시 입력한 정보 member에 저장 -->
 	<insert parameterType="java.util.HashMap" id="addMember">
-		insert into member values(#{id},#{pw},#{email})
+		insert into member values(#{id},#{pw},#{email},sysdate)
 	</insert>
 	
 	<!-- 회원가입시 입력한 정보 detail에 저장 -->
@@ -42,9 +42,15 @@
 		select id from detail where name=#{name} and birth=#{birth} and tel=#{tel}
 	</select>
 	
+	<!-- 입력한값 받아서 비밀번호 출력 -->
+	<select id="findPw" parameterType="java.util.HashMap" resultType="java.lang.String">
+		select pw from member where id=#{id} and email=#{email}
+	</select>
+	
+	
 	<!-- 비밀번호 찾기 시 비밀번호 재설정 -->
 	<update id="editPw" parameterType="java.util.HashMap">
-		update member set pw=#{pw}
+		update member set id=#{id} and email=#{email}
 	</update>
 	
 	<!-- 회원탈퇴 (delete는 *표시 필요없음!)-->
