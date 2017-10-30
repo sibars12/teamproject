@@ -206,6 +206,7 @@ public class MemberController {
 		try {
 			System.out.println(session.getAttribute("auth") + "님 회원탈퇴");
 			int r = memberDao.drop(pmap);
+			session.invalidate();
 			return "redirect:/member/dropOk";
 		} catch (Exception e) {
 			map.put("section", "member/drop");
@@ -221,9 +222,13 @@ public class MemberController {
 	}
 	
 	
-	
-	// 비밀번호 찾기 입력 창(아이디, 이름, 생년월일, 이메일 입력받기)
+	// findPw.jsp 비밀번호 찾기 입력 창(아이디, 이름, 생년월일, 이메일 입력받기)
+	@GetMapping("/findPw")
+	public String getFindPwHandle(Map map) {
+		map.put("section", "member/findPw");
+		return "t_expr";
+	}
 	
 
-	// 비밀번호 재설정 창(새로운 비밀번호 입력받아서 update)
+	// findRePw.jsp 비밀번호 재설정 창(새로운 비밀번호 입력받아서 update)
 }

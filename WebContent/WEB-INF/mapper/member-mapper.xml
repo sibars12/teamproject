@@ -47,7 +47,7 @@
 		update member set pw=#{pw}
 	</update>
 	
-	<!-- 회원탈퇴 -->
+	<!-- 회원탈퇴 (delete는 *표시 필요없음!)-->
 	<delete id="dropMember" parameterType="java.util.HashMap">
 		delete from member where pw= #{pw} and id=#{id}
 	</delete>
