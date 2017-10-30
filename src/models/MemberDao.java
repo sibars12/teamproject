@@ -59,4 +59,11 @@ public class MemberDao {
 		return r;
 	}
 
+	// È¸¿ø Å»Åð
+	public int drop(Map map) {
+		int r = 0;
+		r += template.delete("member.dropMember", map);
+		r += template.delete("member.dropDetail", map);
+		return r;
+	}
 }

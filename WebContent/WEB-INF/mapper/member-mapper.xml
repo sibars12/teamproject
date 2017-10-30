@@ -35,19 +35,25 @@
 	<!-- 정보수정 -->
 	<update parameterType="java.util.HashMap" id="editDetail">
 		update detail set id=#{id,jdbcType=VARCHAR}, name=#{name,jdbcType=VARCHAR}, birth=#{birth,jdbcType=DATE}, address=#{address,jdbcType=VARCHAR}, tel=#{tel, jdbcType=VARCHAR}, point=#{point,jdbcType=NUMERIC} where id =#{id}
-	</update>
-	
-	<!-- 인증메일 보내는 것 추가하기 -->
-	
+	</update>	
 	
 	<!-- 입력한 값 받아서 아이디 출력 -->
 	<select id="findId" parameterType="java.util.HashMap" resultType="java.lang.String">
 		select id from detail where name=#{name} and birth=#{birth} and tel=#{tel}
 	</select>
 	
-	<!-- 비밀번호 재설정 -->
+	<!-- 비밀번호 찾기 시 비밀번호 재설정 -->
 	<update id="editPw" parameterType="java.util.HashMap">
 		update member set pw=#{pw}
 	</update>
+	
+	<!-- 회원탈퇴 -->
+	<delete id="dropMember" parameterType="java.util.HashMap">
+		delete from member where pw= #{pw} and id=#{id}
+	</delete>
+	
+	<delete id="dropDetail" parameterType="java.lang.String">
+		delete from detail where id=#{id}
+	</delete>
 	
 </mapper>

@@ -5,12 +5,14 @@
   <h2>LOGIN</h2>
   <hr>
   <form class="form-horizontal" action="/member/session" method="post">
+  
     <div class="form-group" >
       <label class="control-label col-sm-2" for="id">ID:</label>
       <div class="col-sm-5">
         <input type="text" class="form-control" id="id" placeholder="Enter ID" name="id">
       </div>
     </div>
+    
     <div class="form-group">
       <label class="control-label col-sm-2" for="pw">Password:</label>
       <div class="col-sm-5">
@@ -26,7 +28,7 @@
     </div>
     <div class="form-group">        
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Login</button>
+        <button type="submit" class="btn btn-default" id="login" name="login">Login</button>
         <a href="/member/find"><button type="button" class="btn btn-default">Find ID/PW</button></a>
       </div>
     </div>
@@ -38,12 +40,12 @@
 <script>
 	function keeps() {
 		var k = document.getElementById("keep")
-		var check=false;
+		var check = false;
 		if(k.checked == true) {
 			if(window.confirm("로그인을 유지하시겠습니까?")) {
 				document.getElementById("keep").checked==true;
 				check=true;
-			}
+			}				
 			
 		}
 	}

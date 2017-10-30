@@ -45,9 +45,9 @@ public class MemberController {
 	@PostMapping("/join")
 	public String postJoinHandle(@RequestParam Map map, ModelMap mMap, HttpSession session) {
 		try {
-
 			int r = memberDao.addMember(map);
-			session.setAttribute("auth", map.get("id"));
+			System.out.println(session.getAttribute("auth") + "님 회원가입 완료");
+			// session.setAttribute("auth", map.get("id"));
 			return "redirect:/member/login";
 		} catch (Exception e) {
 			mMap.addAttribute("temp", map);
@@ -116,19 +116,13 @@ public class MemberController {
 			Map m = memberDao.login(map);
 			session.setAttribute("auth", m.get("ID")); // 대문자 ID로 할 것!!
 			System.out.println(session.getAttribute("auth") + "님 로그인");
-			return "redirect:/member/loginOk";
+			return "home";
 		} catch (Exception e) {
 			mMap.addAttribute("temp", map);
 			mMap.addAttribute("section", "member/login");
 			e.printStackTrace();
 			return "t_expr";
 		}
-	}
-
-	@GetMapping("/loginOk")
-	public String getLoginOkHandle(Map map) {
-		map.put("section", "member/loginOk");
-		return "t_expr";
 	}
 
 	// logout
@@ -168,14 +162,6 @@ public class MemberController {
 		}
 	}
 
-	// 아이디 찾기 결과
-	@PostMapping("/findIdOk")
-	public String getFindIdOkHandle(Map map) {
-		String id = memberDao.findId(map);
-		
-		map.put("section", "member/findIdOk");
-		return "t_expr";
-	}
 	// 아이디,비밀번호 찾기 메인 창
 	@GetMapping("/find")
 	public String getFindHandle(Map map) {
@@ -190,17 +176,54 @@ public class MemberController {
 		return "t_expr";
 	}
 
+	// 아이디 찾기 결과
+	@PostMapping("/findIdOk")
+	public String getFindIdOkHandle(@RequestParam Map pmap, Map map) { // pmap는
+																		// 파라미터로
+																		// 받아오는
+																		// 맵,
+																		// map은
+																		// 셋팅시키는
+																		// 맵
+		String id = memberDao.findId(pmap); // 파라미터로 받은 값을 id에 저장
+		System.out.println(id);
+		map.put("findId", id); // map의 findId에 id를 세팅시킴
+		map.put("section", "member/findIdOk"); // section에 /member/findIdOk 넣기
+		return "t_expr";
+	}
 
-	@PostMapping("/find/editPw")
-	public String postFindIdHandle(HttpSession session, @RequestParam Map map, ModelMap mMap) {
-		try { // 아이디 찾기 성공한 경우
+	// 회원 탈퇴
+	@GetMapping("/drop")
+	public String getDropHandle(Map map) {
+		map.put("section", "/member/drop");
+		return "t_expr";
+	}
 
-			return "";
-		} catch (Exception e) { // 해당 정보에 대한 아이디가 없을 경우
-			mMap.addAttribute("section", "member/find");
+	
+	@PostMapping("/dropOk")		// 비밀번호가 맞을경우 or 비밀번호가 틀릴경우 
+	public String postDropOkHandle(HttpSession session, @RequestParam Map pmap, Map map) {
+		pmap.put("id", session.getAttribute("auth") );		//아이디확인해서 아이디랑 비밀번호가 맞을때 탈퇴가능하게 하기위해서 추가
+		try {
+			System.out.println(session.getAttribute("auth") + "님 회원탈퇴");
+			int r = memberDao.drop(pmap);
+			return "redirect:/member/dropOk";
+		} catch (Exception e) {
+			map.put("section", "member/drop");
 			e.printStackTrace();
 			return "t_expr";
 		}
 	}
 
+	@GetMapping("/dropOk")
+	public String getDropOkHandle(Map map) {
+		map.put("section", "/member/dropOk");
+		return "t_expr";
+	}
+	
+	
+	
+	// 비밀번호 찾기 입력 창(아이디, 이름, 생년월일, 이메일 입력받기)
+	
+
+	// 비밀번호 재설정 창(새로운 비밀번호 입력받아서 update)
 }
