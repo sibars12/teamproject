@@ -64,36 +64,7 @@ public class retrun_Controller {
 	}
 	
 
-	@RequestMapping("/masterlist")
-	public ModelAndView masterListHandle(@RequestParam(name = "page", defaultValue = "1") int page , HttpSession session)
-			throws SQLException {
-		int size = returnDao.all();
-		double c = (size / 10.0);
-		int cc = size / 10;
-		if (c - cc > 0) {
-			cc += 1;
-		}
-		if (page > cc) {
-			page = cc;
-			}
-		if (page <= 0) {
-			page = 1;
-		}
-		Map a = new HashMap();
-		a.put("start", (page * 10) - 9);
-		a.put("end", page * 10);
-		System.out.println("page="+page);
-		System.out.println(cc);
-		List<Map> ila = returnDao.allist(a);
-		List<Map> li = returnDao.list();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_return");
-		mav.addObject("list", ila);
-		mav.addObject("cnt", li.size());
-		mav.addObject("size", cc);
-		mav.addObject("section", "return/masterlist");
-		return mav;
-	}
+	
 
 
 	@ResponseBody
@@ -254,25 +225,6 @@ public class retrun_Controller {
 	}
 
 	// list에서 체크한 상품들 삭제 후 결과 반환
-	@ResponseBody
-	@RequestMapping("/checkdel")
-	public String deleteProduct(@RequestParam String dnum) {
-		String[] ar = dnum.split(",");
-		for (int i = 0; i < ar.length; i++) {
-			System.out.println("ar="+ar[i]);
-			returnDao.del(ar[i]);
-		}
-		return "YY";
-	}
-	@RequestMapping("/coment")
-	public ModelAndView comenthandle(@RequestParam Map map) {
-		ModelAndView mav = new ModelAndView("");
-		returnDao.coment(map);
-		mav.setViewName("redirect:/return/masterview?num="+map.get("num")+"&page="+map.get("page"));
-		
-		return mav;
-		
-	}
 
 
 }

@@ -23,7 +23,7 @@
 							class="w3-btn w3-block w3-blue w3-left-align">${obj.TITLE}</button>
 						<div id="Demos${obj.NUM}" class="w3-container w3-hide">
 							<p>${obj.CONTENT }</p>
-							<a href="/QnA/change?num=${obj.NUM }"><button type="button">수정</button></a>
+							<a href="/master/QnAchange?num=${obj.NUM }"><button type="button">수정</button></a>
 						</div></td>
 				</tr>
 			</c:forEach>
@@ -31,20 +31,20 @@
 		</table>
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/QnA/masterlist?page=${param.page-1 }">&laquo;</a></c:if>
+ <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/master/QnAlist?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
 					<a class="w3-button" class="active">${i }</a>
 				</c:when>
 				<c:otherwise>
-					<a href="/QnA/masterlist?page=${i }" class="w3-button"
+					<a href="/master/QnAlist?page=${i }" class="w3-button"
 						><b style="color: #9c9892;">${i }</b></a>	
 				</c:otherwise>
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page ne size }"><a class="w3-button" href="/QnA/masterlist?page=${param.page+1 }">&raquo;</a></c:if>
+  <c:if test="${param.page ne size }"><a class="w3-button" href="/master/QnAlist?page=${param.page+1 }">&raquo;</a></c:if>
 </div>
 
 </div>
@@ -65,12 +65,12 @@
 			});
 			if(confirm("정말 삭제하시겠습니까??")){
 				console.log(dnum);
-				$.get("/QnA/checkdel",{"dnum":dnum},function(data){
+				$.get("/master/QnAcheckdel",{"dnum":dnum},function(data){
 					if(data=="YY"){
 						alert("삭제되었습니다");
 					}
 				});
-				location.href="/QnA/masterlist";
+				location.href="/master/QnAlist";
 			}
 		}
 		})
@@ -127,5 +127,5 @@
 
 	</script>
 	<button type="button" id="QnAdel">체크 삭제 </button>
-	<a href="/QnA/add"><button type="button">QnA작성</button></a>
+	<a href="/master/QnAadd"><button type="button">QnA작성</button></a>
 

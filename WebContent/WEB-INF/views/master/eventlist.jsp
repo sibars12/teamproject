@@ -93,12 +93,12 @@ $(document).ready(function(){
 		});
 		if(confirm("정말 삭제하시겠습니까??")){
 			console.log(dnum);
-			$.get("/event/checkdel",{"dnum":dnum},function(data){
+			$.get("/master/eventcheckdel",{"dnum":dnum},function(data){
 				if(data=="YY"){
 					alert("삭제되었습니다");
 				}
 			});
-			location.href="/event/masterlist";
+			location.href="/master/eventlist";
 		}
 	}
 	})

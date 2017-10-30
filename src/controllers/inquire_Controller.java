@@ -90,50 +90,6 @@ public class inquire_Controller {
 		
 		return mav;
 }
-	@ResponseBody
-	@RequestMapping("/msdel")
-	public String msdelhandle(@RequestParam String dnum ) throws SQLException {
-		String[] ar = dnum.split(",");
-		for(int i=0;i<ar.length;i++) {
-			inquireDao.del(ar[i]);
-		}
-		
-		return "YY";
-}
-	@RequestMapping("/masterlist")
-	public ModelAndView masterhandle(@RequestParam(name="page" , defaultValue="1")int page ) throws SQLException {
-		ModelAndView mav = new ModelAndView();
-		List<Map> li = inquireDao.masterlist();
-		int size=li.size();
-			mav.setViewName("t_inquire");
-			System.out.println("size="+size);
-			double c=(size/10.0);
-			int cc=size/10;
-			if(c-cc>0) {
-				cc+=1; 
-			}
-			if(page>cc)
-				page = cc;
-			if(page <=0) 
-				page = 1;
-			Map a=new HashMap();
-			a.put("start", (page*10)-9);
-			a.put("end", page*10);
-			List<Map> lis = inquireDao.masteralllist(a);
-			mav.addObject("list", lis);
-			mav.addObject("cnt", li.size());
-			mav.addObject("size", cc);
-			mav.addObject("section", "inquire/masterlist");
-		return mav;
-		
-	}
-	@RequestMapping("/reply")
-	public ModelAndView replyhandle(@RequestParam Map map) throws SQLException {
-		ModelAndView mav = new ModelAndView();
-		boolean re = inquireDao.reply(map);
-		mav.setViewName("redirect:/inquire/master");
-		
-		return mav;
-}
+	
 	
 }

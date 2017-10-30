@@ -47,7 +47,7 @@ th, td {
 							</button>
 						<div id="memo${obj.NUM}" class="w3-container w3-hide">
 							<p>${obj.TITLE }</p>
-							<form action="/inquire/reply" method="post">
+							<form action="/master/inquirereply" method="post">
 							<input type="hidden" name="num" value="${obj.NUM }">
 							<input type="text" name="reply" placeholder="답글" required/>
 							<button type="submit">답글 달기</button>
@@ -83,20 +83,20 @@ th, td {
 
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/inquire/master?page=${param.page-1 }">&laquo;</a></c:if>
+ <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/master/inquirelist?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
 					<a class="w3-button" class="active">${i }</a>
 				</c:when>
 				<c:otherwise>
-					<a href="/inquire/master?page=${i }" class="w3-button"
+					<a href="/master/inquirelist?page=${i }" class="w3-button"
 						><b style="color: #9c9892;">${i }</b></a>	
 				</c:otherwise>
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page lt size }"><a class="w3-button" href="/inquire/master?page=${param.page+1 }">&raquo;</a></c:if>
+  <c:if test="${param.page lt size }"><a class="w3-button" href="/master/inquirelist?page=${param.page+1 }">&raquo;</a></c:if>
 </div>
 
 </div>
@@ -112,10 +112,10 @@ $(document).ready(function(){
 		});
 		if(confirm("정말 삭제하시겠습니까??")){
 			console.log(dnum);
-			$.get("/inquire/msdel",{"dnum":dnum},function(data){
+			$.get("/master/inquirecheckdel",{"dnum":dnum},function(data){
 				if(data=="YY"){
 					alert("삭제되었습니다");
-					location.href="/inquire/master?page=1";
+					location.href="/master/inquirelist?page=1";
 				}
 			});
 		}

@@ -18,6 +18,7 @@
 				<p> ${obj.COMENT }</p>
 				
 				<a href="/return/change?num=${obj.NUM }"><button type="button">수정 하기 </button></a>
+				<a href="/return/del?num=${obj.NUM }"><button type="button">삭제 하기 </button></a>
 				</c:forEach>
 				<a href="/return/list?page=${param.page }"><button type="button">목록으로</button></a>
 			</div>

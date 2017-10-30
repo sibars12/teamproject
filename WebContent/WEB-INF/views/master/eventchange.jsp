@@ -9,7 +9,7 @@
 	<div align="left" style="width: 80%;">
 
 
-		<form action="/event/change" method="post"
+		<form action="/master/eventchange" method="post"
 			enctype="multipart/form-data">
 			<p>
 				<input type="hidden" name="num" value="${num }">

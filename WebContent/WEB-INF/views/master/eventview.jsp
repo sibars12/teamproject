@@ -15,9 +15,9 @@
 				</p>
 				<pre>${obj.CONTENT }</pre>
 				
-				<a href="/event/del?num=${obj.NUM }"><button type="button">이벤트 삭제</button></a>
-				<a href="/event/change?num=${obj.NUM }"><button type="button">이벤트 수정</button></a>
+				<a href="/master/eventdel?num=${obj.NUM }"><button type="button">이벤트 삭제</button></a>
+				<a href="/master/eventchange?num=${obj.NUM }"><button type="button">이벤트 수정</button></a>
 				</c:forEach>
 				
-				<a href="/event/masterlist?page=${page }"><button type="button">목록으로</button></a>
+				<a href="/master/eventlist?page=${page }"><button type="button">목록으로</button></a>
 			</div>
