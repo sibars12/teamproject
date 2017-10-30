@@ -24,8 +24,9 @@ th, td {
 			<tr>
 				<th style="width: 10%">삭제 체크<input id="returnallcb" type="checkbox"></th>
 				<th style="width: 40%">글제목</th>
-				<th style="width: 20%">작성자</th>
+				<th style="width: 10%">작성자</th>
 				<th style="width: 20%">작성일</th>
+				<th style="width: 10%">상태 </th>
 			</tr>
 		</thead>
 		<tbody>

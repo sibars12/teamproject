@@ -20,7 +20,7 @@
 						<a> <input class="QnAcb" type="checkbox" value="${obj.NUM}"></a>
 					</td>
 					<td><button onclick="ansers('Demos${obj.NUM}')"
-							class="w3-btn w3-block w3-blue w3-left-align">${fn:substring(obj.TITLE, 0, 12) }</button>
+							class="w3-btn w3-block w3-blue w3-left-align">${obj.TITLE}</button>
 						<div id="Demos${obj.NUM}" class="w3-container w3-hide">
 							<p>${obj.CONTENT }</p>
 							<a href="/QnA/change?num=${obj.NUM }"><button type="button">수정</button></a>

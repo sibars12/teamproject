@@ -35,7 +35,7 @@ th, td {
 					</td>
 					<td>
 					
-						<a href="/notice/masterview?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
+						<a href="/notice/masterview?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 30) } </a>
 					</td>
 					<td>${obj.MASTER }</td>
 				</tr>

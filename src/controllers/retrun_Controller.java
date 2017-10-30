@@ -67,10 +67,7 @@ public class retrun_Controller {
 	@RequestMapping("/masterlist")
 	public ModelAndView masterListHandle(@RequestParam(name = "page", defaultValue = "1") int page , HttpSession session)
 			throws SQLException {
-		session.setAttribute("auth", "°ü¸®ÀÚ");
-		System.out.println("??");
 		int size = returnDao.all();
-		System.out.println(size);
 		double c = (size / 10.0);
 		int cc = size / 10;
 		if (c - cc > 0) {
@@ -148,7 +145,7 @@ public class retrun_Controller {
 			mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size", cc);
-			mav.addObject("section", "return/masterlist");
+			mav.addObject("section", "return/list");
 		} else {
 			mav.addObject("addt", false);
 			mav.addObject("section", "return/add");
@@ -269,34 +266,9 @@ public class retrun_Controller {
 	}
 	@RequestMapping("/coment")
 	public ModelAndView comenthandle(@RequestParam Map map) {
-		ModelAndView mav = new ModelAndView("t_return");
+		ModelAndView mav = new ModelAndView("");
 		returnDao.coment(map);
-		int size = returnDao.all();
-		int page=1;
-		System.out.println(size);
-		double c = (size / 10.0);
-		int cc = size / 10;
-		if (c - cc > 0) {
-			cc += 1;
-		}
-		if (page > cc) {
-			page = cc;
-			}
-		if (page <= 0) {
-			page = 1;
-		}
-		Map a = new HashMap();
-		a.put("start", (page * 10) - 9);
-		a.put("end", page * 10);
-		System.out.println("page="+page);
-		System.out.println(cc);
-		List<Map> ila = returnDao.allist(a);
-		List<Map> li = returnDao.list();
-		mav.setViewName("t_return");
-		mav.addObject("list", ila);
-		mav.addObject("cnt", li.size());
-		mav.addObject("size", cc);
-		mav.addObject("section", "return/masterlist");
+		mav.setViewName("redirect:/return/masterview?num="+map.get("num")+"&page="+map.get("page"));
 		
 		return mav;
 		

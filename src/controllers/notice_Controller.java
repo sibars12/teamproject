@@ -157,4 +157,23 @@ public class notice_Controller {
 		}
 		return "YY";
 	}
+	@GetMapping("/change")
+	public ModelAndView change(@RequestParam String num) {
+		List<Map> list=noticeDao.readOne(num);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("t_notice");
+		mav.addObject("num" , num);
+		mav.addObject("title" ,list.get(0).get("TITLE"));
+		mav.addObject("content" ,list.get(0).get("CONTENT"));
+		mav.addObject("section", "notice/change");
+		return mav;
+	}
+
+	@PostMapping("/change")
+	public ModelAndView changepsHandle(@RequestParam Map map) throws SQLException {
+		boolean a=noticeDao.change(map);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/notice/masterview?num="+map.get("num"));
+		return mav;
+	}
 }

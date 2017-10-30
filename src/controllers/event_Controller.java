@@ -129,7 +129,6 @@ public class event_Controller {
 	@PostMapping("/add")
 	public ModelAndView noticeaddHandle(@RequestParam Map map, @RequestParam(name = "eventimg") MultipartFile f,
 			HttpServletRequest request, HttpSession session) throws SQLException, IllegalStateException, IOException {
-		System.out.println("¸Ê" + map);
 		ModelAndView mav = new ModelAndView();
 
 		String fileName = null;
