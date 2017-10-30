@@ -47,7 +47,7 @@ public class MemberController {
 		try {
 			int r = memberDao.addMember(map);
 			System.out.println(session.getAttribute("auth") + "님 회원가입 완료");
-			// session.setAttribute("auth", map.get("id"));
+			//session.setAttribute("auth", map.get("id"));
 			return "redirect:/member/login";
 		} catch (Exception e) {
 			mMap.addAttribute("temp", map);

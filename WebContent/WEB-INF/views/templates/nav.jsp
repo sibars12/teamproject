@@ -19,7 +19,6 @@
 	
 	#menu_D {
 		font-family: 'Saira-Medium';
-		padding-left: 140;
 	}
 	
 	#mainTitle_D {
