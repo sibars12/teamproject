@@ -46,10 +46,10 @@ public class MemberController {
 	public String postJoinHandle(@RequestParam Map map, ModelMap mMap, HttpSession session) {
 		try {
 			int r = memberDao.addMember(map);
-			System.out.println(session.getAttribute("auth") + "님 회원가입 완료");
 			// session.setAttribute("auth", map.get("id"));
 			return "redirect:/member/login";
 		} catch (Exception e) {
+			e.printStackTrace();
 			mMap.addAttribute("temp", map);
 			mMap.addAttribute("section", "member/join");
 			return "t_expr";
@@ -98,8 +98,8 @@ public class MemberController {
 	@ResponseBody
 	public String tretre(@RequestParam(name = "tre") String tre, HttpSession session) {
 		String tru = (String) session.getAttribute("tre");
-		System.out.println("String" + tru);
-		System.out.println(tre);
+		//System.out.println("String" + tru);
+		//System.out.println(tre);
 		return "{ \"tre\" : " + tre.equals(tru) + "}";
 	}
 
@@ -178,19 +178,24 @@ public class MemberController {
 
 	// 아이디 찾기 결과
 	@PostMapping("/findIdOk")
-	public String getFindIdOkHandle(@RequestParam Map pmap, Map map) { // pmap는
-																		// 파라미터로
-																		// 받아오는
-																		// 맵,
-																		// map은
-																		// 셋팅시키는
-																		// 맵
+	public String getFindIdOkHandle(@RequestParam Map pmap, Map map) { // pmap는 파라미터로 받아오는 맵, map은 셋팅시키는 맵
 		String id = memberDao.findId(pmap); // 파라미터로 받은 값을 id에 저장
 		System.out.println(id);
 		map.put("findId", id); // map의 findId에 id를 세팅시킴
 		map.put("section", "member/findIdOk"); // section에 /member/findIdOk 넣기
 		return "t_expr";
 	}
+	
+	// findPw.jsp 비밀번호 찾기 입력 창(아이디, 이름, 생년월일, 이메일 입력받기)
+	@GetMapping("/findPw")
+	public String getFindPwHandle(Map map) {
+		map.put("section", "member/findPw");
+		return "t_expr";
+	}
+	
+	
+	// findRePw.jsp 비밀번호 재설정 창(새로운 비밀번호 입력받아서 update)
+	
 
 	// 회원 탈퇴
 	@GetMapping("/drop")
@@ -222,13 +227,4 @@ public class MemberController {
 	}
 	
 	
-	// findPw.jsp 비밀번호 찾기 입력 창(아이디, 이름, 생년월일, 이메일 입력받기)
-	@GetMapping("/findPw")
-	public String getFindPwHandle(Map map) {
-		map.put("section", "member/findPw");
-		return "t_expr";
-	}
-	
-
-	// findRePw.jsp 비밀번호 재설정 창(새로운 비밀번호 입력받아서 update)
 }
