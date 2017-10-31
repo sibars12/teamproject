@@ -29,9 +29,6 @@
 		padding-left: 10;
 		color: rgb(71,106,188)!important;
 	}
-	.pPage_D{
-		margin-top: 10;
-	}
 	.pList_A{
 		font-family: 'Daum_Regular';
 		font-size: 12;
@@ -116,8 +113,9 @@
 					<c:choose>
 						<c:when test="${list[j+(i*4)]!=null}">
 							<td width="270" align="center" class="productList_Td" style="border-bottom: none;">
-								<div align="left" class="deleteCheck_D"><input class="deleteCkbox_I" type="checkbox" value="${list[j+(i*4)].OWNERNUMBER }"></div>
-
+								<c:if test="${auth eq master}">
+									<div align="left" class="deleteCheck_D"><input class="deleteCkbox_I" type="checkbox" value="${list[j+(i*4)].OWNERNUMBER }"></div>
+								</c:if>
 								<a class="pList_A" href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }"><img width="95%" src="/images/product/${list[j+(i*4)].IMAG}"></a>
 							</td>
 						</c:when>
@@ -129,7 +127,7 @@
 					</c:choose>
 				</c:forEach>
 			</tr>
-			<tr class="productList_Tr">
+			<tr class="productList_Tr" height="120">
 				<c:forEach var="j" begin="0" end="3">
 					<c:choose>
 						<c:when test="${list[j+(i*4)]!=null}">
@@ -137,7 +135,7 @@
 								<a class="pList_A" href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }">
 
 								${list[j+(i*4)].NAME}<br/>
-								<font color="blue">${list[j+(i*4)].PRICE}</font></a>
+								<font color="blue">${list[j+(i*4)].PRICE}</font></a> <br/> <br/>
 							</td>
 						</c:when>
 						<c:otherwise>
@@ -155,7 +153,7 @@
 			<c:forEach var="idx" begin="${startPage }" end="${endPage }">
 				<c:choose>
 					<c:when test="${tPage eq idx }">
-						<a class="pPage_A w3-bar-item w3-button w3-Khaki w3-hover-Khaki" href="/product/list?page=${idx}&option=${option}&type=${type}">${idx }</a>
+						<a class="pPage_A w3-bar-item w3-button w3-black w3-hover-Khaki" href="/product/list?page=${idx}&option=${option}&type=${type}">${idx }</a>
 					</c:when>
 					<c:otherwise>
 						<a class="pPage_A w3-bar-item w3-button w3-hover-white" href="/product/list?page=${idx}&option=${option}&type=${type}">${idx }</a>
@@ -167,10 +165,12 @@
 	</div>
 	
 	<!-- 상품 추가,삭제버튼 -->
-	<div id="addBt_D" align="right">
-		<button id="addProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue">추가</button>
-		<button id="deleteProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue">삭제</button>
-	</div>
+	<c:if test="${auth eq master}">
+		<div id="addBt_D" align="right">
+			<button id="addProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue">추가</button>
+			<button id="deleteProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue">삭제</button>
+		</div>
+	</c:if>
 </div>
 
 <script>
@@ -193,13 +193,12 @@
 				$.get("/product/deleteProduct",{"dnum":dnum},function(data){
 					if(data=="YY"){
 						alert("삭제되었습니다");
+						location.href="/product/list";
 					}
 				});
-				location.href="/product/list";
 			}
 		});
 		//페이지 이동 막기
-		CheckPage(${tPage});
 		
 	});
 	

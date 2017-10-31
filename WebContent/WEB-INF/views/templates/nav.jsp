@@ -1,8 +1,12 @@
+<<<<<<< HEAD
  <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    
    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 	#nav_D {
 		font-size: 19;
@@ -55,5 +59,6 @@
 		<a class="menu_A" href="/return/list">RETURN</a>
 		</c:if>
 		<a class="menu_A" href="/stock/addStock">STOCK</a>
+		<c:if test="${auth eq master }"><a class="menu_A" href="/stock/addStock">STOCK</a></c:if>
 	</div>
 </div>

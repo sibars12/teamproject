@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coupon">
+	<select id="getCouponList" resultType="java.util.HashMap">
+		select * from coupon where id=#{id}
+	</select>
+	<select id="getCouponNo" resultType="java.lang.Integer">
+		select no from coupon
+	</select>
+	<insert id="addCoupon">
+		insert into coupon(no, name, discount, enddate, id) values(#{no}, #{name}, #{discount}, #{enddate, jdbcType=DATE}, #{id, jdbcType=VARCHAR})
+	</insert>
+	<select id="checkNo" resultType="java.lang.Integer">
+		select * from coupon where no=#{no}
+	</select>
+	<update id="regCoupon">
+		update coupon set id=#{id},enddate=sysdate+30 where no=#{no}
+	</update>
+</mapper>
