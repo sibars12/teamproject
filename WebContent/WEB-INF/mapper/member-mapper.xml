@@ -24,7 +24,7 @@
 	
 	<!-- 로그인 -->
 	<select parameterType="java.util.HashMap" id="login" resultType="java.util.HashMap">
-		select * from member where (id = #{id}) and pw = #{pw}
+		select * from member where id = #{id} and pw = #{pw}
 	</select>
 	
 	<!-- 정보입력창 화면에 저장되어있는 값 출력 -->

@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.MemberDao;
+import models.ShoppingDao;
 
 @Controller
 @RequestMapping("/member")
@@ -33,6 +34,9 @@ public class MemberController {
 
 	@Autowired
 	MemberDao memberDao;
+	
+	@Autowired
+	ShoppingDao shoppingDao;
 
 	// join 페이지 띄움
 	@GetMapping("/join")
@@ -115,6 +119,8 @@ public class MemberController {
 		try {
 			Map m = memberDao.login(map);
 			session.setAttribute("auth", m.get("ID")); // 대문자 ID로 할 것!!
+			session.setAttribute("cartCnt", shoppingDao.getCartCnt((String)m.get("ID")));
+			System.out.println(shoppingDao.getCartCnt((String)m.get("ID")));
 			System.out.println(session.getAttribute("auth") + "님 로그인");
 			return "home";
 		} catch (Exception e) {
