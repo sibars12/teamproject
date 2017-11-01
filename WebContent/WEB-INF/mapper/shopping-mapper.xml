@@ -6,20 +6,20 @@
 		insert into cart(id, num, volume) values(#{id},#{num},#{volume})
 	</insert>
 	<select id="getCartList" resultType="java.util.HashMap">
-		select cs.*,p.imag from (select c.*,s.type,s.name,s.scale,s.color,s.price,s.ownernumber,s.comp,s.subname from (select * from cart where id='master') c 
+		select cs.*,p.imag from (select c.*,s.type,s.name,s.scale,s.color,s.price,s.ownernumber,s.comp,s.subname from (select * from cart where id=#{id}) c 
 		left join stock s on c.num = s.no) cs left join product p on cs.ownernumber = p.ownernumber
 	</select>
 	<delete id="deleteCart">
 		delete from cart where num=#{dnum}
 	</delete>
 	<select id="checkCart" resultType="java.lang.Integer">
-		select count(*) from cart where num=#{num}
+		select count(*) from cart where num=#{num} and id=#{id}
 	</select>
 	<update id="addCartVol">
 		update cart set volume=(select volume from cart where num=#{num})+#{volume} where num=#{num}
 	</update>
 	<select id="getCartCnt" resultType="java.lang.Integer">
-		select count(*) cart where id='master'
+		select count(*) from cart where id=#{id}
 	</select>
 <!-- 구매테이블 -->
 	<!-- 구매(주문)정보 추가 -->

@@ -21,8 +21,8 @@ public class ShoppingDao {
 		sql.delete("shopping.deleteCart", dnum);
 		return true;
 	}
-	public int checkCart(String num) {
-		return sql.selectOne("shopping.checkCart", num);
+	public int checkCart(Map map) {
+		return sql.selectOne("shopping.checkCart", map);
 	}
 	public boolean addCartVol(Map map) {
 		sql.update("shopping.addCartVol",map);

@@ -57,8 +57,9 @@
 		<div id="head3_D" class="col-sm-5 text-left">
 			<a href="#" class="right_A header_A">CS CENTER</a>
 			<a href="https://www.doortodoor.co.kr/parcel/pa_004.jsp" class="right_A header_A">DELIVERY</a>
-			<a href="/mypage/index" class="right_A header_A">MY PAGE</a>
-			<a href="/shopping/cart" class="right_A header_A">CART</a><span class="cartN_Sp w3-badge w3-white">1</span>
+			<c:if test="${auth ne null}"><a href="/mypage/index" class="right_A header_A">MY PAGE</a>
+			<a href="/shopping/cart" class="right_A header_A">CART</a>
+			<span class="cartN_Sp w3-badge w3-white">${cartCnt}</span></c:if>
 		</div>
 	</div>
 </div>

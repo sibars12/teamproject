@@ -86,43 +86,53 @@
 						<td class="cart_Td" width="80">합계</td>
 					</tr>
 				</thead>
-				<tbody align="center">
-					<c:if test="${list.size()!=0 }">
-					<c:forEach var="idx" begin="0" end="${list.size()-1 }">
-						<tr>
-							<td class="cart_Td"><input type="checkbox" class="delete_I" value="${list[idx].NUM }"></td>
-							<td class="cart_Td">${idx+1 }</td>
-							<td class="cart_Td"><img width="70" height="70" src="/images/product/${list[idx].IMAG }"></td>
-							<td class="cart_Td">[${list[idx].COMP}] ${list[idx].NAME}${list[idx].SCALE} ${list[idx].COLOR}</td>
-							<td class="price_Td cart_Td">${list[idx].PRICE}</td>
-							<td class="vol_Td cart_Td">
-								<button type="button" class="volminus_B w3-button w3-black w3-hover-black w3-padding-small w3-tiny">-</button>
-								<input type="text" name="stockCnt" class="cartVol_I" value="${list[idx].VOLUME }">
-								<button type="button" class="volplus_B w3-button w3-black w3-hover-black w3-padding-small w3-tiny">+</button>
-								<input type="hidden" name="stockNo" value="${list[idx].NUM }">
-							</td>
-							<td class="sPrice_Td cart_Td">
-								<span id="sPrice_S"></span>
-								<input type="hidden" name="stockPrice" value="">
-							</td>
-						</tr>
-					</c:forEach>
-					</c:if>
-				</tbody>
-				<tfoot align="right">
-					<tr>
-						<td class="cart_Td cartTP_Td" colspan="7">
-							총 구매금액: <span id="totalPrice_S"></span>
-							<input type="hidden" name="totPrice" id="totalPrice_I">
-						</td>
-					</tr>
-					<tr>
-						<td class="cartBt_Td" colspan="6" align="right">
-							<button id="deleteCart_B" class="cartBt_B w3-button w3-white w3-border w3-border-black w3-hover-black" type="button">삭제</button>
-							<button class="cartBt_B w3-button w3-white w3-border w3-border-black w3-hover-black" type="submit">구매</button>
-						</td>
-					</tr>
-				</tfoot>
+				<c:choose>
+					<c:when test="${list.size()!=0}">
+						<tbody align="center">
+							<c:forEach var="idx" begin="0" end="${list.size()-1 }">
+								<tr>
+									<td class="cart_Td"><input type="checkbox" class="delete_I" value="${list[idx].NUM }"></td>
+									<td class="cart_Td">${idx+1 }</td>
+									<td class="cart_Td"><img width="70" height="70" src="/images/product/${list[idx].IMAG }"></td>
+									<td class="cart_Td">[${list[idx].COMP}] ${list[idx].NAME}${list[idx].SCALE} ${list[idx].COLOR}</td>
+									<td class="price_Td cart_Td">${list[idx].PRICE}</td>
+									<td class="vol_Td cart_Td">
+										<button type="button" class="volminus_B w3-button w3-black w3-hover-black w3-padding-small w3-tiny">-</button>
+										<input type="text" name="stockCnt" class="cartVol_I" value="${list[idx].VOLUME }">
+										<button type="button" class="volplus_B w3-button w3-black w3-hover-black w3-padding-small w3-tiny">+</button>
+										<input type="hidden" name="stockNo" value="${list[idx].NUM }">
+									</td>
+									<td class="sPrice_Td cart_Td">
+										<span id="sPrice_S"></span>
+										<input type="hidden" name="stockPrice" value="">
+									</td>
+								</tr>
+							</c:forEach>
+							</tbody>
+							<tfoot align="right">
+								<tr>
+									<td class="cart_Td cartTP_Td" colspan="7">
+										총 구매금액: <span id="totalPrice_S"></span>
+										<input type="hidden" name="totPrice" id="totalPrice_I">
+									</td>
+								</tr>
+								<tr>
+									<td class="cartBt_Td" colspan="6" align="right">
+										<button id="deleteCart_B" class="cartBt_B w3-button w3-white w3-border w3-border-black w3-hover-black" type="button">삭제</button>
+										<button class="cartBt_B w3-button w3-white w3-border w3-border-black w3-hover-black" type="submit">구매</button>
+									</td>
+								</tr>
+							</tfoot>
+						</c:when>
+						<c:otherwise>
+							<tbody align="center">
+								<tr height="100">
+									<td class="cart_Td" colspan="7">장바구니에 상품이 없습니다</td>
+								</tr>
+							</tbody>
+						</c:otherwise>
+					</c:choose>
+				
 			</table>
 		</form>
 		
@@ -178,10 +188,9 @@
 			console.log(dnum);
 			$.get("/shopping/deleteCart",{"dnum":dnum},function(data){
 				if(data=="YY"){
-					alert("삭제되었습니다");
+					location.href="/shopping/cart";
 				}
 			});
-			location.href="/shopping/cart";
 		}
 	});
 	
