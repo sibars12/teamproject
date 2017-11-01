@@ -58,7 +58,7 @@ public class ShoppingController {
 		mav.addObject("stockNo", stockNo);
 		mav.addObject("stockCnt",stockCnt);
 		mav.addObject("stockPrice", stockPrice);
-		mav.addObject("totPrice", totPrice);
+		mav.addObject("totPrice", totPrice.get(0));
 		mav.addObject("infoList", infoList);
 		mav.addObject("memInfo",memInfo );
 		

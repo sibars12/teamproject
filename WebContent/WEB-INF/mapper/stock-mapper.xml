@@ -84,7 +84,7 @@
 		select count(*) from stock where ownernumber=#{ownernumber} and color=#{color}
 	</select>
 	
-	<select id="getStockInfo">
+	<select id="getStockInfo" resultType="java.util.HashMap">
 		select * from stock where no=#{stockNo}
 	</select>
 	

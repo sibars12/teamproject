@@ -73,7 +73,7 @@
 <div class="w3-container" align="center">
 	<div align="left" class="Title_D">Shopping Cart</div>
 	<div align="center">
-		<form action="/product/buyNow">
+		<form action="/shopping/buyNow">
 			<table id="cart_T">
 				<thead class="cart_Th" align="center">
 					<tr>
