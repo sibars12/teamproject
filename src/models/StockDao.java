@@ -70,4 +70,10 @@ public class StockDao {
 	public int checkPlusStock(Map map) {
 		return sql.selectOne("stock.checkPlusStock", map);
 	}
+	
+	//±¸¸Å¿ë
+	public Map getStockInfo(String stockNo){
+		return sql.selectOne("stock.getStockInfo",stockNo);
+	}
+	
 }

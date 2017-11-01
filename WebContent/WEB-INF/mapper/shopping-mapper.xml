@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shopping">
+<!-- 카트 정보 -->
 	<insert id="addCart">
 		insert into cart(id, num, volume) values(#{id},#{num},#{volume})
 	</insert>
@@ -20,4 +21,23 @@
 	<select id="getCartCnt" resultType="java.lang.Integer">
 		select count(*) cart where id='master'
 	</select>
+<!-- 구매테이블 -->
+	<!-- 구매(주문)정보 추가 -->
+	<insert id="addPurchase">
+		insert into purchase values
+        (purchase_seq.nextval,#(purchaseNo),#(id),#(ownernumber),#(stockNo),#(stockCnt),#(stockPrice),
+        #(name,jdbcType=VARCHAR),#(addr1),#(postCode),sysdate,#(paymentNo,jdbcType=NUMERIC),
+        #(note,jdbcType=VARCHAR),#(return,jdbcType=VARCHAR),#(addr2),#(tel))
+	</insert>
+	<!-- 결제정보 -->
+	<insert id="addPayment">
+	insert into payment values(payment_seq.nextval,#(id),#(purchaseNo),#(type),#(kind),#(installment,jdbcType=NUMERIC),#(totPrice),
+	#(delivery),#(pointpay,jdbcType=NUMERIC),#(discount,jdbcType=NUMERIC),#(coupon,jdbcType=NUMERIC),#(payment),sysdate;
+	</insert>
+	
+	<!-- 회원 정보&쿠폰 가져오기-->
+	<select id="getMemInfo" resultType="java.util.HashMap">
+		select d.*,c.no,c.name,c.discount,c.enddate from detail d left outer join coupon c on d.id = c.id where d.id=#(id)
+	</select>
+
 </mapper>

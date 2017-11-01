@@ -1,8 +1,11 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import models.ProductDao;
 import models.ShoppingDao;
+import models.StockDao;
 
 @Controller
 @RequestMapping("/shopping")
@@ -24,24 +29,39 @@ public class ShoppingController {
 	@Autowired
 	ShoppingDao shoppingDao;
 	@Autowired
+	ProductDao productDao;
+	@Autowired
+	StockDao stockDao;
+	@Autowired
 	ObjectMapper mapper;
 	
 	@GetMapping("/buyNow")
-	public ModelAndView BuyNowHandler(@RequestParam MultiValueMap<String,String> multiMap){
+	public ModelAndView BuyNowHandler(@RequestParam MultiValueMap<String,String> multiMap, HttpSession session){
 		ModelAndView mav = new ModelAndView("t_expr");
 		//System.out.println(multiMap);
+		
 		List<String> stockNo = multiMap.get("stockNo");
 		List<String> stockCnt = multiMap.get("stockCnt");
 		List<String> stockPrice = multiMap.get("stockPrice");
 		List<String> totPrice = multiMap.get("totPrice");
-		
-		
-		System.out.println(stockNo);
-		System.out.println(stockCnt);
-		System.out.println(stockPrice);
-		System.out.println(totPrice);
-		
+		List<Map> infoList  = new ArrayList();		
+		for(String s : stockNo){
+			Map stockInfo = stockDao.getStockInfo(s);
+			infoList.add(stockInfo);
+		}
+		String id = (String) session.getAttribute("auth");
+		List<Map> memInfo = shoppingDao.getMemInfo(id);
+	
 		mav.addObject("section", "shopping/buyNow");
+		mav.addObject("stockNo", stockNo);
+		mav.addObject("stockCnt",stockCnt);
+		mav.addObject("stockPrice", stockPrice);
+		mav.addObject("totPrice", totPrice);
+		mav.addObject("infoList", infoList);
+		mav.addObject("memInfo",memInfo );
+		
+		// 현재시간 가져오기
+		String purchaseNo = id+"_"+System.currentTimeMillis();
 		return mav;
 	}
 	
