@@ -176,7 +176,6 @@ th, td {
 					<div class="w3-container">
 						<table class="w3-table-all w3-margin-top" id="nn">
 							<tr class="rkqms">
-								<th style="width: 20%;">아이디</th>
 								<th style="width: 20%;">이름</th>
 								<th style="width: 40%;">문의 내용</th>
 								<th style="width: 20%;">문의한 날자</th>
@@ -184,13 +183,10 @@ th, td {
 						<c:forEach var="obj" items="${list }" begin="0" end="4">
 							<tr>
 								<td>
-									<p>${obj.ID }</p>
-								</td>
-								<td>
 									<p>${obj.NAME }</p>
 								</td>
 								<td>
-									<button onclick="inquire('memo${obj.NUM}')"	class="w3-btn w3-block w3-black w3-left-align">
+									<button onclick="inquire('memo${obj.NUM}')"	class="w3-btn w3-block w3-Gray w3-left-align">
 										${obj.CONTENT }</button>
 									<div id="memo${obj.NUM}" class="w3-container w3-hide">
 										<p>${obj.TITLE }</p>

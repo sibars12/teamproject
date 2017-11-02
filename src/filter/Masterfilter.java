@@ -17,7 +17,7 @@ public class Masterfilter extends HttpFilter {
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpSession session =  request.getSession();
-		if(session.getAttribute("auth")!=null && session.getAttribute("auth").equals("MASTER")) {
+		if(session.getAttribute("auth")!=null && session.getAttribute("auth").equals("master")) {
 			chain.doFilter(request, response);
 		}else {
 			String uri=request.getRequestURI();

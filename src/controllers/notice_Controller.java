@@ -25,7 +25,6 @@ public class notice_Controller {
 	notice_Dao noticeDao;
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page , HttpSession session) throws SQLException {
-		session.setAttribute("auth", "MASTER");
 		int size=noticeDao.all();
 		double c=(size/5.0);
 		int cc=size/10;

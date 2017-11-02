@@ -11,7 +11,7 @@
 		<form action="/inquire/add" method="post" enctype="multipart/form-data">
 			<p>
 			<!-- 나중에 히든으로변경 -->
-			<input type="text" name="id" >
+			<input type="hidden" name="id"  value="${auth }">
 			</p>	
 			<p>
 				<b>이름</b> <input type="text" style="width:20%; " name="name" placeholder="이름"

@@ -42,7 +42,7 @@ th, td {
 					</td>
 					<td>
 					<button onclick="inquire('memo${obj.NUM}')"
-							class="w3-btn w3-block w3-black w3-left-align">
+							class="w3-btn w3-block w3-Khaki w3-left-align">
 							${obj.CONTENT }
 							</button>
 						<div id="memo${obj.NUM}" class="w3-container w3-hide">
@@ -105,7 +105,11 @@ $(document).ready(function(){
 	// 문의글  버튼클릭 -> 삭제
 	$("#inmsbt").click(function(){
 		var dnum = "";
-		$('.inmscb:checked').each(function(idx) { 
+		if(!($("input:checkbox[class=inquirecb]").is(":checked"))){
+			
+	        alert("체크목록이 없습니다.확인해주세요.");
+		}else{
+		$('.inquirecb:checked').each(function(idx) { 
 	    	if(idx!=0)
 	    		dnum+=",";
 	    	dnum+=$(this).val();
@@ -119,7 +123,8 @@ $(document).ready(function(){
 				}
 			});
 		}
-	});
+	}
+		});
 	
 });
 //전체선택 /취소

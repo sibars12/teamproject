@@ -36,7 +36,7 @@ th, td {
 						<a href="/return/view?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
 						</c:if>
 						<c:if test="${obj.WRITER ne auth }">
-						<a>비밀글 입니다.</a>
+						<a>비밀글 입니다.<span class="glyphicon glyphicon-lock"></span></span></a>
 						</c:if>
 					</td>
 					<td>${obj.WRITER }</td>
