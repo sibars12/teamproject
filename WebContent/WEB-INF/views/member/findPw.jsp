@@ -9,14 +9,14 @@
 	<form class="form-horizontal" action="/member/findRePw" method="post">
 
 		<div class="form-group">
-			<label class="control-label col-sm-2" for="id">*ID : </label>
+			<label class="control-label col-sm-2" for="id">ID : </label>
 			<div class="col-sm-5">
 				<input type="text" class="form-control" id="id" placeholder="Enter ID" name="id">
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="control-label col-sm-2" for="email">*Email : </label>
+			<label class="control-label col-sm-2" for="email">Email : </label>
 			<div class="col-sm-7">
 				<input type="email" class="form-control" id="email" placeholder="Enter Email" name="email">
 			</div>

@@ -2,6 +2,7 @@ package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +31,12 @@ public class HomeController {
 		mav.addObject("newList", productDao.getNewProductList(map));
 		mav.addObject("bestList", productDao.getNewProductList(map));
 		return mav;
+	}
+	
+	@GetMapping("/")
+	public String HomeHandle(Map map) {
+		map.put("section", "home");
+		return "t_expr";
 	}
 	
 	@ResponseBody

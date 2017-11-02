@@ -117,7 +117,7 @@ public class MemberController {
 			Map m = memberDao.login(map);
 			session.setAttribute("auth", m.get("ID")); // 대문자 ID로 할 것!!
 			System.out.println(session.getAttribute("auth") + "님 로그인");
-			return "redirect:/member/myInfo";
+			return "redirect:/";
 		} catch (Exception e) {
 			mMap.addAttribute("temp", map);
 			mMap.addAttribute("section", "member/login");
