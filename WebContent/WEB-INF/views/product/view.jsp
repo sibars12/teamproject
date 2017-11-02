@@ -397,7 +397,7 @@ $("#review_Submit").click(function () {
 	}).done(function(r){
 		var obj = JSON.parse(r);
 		$("#reviewWriter_I").val("");
-		//$(":input[name=score]:radio:checked:false");
+		$(":input[name=score]:radio:checked:false");
 		$("#reviewContent_Ta").val("");
 		reviewList(1);
 	});

@@ -41,22 +41,22 @@
 			<table class="table">
 				<tr>
 					<th>받으실분 성함</th>
-	    			<td><input type="text" class="form-control" id="name" name="name" placeholder="받는분 성함">	</td>
+	    			<td><input type="text" class="form-control" id="name" name="name" placeholder="받는분 성함" required>	</td>
 	    		</tr>
     			<tr>
 	    			<th>우편번호</th>
-	    			<td><input type="text" class="form-control" id="postcode" name="postcode" placeholder="우편번호">
+	    			<td><input type="text" class="form-control" id="postcode" name="postcode" placeholder="우편번호" required>
 	    				<button type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
 	    			</td>
 	    		</tr>
 	    		<tr>	    		
 	    			<th>주소</th>
-	    			<td><input type="text" class="form-control" id="addr1" name="addr1" placeholder="주소"></td>
+	    			<td><input type="text" class="form-control" id="addr1" name="addr1" placeholder="주소" required></td>
 	    			<td><input type="text" class="form-control" id="addr2" name="addr2" placeholder="상세주소"></td>
 	    		</tr>
 	    		<tr>
 	    			<th>전화번호</th>
-	    			<td><input type="text" class="form-control" name="tel" id="tel" placeholder="전화번호"></td>
+	    			<td><input type="text" class="form-control" name="tel" id="tel" placeholder="전화번호" required></td>
 	    		</tr>
 			</table>
 		</div>
@@ -84,8 +84,10 @@
 				</tr>
 				<tr>
 					<td>보유포인트 : ${memInfo.POINT }</td>
-					<td><input type="text" id="payPoint" name="payPoint" placeholder="사용할 포인트">
-						
+					<td>
+						<input type="number" id="payPoint" name="payPoint" placeholder="사용할 포인트" >
+						<button type="button"  id="payPoint_B">사용하기</button>&nbsp;
+						<button type="button"  id="delPoint_B" disabled>취소</button>
 					</td>
 				</tr>
 				<tr>
@@ -96,7 +98,7 @@
 						<select id="coupon">
 						<option>쿠폰선택</option>
 						<c:forEach var="i" items="${coupons}">	
-							<option value="${i.DISCOUNT }" data="${i.NO }">${i.NAME }</option>
+							<option value="${i.DISCOUNT }" data="${i.NO }" n="${i.NAME }">${i.NAME }</option>
 						</c:forEach>
 						</select>
 					</td>
@@ -104,11 +106,14 @@
 				</tr>
 				<tr>
 					<td>최종 결제 금액</td>
-					<td id="lastPay"></td>
+					<td id="lastPay">
+						${totPrice }					
+					</td>
 				</tr>
 				<tr>
-					<th>적립 포인트  :<p id="point"></p> </th>
-					<input type="hidden" id="addPoint" name="addPoint" value="0">
+					<c:set var="points" value="${totPrice * 0.05}"></c:set>
+					<th colspan="2">적립 포인트  :<p id="point">${points }</p></th>
+					<input type="hidden" id="addPoint" name="addPoint" value="${points }">
 				</tr>							
 			</table>		
 		</div>
@@ -173,12 +178,125 @@
 					<input type="hidden" id="installment" name="installment" value="일시불">
 					<input type="hidden" id="couponNo" name="couponNo" value="0" >
 					<input type="hidden" id="couponDiscount" name="couponDiscount"  value="0">
-					<input type="hidden" id="payment" name="payment" value="0">
+					<input type="hidden" id="payment" name="payment" value="${totPrice }">
 		</div>
 		<button type="submit" name="buy">구매하기</button>
 	</form>
 	
 </div>
+<script>
+var totPrice = ${totPrice};
+var cou_cnt=0;// 쿠폰 적용 카운트
+var po_cnt=0;
+var coupon=0;
+var paypoint=0;
+//쿠폰 선택
+$("#coupon").change(function(){
+	if($(this).val()!="쿠폰선택"){
+	console.log("cnt:"+cou_cnt);
+	var inner = +$(this).val()+"원 &nbsp";
+	inner += "<button type=\"button\" class=\"pay\" id=\"payCoupon_B\">쿠폰적용</button>&nbsp";
+	inner += "<button type=\"button\" id=\"delCoupon_B\">적용취소</button>";
+	$("#checkCoupon").html(inner);
+	
+	if(cou_cnt==0){
+		$("#payCoupon_B").attr("disabled",false);
+		$("#delCoupon_B").attr("disabled",true);
+	}
+	if(cou_cnt==1){
+		window.alert("쿠폰 중복 적용 불가");
+		console.log("cnt:"+cou_cnt);
+		//$("delCoupon_B").off("click");
+		$("#payCoupon_B").attr("disabled",true);
+		$("#delCoupon_B").attr("disabled",false);
+		
+		$("#delCoupon_B").click(function(){
+			cou_cnt = 0;
+			console.log("쿠폰가격"+coupon);
+			console.log("cnt:"+cou_cnt);
+			totPrice += coupon;
+			$("#payCoupon_B").attr("disabled",false);
+			$("#coupon").val("쿠폰선택");
+			printPayment();
+		});
+	}
+	//쿠폰적용 
+		$("#payCoupon_B").click(function(){
+			$("#delCoupon_B").attr("disabled",false);			
+			cou_cnt=1;
+			coupon = parseInt($("#coupon option:selected").val());
+			console.log("쿠폰가격"+coupon);
+			$("#payCoupon_B").attr("disabled",true);
+			totPrice -= parseInt(coupon);
+			printPayment();
+		});
+	//취소
+		$("#delCoupon_B").click(function(){
+			cou_cnt = 0;
+			console.log("쿠폰가격"+coupon);
+			console.log("cnt:"+cou_cnt);
+			totPrice += coupon;
+			printPayment();
+			$("#delCoupon_B").attr("disabled",true);
+			$("#payCoupon_B").attr("disabled",false);
+			$("#coupon").val("쿠폰선택");
+			$("#checkCoupon").html("");
+		});
+	
+	}
+});
+
+//포인트 사용
+$("#payPoint_B").click(function(){
+	paypoint = parseInt($("#payPoint").val());
+	if(	$("#payPoint").val()> ${memInfo.POINT}){
+		$("#payPoint").val(${memInfo.POINT});
+		paypoint= parseInt($("#payPoint").val());
+	}
+	if(po_cnt==1){
+		window.alert("이미 포인트가 적용되었습니다./n 변경 적용을 원하시변 취소후 적용해주세요");
+		return;
+	}
+	if(	$("#payPoint").val()<=0 && null){
+		$("#payPoint").val("");
+		paypoint=0;
+		window.alert("적용할 포인트를 바르게 입력해주세요");
+		return;
+	}
+		console.log("사용포인트"+payPoint);
+		po_cnt=1;
+		totPrice -= paypoint;
+		printPayment();
+		$("#delPoint_B").attr("disabled",false);
+	
+});
+//포인트 사용취소
+$("#delPoint_B").click(function(){
+	if(po_cnt==0) {
+		window.alert("적용된 포인트가 없습니다.");
+		return;
+	}
+	if(po_cnt==1){
+		console.log("취소포인트"+paypoint);
+		po_cnt=0;
+		totPrice += paypoint;
+		printPayment();
+		paypoint=0;
+		$("#payPoint").val("");
+	}
+});
+
+//최종 결제 금액
+function printPayment(){
+	$("#lastPay").html(totPrice);
+	$("#payment").val(totPrice);
+	var point = parseInt(totPrice)*0.05;
+	$("#point").html(point);
+	$("#addPoint").val(point);
+	console.log("payment:"+$("#payment").val());
+};
+</script>
+
 <script>
 // 결제 타입 선택
 $(".type_Radio").change(function(){
@@ -215,12 +333,6 @@ $("#card").change(function(){
 		});
 	}
 });
-
-//
-
-
-//최종 결제 금액
-
 </script>
 
 <%--우편번호 찾기 --%> 
