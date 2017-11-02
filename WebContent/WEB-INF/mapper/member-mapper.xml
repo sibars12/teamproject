@@ -32,9 +32,19 @@
 		select * from detail where id = #{id}
 	</select>
 	
+	<!-- member 테이블에서 가입일 출력 -->
+	<select id="readJoinDate" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select joindate from member where id =#{id}
+	</select>
+		
+	<!-- point 출력 -->
+	<select id="readPoint" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select point from detail where id =#{id}
+	</select>
+	
 	<!-- 정보수정 -->
 	<update parameterType="java.util.HashMap" id="editDetail">
-		update detail set id=#{id,jdbcType=VARCHAR}, name=#{name,jdbcType=VARCHAR}, birth=#{birth,jdbcType=DATE}, address=#{address,jdbcType=VARCHAR}, tel=#{tel, jdbcType=VARCHAR}, point=#{point,jdbcType=NUMERIC} where id =#{id}
+		update detail set name=#{name,jdbcType=VARCHAR}, birth=#{birth,jdbcType=DATE}, tel=#{tel, jdbcType=VARCHAR}, point=#{point,jdbcType=NUMERIC}, postcode=#{postcode,jdbcType=NUMERIC}, addr1=#{addr1,jdbcType=VARCHAR}, addr2=#{addr2,jdbcType=VARCHAR} where id =#{id}
 	</update>	
 	
 	<!-- 입력한 값 받아서 아이디 출력 -->
@@ -49,8 +59,8 @@
 	
 	
 	<!-- 비밀번호 찾기 시 비밀번호 재설정 -->
-	<update id="editPw" parameterType="java.util.HashMap">
-		update member set id=#{id} and email=#{email}
+	<update id="newPw" parameterType="java.util.HashMap">
+		update member set id=#{id} and email=#{email} where id=#{id} and email=#{email}
 	</update>
 	
 	<!-- 회원탈퇴 (delete는 *표시 필요없음!)-->
@@ -62,4 +72,8 @@
 		delete from detail where id=#{id}
 	</delete>
 	
+	<!-- 정보수정에서 비밀번호 변경 -->
+	<update id="changePw" parameterType="java.util.HashMap">
+		update member set pw=#{pw,jdbcType=VARCHAR} where id=#{id}
+	</update>
 </mapper>
