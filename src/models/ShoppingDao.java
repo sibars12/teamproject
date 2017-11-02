@@ -31,4 +31,18 @@ public class ShoppingDao {
 	public int getCartCnt(String id) {
 		return sql.selectOne("shopping.getCartCnt", id);
 	}
+	
+	//±¸¸Å
+	public int addPurchase(Map param){
+		return sql.insert("shopping.addPurchase", param);
+	}
+	public int addPayment(Map param){
+		return sql.insert("shopping.addPayment", param);
+	}
+	public Map getMemInfo(String id){
+		return sql.selectOne("shopping.getMemInfo", id);
+	}
+	public List<Map> getCoupon(String id){
+		return sql.selectList("shopping.getCoupon", id);
+	}
 }

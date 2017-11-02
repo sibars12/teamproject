@@ -83,4 +83,10 @@
 	<select id="checkPlusStock" resultType="java.lang.Integer">
 		select count(*) from stock where ownernumber=#{ownernumber} and color=#{color}
 	</select>
+	
+	<select id="getStockInfo" resultType="java.util.HashMap">
+		select * from stock where no=#{stockNo}
+	</select>
+	
+	
 </mapper>
