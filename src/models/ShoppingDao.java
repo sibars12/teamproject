@@ -39,7 +39,10 @@ public class ShoppingDao {
 	public int addPayment(Map param){
 		return sql.insert("shopping.addPayment", param);
 	}
-	public List<Map> getMemInfo(String id){
-		return sql.selectList("shopping.getMemInfo", id);
+	public Map getMemInfo(String id){
+		return sql.selectOne("shopping.getMemInfo", id);
+	}
+	public List<Map> getCoupon(String id){
+		return sql.selectList("shopping.getCoupon", id);
 	}
 }

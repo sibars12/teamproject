@@ -52,7 +52,8 @@ public class ShoppingController {
 			infoList.add(stockInfo);
 		}
 		String id = (String) session.getAttribute("auth");
-		List<Map> memInfo = shoppingDao.getMemInfo(id);
+		Map memInfo = shoppingDao.getMemInfo(id);
+		List<Map> coupons = shoppingDao.getCoupon(id);
 	
 		mav.addObject("section", "shopping/buyNow");
 		mav.addObject("stockNo", stockNo);
@@ -61,6 +62,7 @@ public class ShoppingController {
 		mav.addObject("totPrice", totPrice.get(0));
 		mav.addObject("infoList", infoList);
 		mav.addObject("memInfo",memInfo );
+		mav.addObject("coupons", coupons);
 		
 		// 현재시간 가져오기
 		String purchaseNo = id+"_"+System.currentTimeMillis();

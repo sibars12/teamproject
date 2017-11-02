@@ -37,7 +37,10 @@
 	
 	<!-- 회원 정보&쿠폰 가져오기-->
 	<select id="getMemInfo" resultType="java.util.HashMap">
-		select d.*,c.no,c.name,c.discount,c.enddate from detail d left outer join coupon c on d.id = c.id where d.id=#{id}
+		select * from detail where id=#{id}
+	</select>
+	<select id="getCoupon" resultType="java.util.HashMap">
+		select * from coupon where id=#{id} and (enddate >= sysdate)
 	</select>
 
 </mapper>
