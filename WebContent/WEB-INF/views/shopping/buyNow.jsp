@@ -97,6 +97,7 @@
 						<option>쿠폰선택</option>
 						<c:forEach var="i" items="${coupons}">	
 							<option value="${i.DISCOUNT }" data="${i.NO }">${i.NAME }</option>
+							
 						</c:forEach>
 						</select>
 					</td>

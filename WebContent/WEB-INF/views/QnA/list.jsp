@@ -27,7 +27,7 @@
 			placeholder="질문 검색.." id="myInput" onkeyup="myFunction()">
 
 		<table class="w3-table-all w3-margin-top" id="myTable">
-			<tr>
+			<tr class="gg">
 				<th style="width: 60%;">질문</th>
 			</tr>
 			<c:forEach var="obj" items="${list }">

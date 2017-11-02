@@ -109,7 +109,7 @@
 			<a class="page_A">${idx}</a>
 		</c:forEach>
 	</p>
-	<form id="productForm" action="/product/addProduct" method="post" enctype="multipart/form-data">
+	<form id="productForm" action="/master/addProduct" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="regist" value="Y">
 		<input type="hidden" name="ownernumber" id="productOwnernumber_I">
 		<input type="hidden" name="type" id="productType_I">
@@ -160,7 +160,7 @@
 		$.ajax({
 			data: form_data,
 			type: "POST",
-			url: '/product/uploadImage',
+			url: '/master/productuploadImage',
 			cache: false,
 			contentType: false,
 			enctype: 'multipart/form-data',
@@ -192,7 +192,7 @@
 				$("#send_B").prop("disabled",true);
 				$.ajax({
 					"type":"get",
-					"url":"/product/loadPInfo",
+					"url":"/master/loadPInfo",
 					"data":{
 						"ownernumber" : $(this).children("td.productOwnernumber").text(),				
 					}
@@ -221,7 +221,7 @@
 
 	// 상품 수정
 	$("#edit_B").click(function(){
-		$("#productForm").attr("action","/product/updateProduct");
+		$("#productForm").attr("action","/master/updateProduct");
 		$("#productForm").submit();	
 	});
 	
@@ -231,10 +231,10 @@
 		var schOption = $("#schOption_S").val();
 		$("#schValueSave_I").val(schValue);
 		$("#schOptionSave_I").val(schOption);
-		$.get("/product/getSchList", {"option":schOption,"value":schValue}, function(data){
+		$.get("/master/getSchList", {"option":schOption,"value":schValue}, function(data){
 			makeTableHtml(data);
 		});
-		$.get("/product/getSchPage",{"option":schOption, "value":schValue},function(data){
+		$.get("/master/getSchPage",{"option":schOption, "value":schValue},function(data){
 			var html="";
 			for(var i=1;i<=data;i++){
 				html+="<a class=\"schPage_A\">"+i+"</a>";
@@ -245,7 +245,7 @@
 				var schPage = $(this).text().trim();
 				var schValue = $("#schValueSave_I").val();
 				var schOption = $("#schOptionSave_I").val();
-				$.get("/product/getSchList",{"option":schOption, "value":schValue, "page":schPage},function(data){
+				$.get("/master/getSchList",{"option":schOption, "value":schValue, "page":schPage},function(data){
 					makeTableHtml(data);
 				});
 			});

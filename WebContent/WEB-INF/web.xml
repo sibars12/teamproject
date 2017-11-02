@@ -40,6 +40,6 @@
 	<filter-mapping>
 		<filter-name>auth</filter-name>
 		<url-pattern>/master/*</url-pattern>
-		<url-pattern>/return/master*</url-pattern>
+		
 	</filter-mapping>
 </web-app>

@@ -40,7 +40,7 @@
 	</div>
 	<div align="right">
 		<button type="button" id="delete_B">삭제</button>
-		<a href="/product/reviewList_Master"><button type="button">목록으로</button></a>
+		<a href="/master/reviewList_Master"><button type="button">목록으로</button></a>
 	</div>
 	<div align="center" id="paging">
 	<c:set var="idx" value="${empty param.page ?1: param.page}"/>
@@ -48,7 +48,7 @@
 			<c:if test="${vs.first }">&lt;</c:if>
 			<c:choose>
 				<c:when test="${n ne idx }">
-					<a href="/product/reviewList_Master?page=${n }"> <b>${n }</b>
+					<a href="/master/reviewList_Master?page=${n }"> <b>${n }</b>
 					</a>
 				</c:when>
 				<c:otherwise>
@@ -95,13 +95,13 @@ $("#delete_B").click(function(){
 		console.log(arr);
 		$.ajax({
 			"type":"post",
-			"url":"/product/deleteReview",
+			"url":"/master/deleteReview",
 			"data":{
 				"arr":arr,
 			}
 		}).done(function(rst){
 			window.alert(rst);
-			location.href="/product/reviewList_Master";
+			location.href="/master/reviewList_Master";
 		});		
 	}	
 });
