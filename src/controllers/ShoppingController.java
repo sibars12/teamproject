@@ -174,6 +174,7 @@ public class ShoppingController {
 	
 	@RequestMapping("/cartDb") // 장바구니 DB저장
 	public ModelAndView cartDbHandler(@RequestParam MultiValueMap<String,String> multiMap, HttpSession session) {
+		System.out.println(multiMap);
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "shopping/cart");
 		List<String> stockNo = multiMap.get("stockNo");

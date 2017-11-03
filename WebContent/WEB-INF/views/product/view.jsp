@@ -256,6 +256,7 @@ $("#plusA_B").click(function(){
 // 옵션 선택시
 $("#color_Select").change(function(){
 	console.log($(this).val());
+	var optionValue=$(this).val();
 	var maxVolume = $("#color_Select option:selected").attr("title");
 	var data = $("#color_Select option:selected").attr("data");
 	console.log("maxVolume:"+maxVolume);
@@ -275,10 +276,7 @@ $("#color_Select").change(function(){
 		}
 		$("#color_Select option:selected").prop("disabled",true);
 		// 선택된 옵션 표기
-		var optionValue=$(this).val();
-		//var	arr = optionValue.split("_");
-		//var sno = arr[0];
-		var sno = data;
+		console.log(optionValue);
 		var selectOption="<p>";
 		selectOption += "<label >"+data+"</label>";
 		selectOption += "&nbsp;&nbsp;<button type=\"button\" class=\"minus_B\">-</button>";
@@ -286,7 +284,7 @@ $("#color_Select").change(function(){
 		selectOption += "<button type=\"button\" class=\"plus_B\">+</button>";
 		selectOption += "&nbsp;<button type=\"button\" class=\"remove_B\">X</button>";
 		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"</span>";
-		selectOption += "<input type=\"hidden\" name=\"stockNo\" value=\""+sno+"\">";
+		selectOption += "<input type=\"hidden\" name=\"stockNo\" value=\""+optionValue+"\">";
 		selectOption += "<input type=\"hidden\" name=\"stockPrice\" value=\""+${productInfo[0].PRICE }+"\"></p>";
 		$("#select_Span").append(selectOption);
 		$("#color_Select").val("색상 옵션 선택");

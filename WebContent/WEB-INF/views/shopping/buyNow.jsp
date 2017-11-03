@@ -27,7 +27,7 @@
 				<tr>
 					<td>${infoList[i].NAME }</td>
 					<td>${infoList[i].OWNERNUMBER }</td>
-					<td>${infoList[i].SIZE }</td>
+					<td>${infoList[i].SCALE }</td>
 					<td>${infoList[i].COLOR }</td>
 					<td>${stockCnt[i] }</td>
 					<td>${stockPrice[i] }</td>
