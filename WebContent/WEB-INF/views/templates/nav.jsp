@@ -46,7 +46,7 @@
 		<a class="menu_A" href="/master/inquirelist">INQUIRE</a>
 		<a class="menu_A" href="/master/returnlist">RETURN</a>
 		<a class="menu_A" href="/master/reviewList_Master">REVIEW</a>
-		<a class="menu_A" href="/master/addProduct">addProduct</a>
+		<a class="menu_A" href="/master/addProduct">ADDPRO</a>
 		</c:if>
 		<c:if test="${'master' ne auth}">
 		<a class="menu_A" href="/event/list">EVENT</a>

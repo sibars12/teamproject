@@ -57,7 +57,7 @@ public class Master_Controller {
 	@Autowired
 	ObjectMapper mapper;
 	
-	@RequestMapping("/master/noticelist")
+	@RequestMapping("/noticelist")
 	public ModelAndView noticemsListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
 		System.out.println("??");
 		int size=noticeDao.all();
@@ -785,14 +785,8 @@ public class Master_Controller {
 		//------------------------------------------------
 		int allBlock=0;//전체 페이지 블럭
 		//int nowBlock=0; //현재 페이지 블럭
-		int startPage = (page-1)/3*3+1;
-		int endPage = startPage+3-1;
-		
-		if(pageCount%3==0){
-			allBlock = pageCount/3;
-		}else{
-			allBlock = pageCount+1;
-		} 
+		int startPage = (page-1)/5*5+1;
+		int endPage = startPage+5-1;
 		if(endPage > pageCount){
 			endPage = pageCount;
 		}		
@@ -846,10 +840,8 @@ public class Master_Controller {
 		List<Map> list = productDao.searchReview(param);
 		
 		int allBlock=0;//전체 페이지 블럭
-		int startPage = (page-1)/3*3+1;
-		int endPage = startPage+3-1;
-		if(pageCount%3==0){	allBlock = pageCount/3;	}
-		else{	allBlock = allBlock+1;	} 
+		int startPage = (page-1)/5*5+1;
+		int endPage = startPage+5-1;
 		if(endPage > pageCount){	endPage = pageCount;	}	
 		
 		map.put("schlist", list);

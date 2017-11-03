@@ -379,12 +379,19 @@ function reviewList(p){
 			list += "<td>"+obj.list[i].CONTENT+"</td></tr>";
 		}
 		list += "</table><div id=\"paging\">";
-		for(var i=1;i<=obj.pageCount;i++){
+		
+		if((obj.startPage-1)!=0){
+			list += "<a class=\"w3-button\" href=\"javascript:reviewList("+(obj.startPage-1)+")\">&laquo;</a>"
+		}
+		for(var i=obj.startPage; i<=obj.endPage; i++){
 			if(i != obj.page){
 				list += "&nbsp;<a href=\"javascript:reviewList("+i+")\"><b>"+i+"</b></a>";
 			}else{
 				list += "&nbsp;<b style=\"color:red\">"+i+"</b>";
 			}
+		}
+		if(obj.endPage%5==0 && obj.pageCount>obj.endPage){
+			list += "<a class=\"w3-button\" href=\"javascript:reviewList("+(obj.endPage+1)+")\">&raquo;</a>"
 		}
 		list += "</div>"
 		$("#reviewList").html(list);

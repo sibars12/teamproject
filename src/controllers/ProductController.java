@@ -133,13 +133,22 @@ public class ProductController {
 			pageCount = size/5+1; 
 		}
 		map1.put("start", (page-1)*5+1);
-		map1.put("end", page*4);
+		map1.put("end", page*5);
 		map1.put("ownernumber", ownernumber);
 		List list = productDao.getReviewList(map1);
+		
+		int startPage = (page-1)/5*5+1;
+		int endPage = startPage+5-1;
+		if(endPage > pageCount){
+			endPage = pageCount;
+		}	
 		
 		map.put("list", list);
 		map.put("pageCount", pageCount);
 		map.put("page", page);
+		map.put("startPage",startPage );
+		map.put("endPage",endPage );
+		
 		return map;
 	}
 	

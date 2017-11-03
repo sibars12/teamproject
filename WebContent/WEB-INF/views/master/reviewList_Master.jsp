@@ -56,8 +56,8 @@
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>		
-		<c:if test="${endPage%3==0 && pageCount>endPage }"><a class="w3-button" href="/master/reviewList_Master?page=${endPage+1 }">&raquo;</a></c:if>
-		<c:if test="${endPage%3!=0 && endPage==pageCount }"></c:if>
+		<c:if test="${endPage%5==0 && pageCount>endPage }"><a class="w3-button" href="/master/reviewList_Master?page=${endPage+1 }">&raquo;</a></c:if>
+		<c:if test="${endPage%5!=0 && endPage==pageCount }"></c:if>
 	</div>
 </div>
 
@@ -146,7 +146,7 @@ function search(p){
 				pages += "&nbsp;<b style=\"color:red\">"+i+"</b>";
 			}
 		}
-		if(obj.endPage%3==0 && obj.pageCount>obj.endPage){
+		if(obj.endPage%5==0 && obj.pageCount>obj.endPage){
 			pages += "<a class=\"w3-button\" href=\"javascript:search("+(obj.endPage+1)+")\">&raquo;</a>"
 		}
 		$("#paging").html(pages);
