@@ -35,10 +35,38 @@ public class event_Controller {
 	event_Dao eventDao;
 
 	@RequestMapping("/list")
-	public ModelAndView eventListHandle(@RequestParam(name = "page", defaultValue = "1") int page) throws SQLException {
-		System.out.println("??");
-		int size = eventDao.all();
-		System.out.println(size);
+	public ModelAndView eventListHandle(@RequestParam(name = "page", defaultValue = "1") int page ) throws SQLException {
+		int size = eventDao.inall();
+		double c = (size / 9.0);
+		int cc = size / 9;
+		if (c - cc > 0) {
+			cc += 1;
+		}
+		if (page > cc) {
+			page = cc;
+		}
+		if (page <= 1) {
+			page = 1;
+		}
+		Map a = new HashMap();
+		a.put("start", (page * 9) - 8);
+		a.put("end", page * 9);
+		System.out.println(cc);
+		List<Map> ila = eventDao.inlist(a);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("t_event");
+		mav.addObject("list", ila);
+		mav.addObject("cnt", size);
+		mav.addObject("lSize", (size - 1) / 3);
+		mav.addObject("size", cc);
+		mav.addObject("section", "event/list");
+		return mav;
+	}
+	
+
+	@RequestMapping("/startlist")
+	public ModelAndView starteventListHandle(@RequestParam(name = "page", defaultValue = "1") int page) throws SQLException {
+		int size = eventDao.stall();
 		double c = (size / 12.0);
 		int cc = size / 12;
 		if (c - cc > 0) {
@@ -54,20 +82,45 @@ public class event_Controller {
 		a.put("start", (page * 9) - 8);
 		a.put("end", page * 9);
 		System.out.println(cc);
-		List<Map> ila = eventDao.allist(a);
-		List<Map> li = eventDao.readAll();
+		List<Map> ila = eventDao.stlist(a);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
 		mav.addObject("list", ila);
-		mav.addObject("cnt", li.size());
+		mav.addObject("cnt", size);
 		mav.addObject("lSize", (size - 1) / 3);
 		mav.addObject("size", cc);
-		mav.addObject("section", "event/list");
+		mav.addObject("section", "event/startlist");
 		return mav;
 	}
 	
-
-
+	@RequestMapping("/endlist")
+	public ModelAndView endeventListHandle(@RequestParam(name = "page", defaultValue = "1") int page) throws SQLException {
+		int size = eventDao.edall();
+		double c = (size / 12.0);
+		int cc = size / 12;
+		if (c - cc > 0) {
+			cc += 1;
+		}
+		if (page > cc) {
+			page = cc;
+		}
+		if (page <= 1) {
+			page = 1;
+		}
+		Map a = new HashMap();
+		a.put("start", (page * 9) - 8);
+		a.put("end", page * 9);
+		System.out.println(cc);
+		List<Map> ila = eventDao.edlist(a);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("t_event");
+		mav.addObject("list", ila);
+		mav.addObject("cnt", size);
+		mav.addObject("lSize", (size - 1) / 3);
+		mav.addObject("size", cc);
+		mav.addObject("section", "event/endlist");
+		return mav;
+	}
 
 	@ResponseBody
 	@RequestMapping("/uploadImage")
@@ -87,11 +140,12 @@ public class event_Controller {
 		return "/event/content/" + fileName;
 	}
 	@RequestMapping("/view")
-	public ModelAndView noticeViewHandle(@RequestParam String num, @RequestParam String page) throws SQLException {
+	public ModelAndView noticeViewHandle(@RequestParam String num, @RequestParam String page,@RequestParam(name="mode" , defaultValue="")String mode) throws SQLException {
 		List<Map> list = eventDao.readOne(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
 		mav.addObject("list", list);
+		mav.addObject("mode" , mode);
 		mav.addObject("page", page);
 		mav.addObject("section", "event/view");
 		return mav;

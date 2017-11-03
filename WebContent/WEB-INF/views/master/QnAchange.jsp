@@ -21,7 +21,7 @@
 				<input  name="content" value="${content }"
 					style="width: 100%;" required/>
 			</p>
-				<button type="submit">Q&A등록</button>
+				<button type="submit">Q&A수정</button>
 				<button type="reset">재작성</button>
 		</form>
 		

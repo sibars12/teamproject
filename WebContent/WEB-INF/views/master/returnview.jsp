@@ -21,7 +21,7 @@
 				<form action="/master/returncoment" method="post">
 				<p><input type="hidden" name="num"  value="${obj.NUM}"></p>
 				<p><input type="hidden" name="page" value="${page }" ></p>
-				<p>답글 : <input type="text" name="coment"></p><button type="submit">답글 달기</button></form>
+				<p>답글 : <input type="text" name="coment" required></p><button type="submit">답글 달기</button></form>
 				</c:forEach>
 				
 			</div>
