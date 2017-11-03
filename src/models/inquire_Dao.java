@@ -35,4 +35,14 @@ public class inquire_Dao {
 	public List<Map> allist(Map map) {
 		return template.selectList("inquire.allist",map);
 	}
+	public List<Map> masterlist() {
+		return template.selectList("inquire.masterlist");
+	}
+	public List<Map> masteralllist(Map map) {
+		return template.selectList("inquire.masteralllist",map);
+	}
+	public boolean reply(Map map) {
+		int d= template.insert("inquire.reply",map);
+		return d==1;
+	}
 }

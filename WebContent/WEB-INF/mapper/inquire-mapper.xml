@@ -4,9 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="inquire">
   	<insert id="add" parameterType="java.util.HashMap">
-  		insert into inquire values(inquire_SEQ.nextval, #{id},#{name},#{pass}, #{title}, #{content},#{ownernumber} ,SYSDATE)
+  		insert into inquire values(inquire_SEQ.nextval, #{id},#{name},#{pass},'답글 대기중...', #{content},#{ownernumber} ,SYSDATE)
   	</insert>
-  	
+  	<select id="masterlist" resultType="java.util.HashMap">
+  		select * from inquire order by INDATE desc
+  	</select>
+  		<select id="masteralllist" resultType="java.util.HashMap">
+  		select * from (select rownum r, a.* from (select * from inquire  order by INDATE desc) a) where r between #{start} and #{end}
+  	</select>
   	<!-- 오더넘버 보내서 조회 -->
   	<select id="list" parameterType="java.lang.String" resultType="java.util.HashMap">
   			select * from inquire where OWNERNUMBER = #{ownernumber} order by num desc
@@ -23,4 +28,7 @@
 	<select id="allist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 	select * from (select rownum r, a.* from (select * from inquire  where OWNERNUMBER = #{ownernumber} order by num desc) a) where r between #{start} and #{end}
 	</select>
+	<insert id="reply" parameterType="java.util.HashMap">
+  	update inquire set title= #{reply} where num=#{num}
+  	</insert>
   </mapper>

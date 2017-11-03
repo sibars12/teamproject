@@ -113,7 +113,7 @@
 					<c:choose>
 						<c:when test="${list[j+(i*4)]!=null}">
 							<td width="270" align="center" class="productList_Td" style="border-bottom: none;">
-								<c:if test="${auth eq master}">
+								<c:if test="${auth eq 'master'}">
 									<div align="left" class="deleteCheck_D"><input class="deleteCkbox_I" type="checkbox" value="${list[j+(i*4)].OWNERNUMBER }"></div>
 								</c:if>
 								<a class="pList_A" href="/product/view?ownernumber=${list[j+(i*4)].OWNERNUMBER }"><img width="95%" src="/images/product/${list[j+(i*4)].IMAG}"></a>
@@ -177,7 +177,7 @@
 	$(document).ready(function(){
 		// 상품추가 버튼클릭 -> 이동
 		$("#addProduct_B").click(function(){
-			location.href="/product/addProduct";
+			location.href="/master/addProduct";
 		});
 		
 		// 상품삭제 버튼클릭 -> 삭제
@@ -190,7 +190,7 @@
 			});
 			if(confirm("정말 삭제하시겠습니까??")){
 				console.log(dnum);
-				$.get("/product/deleteProduct",{"dnum":dnum},function(data){
+				$.get("/master/deleteProduct",{"dnum":dnum},function(data){
 					if(data=="YY"){
 						alert("삭제되었습니다");
 						location.href="/product/list";
@@ -199,7 +199,6 @@
 			}
 		});
 		//페이지 이동 막기
-		CheckPage(${tPage});
 		
 	});
 	

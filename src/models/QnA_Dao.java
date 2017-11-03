@@ -16,7 +16,9 @@ public class QnA_Dao {
 	DataSource ds;
 	@Autowired
 	SqlSessionTemplate template;
-	
+	public List<Map> read(String num) {
+		return template.selectList("QnA.read",num);
+	}
 	public boolean addOnd(Map map) {
 		int r=template.insert("QnA.add",map);
 		return r==1;
@@ -28,5 +30,15 @@ public class QnA_Dao {
 	public boolean del(String num) {
 		int d=template.insert("QnA.del" ,num);
 		return d==1;
+	}
+	public int all() {
+		return template.selectOne("QnA.all");
+	}
+	public List<Map> allist(Map map) {
+		return template.selectList("QnA.allist",map);
+	}
+	public boolean change(Map map) {
+		int r=template.insert("QnA.change",map);
+		return r==1;
 	}
 }

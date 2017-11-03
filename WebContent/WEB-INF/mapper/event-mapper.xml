@@ -21,5 +21,8 @@
 	<select id="all" resultType="java.lang.Integer">
 		select count(*) FROM event num
 	</select>
+	<insert id="change" parameterType="java.util.HashMap">
+  	update event set title= #{title} , content=#{content} , startdate=#{startdate} , enddate=#{enddate } , eventimg=#{eventimg}  where num=#{num}
+  	</insert>
   
   </mapper>

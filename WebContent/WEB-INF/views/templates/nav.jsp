@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 	#nav_D {
 		font-size: 19;
@@ -11,13 +11,12 @@
 	}
 	
 	.menu_A {
-		margin-right: 35;
-		margin_left: 35;
+		margin-right: 10;
+		margin_left: 10;
 	}
 	
 	#menu_D {
 		font-family: 'Saira-Medium';
-		padding-left: 120;
 	}
 	
 	#mainTitle_D {
@@ -40,9 +39,19 @@
 	</div>
 	<div id="menu_D" class="col-sm-7 text-center">
 		<a class="menu_A" href="/product/list">PRODUCT</a>
+		<c:if test="${'master' eq auth }">
+		<a class="menu_A" href="/master/eventlist">EVENT</a>
+		<a class="menu_A" href="/master/QnAlist">QnA</a>
+		<a class="menu_A" href="/master/noticelist">NOTICE</a>
+		<a class="menu_A" href="/master/inquirelist">INQUIRE</a>
+		<a class="menu_A" href="/master/returnlist">RETURN</a>
+		</c:if>
+		<c:if test="${'master' ne auth}">
 		<a class="menu_A" href="/event/list">EVENT</a>
 		<a class="menu_A" href="/QnA/list">QnA</a>
 		<a class="menu_A" href="/notice/list">NOTICE</a>
-		<c:if test="${auth eq master }"><a class="menu_A" href="/stock/addStock">STOCK</a></c:if>
+		<a class="menu_A" href="/return/list">RETURN</a>
+		</c:if>
+		<c:if test="${auth eq 'master' }"><a class="menu_A" href="/stock/addStock">STOCK</a></c:if>
 	</div>
 </div>

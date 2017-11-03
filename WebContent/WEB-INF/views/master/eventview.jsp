@@ -15,6 +15,11 @@
 				</p>
 				<pre>${obj.CONTENT }</pre>
 				
+				<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
+				
+				<a href="/master/eventdel?num=${obj.NUM }"><button type="button">이벤트 삭제</button></a>
+				<a href="/master/eventchange?num=${obj.NUM }"><button type="button">이벤트 수정</button></a>
 				</c:forEach>
-				<a href="/event/list?page=${page }"><button type="button">목록으로</button></a>
+				
+				<a href="/master/eventlist?page=${page }"><button type="button">목록으로</button></a>
 			</div>

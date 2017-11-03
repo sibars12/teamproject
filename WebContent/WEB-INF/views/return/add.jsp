@@ -3,43 +3,38 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div align="center" style="line-height: 35px">
 
-	<h2>문의</h2>
+	<h2>반품 신청</h2>
 	
 	<div align="left" style="width: 80%;">
 	
 		
-		<form action="/inquire/add" method="post" enctype="multipart/form-data">
+		<form action="/return/add" method="post" enctype="multipart/form-data">
 			<p>
-			<!-- 나중에 히든으로변경 -->
-			<input type="hidden" name="id"  value="${auth }">
-			</p>	
-			<p>
-				<b>이름</b> <input type="text" style="width:20%; " name="name" placeholder="이름"
-					 required/>
-			
-			
-				<b>비밀번호</b> <input type="password" style="width: 20%;" name="pass" placeholder="비밀번호" maxlength="4"
-					 required/>
+				<b>제목</b><br /> <input type="text"  name="title" placeholder="반품 신청 제목"
+					autocomplete="off" style="width: 100%;" required/>
 			</p>
-			
 			<p>
-				<b>문의 내용</b><br/>
-			<textarea  id="summernote" name="content"placeholder="문의 내용" required 
+				<b>반품 내용</b><br/>
+			<textarea title="asd" id="summernote" name="content" 
 					style="width: 100%;"></textarea>
 			</p>
-			<input type="hidden" name="ownernumber" value="${ownernumber }">
+			<input type="hidden" name="writer" value="${auth}">
 			<p>
-				<button type="submit" >문의 등록</button>
+				<div align="left" style="width: 700;" class="mar">
+		
+		</div>
+			<p>
+				<button type="submit" id="eventaddbt">반품 등록</button>
 				<button type="reset">재작성 </button>
-				<a href="/inquire/list?page=1&ownernumber=${ownernumber }"><button type="button">목록으로</button></a>
+				<a href="/return/list?page=1"><button type="button">목록으로</button></a>
 			</p>
 		</form>
 		
 	</div>
 </div>
 <script>
-//내부 텍스트에리 업로드
 $(document).ready(function(){
+	
 	$('#summernote').summernote({
 		height: 300,
 		width: 700,
@@ -70,14 +65,14 @@ $(document).ready(function(){
 });
 	
 
-//-내부 파일 업로드
+//내부 파일 업로드
 function sendFile(file, el){
 	var form_data = new FormData();
 	form_data.append('file', file);
 	$.ajax({
 		data: form_data,
 		type: "POST",
-		url: '/event/uploadImage',
+		url: '/return/uploadImage',
 		cache: false,
 		contentType: false,
 		enctype: 'multipart/form-data',

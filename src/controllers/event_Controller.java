@@ -33,132 +33,79 @@ public class event_Controller {
 	SimpleDateFormat sdf;
 	@Autowired
 	event_Dao eventDao;
+
 	@RequestMapping("/list")
-	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
-		int size=eventDao.all();
-		if(page>size)
-			page = size;
-		if(page <=0) 
-			page = 1;
-		Map a=new HashMap();
-		a.put("start", (page*10)-9);
-		a.put("end", page*10);
-		double c=(size/10.0);
-		int cc=size/10;
-		if(c-cc>0) {
-			cc+=1;
+	public ModelAndView eventListHandle(@RequestParam(name = "page", defaultValue = "1") int page) throws SQLException {
+		System.out.println("??");
+		int size = eventDao.all();
+		System.out.println(size);
+		double c = (size / 12.0);
+		int cc = size / 12;
+		if (c - cc > 0) {
+			cc += 1;
 		}
+		if (page > cc) {
+			page = cc;
+		}
+		if (page <= 1) {
+			page = 1;
+		}
+		Map a = new HashMap();
+		a.put("start", (page * 9) - 8);
+		a.put("end", page * 9);
+		System.out.println(cc);
 		List<Map> ila = eventDao.allist(a);
 		List<Map> li = eventDao.readAll();
 		ModelAndView mav = new ModelAndView();
-			mav.setViewName("t_event");
-			mav.addObject("list", ila);
-			mav.addObject("cnt", li.size());
-			mav.addObject("size" , cc);
-			mav.addObject("section", "event/list");
-		return mav;
-	} 
-	@GetMapping("/add")
-	public ModelAndView add() {
-		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
-		mav.addObject("section", "event/add");
+		mav.addObject("list", ila);
+		mav.addObject("cnt", li.size());
+		mav.addObject("lSize", (size - 1) / 3);
+		mav.addObject("size", cc);
+		mav.addObject("section", "event/list");
 		return mav;
 	}
+	
+
+
+
 	@ResponseBody
 	@RequestMapping("/uploadImage")
 	public String uploadHandler(@RequestParam("file") MultipartFile f) throws IllegalStateException, IOException {
 		String fileName = null;
-		if(!f.isEmpty() && f.getContentType().startsWith("image")) {
+		if (!f.isEmpty() && f.getContentType().startsWith("image")) {
 			String path = application.getRealPath("/event/content");
 			File dir = new File(path);
-			if(!dir.exists()) {
+			if (!dir.exists()) {
 				dir.mkdirs();
 			}
 			String of = f.getOriginalFilename();
-			fileName = sdf.format(System.currentTimeMillis())+"."+of.substring(of.lastIndexOf(".")+1);
+			fileName = sdf.format(System.currentTimeMillis()) + "." + of.substring(of.lastIndexOf(".") + 1);
 			File target = new File(dir, fileName);
 			f.transferTo(target);
 		}
-		return "/event/content/"+fileName;
-	}
-
-	@PostMapping("/add")
-	public ModelAndView noticeaddHandle(@RequestParam Map map, 
-			@RequestParam(name="eventimg") MultipartFile f, HttpServletRequest request,
-			HttpSession session) throws SQLException, IllegalStateException, IOException {
-		System.out.println("맵"+map);
-		ModelAndView mav = new ModelAndView();
-		
-		String fileName = null;
-		if(!f.isEmpty() && f.getContentType().startsWith("image")) {
-			String path = application.getRealPath("/event/eventimg");
-			System.out.println("위치     "+path);
-			File dir = new File(path);
-			if(!dir.exists()) {
-				dir.mkdirs();
-			}
-			fileName = System.currentTimeMillis()+".jpg";
-			File target = new File(dir, fileName);
-			f.transferTo(target);
-			System.out.println("파일 이름   "+target.getPath());
-			map.put("eventimg", target.getPath());
-		}else {
-			map.put("eventimg", null);
-		}
-		System.out.println(map);
-		boolean a=eventDao.addOnd(map);
-		mav.setViewName("t_event");
-		if(a==true){
-			int size=eventDao.all();
-			Map abc=new HashMap();
-			abc.put("start", 1);
-			abc.put("end", 9);
-			double c=(size/10.0);
-			int cc=size/10;
-			if(c-cc>0) {
-				cc+=1;
-			}
-			System.out.println(cc);
-			List<Map> ila = eventDao.allist(abc);
-			List<Map> li = eventDao.readAll();
-			mav.addObject("list", ila);
-			mav.addObject("cnt", li.size());
-			mav.addObject("size" , cc);
-			mav.addObject("section", "event/list");
-		}else {
-		mav.addObject("addt", false);
-		mav.addObject("section", "event/add");
-		}
-		return mav;
+		return "/event/content/" + fileName;
 	}
 	@RequestMapping("/view")
-	public ModelAndView noticeViewHandle(@RequestParam String num , @RequestParam String page) throws SQLException {
-		List<Map> list=eventDao.readOne(num);
+	public ModelAndView noticeViewHandle(@RequestParam String num, @RequestParam String page) throws SQLException {
+		List<Map> list = eventDao.readOne(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");
 		mav.addObject("list", list);
-		mav.addObject("page" ,page);
+		mav.addObject("page", page);
 		mav.addObject("section", "event/view");
 		return mav;
-		
-}
-	@RequestMapping("/del")
-	public ModelAndView noticedelHandle(@RequestParam String num) throws SQLException {
-		boolean a=eventDao.del(num);
+
+	}
+
+
+
+
+	@RequestMapping("/home")
+	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("t_event");
-		if(a==true){
-			List<Map> li = eventDao.readAll();
-			mav.addObject("list", li);
-			mav.addObject("cnt", li.size());	
-		mav.addObject("section", "event/list");
-		}else {
-		List<Map> list=eventDao.readOne(num);
-		mav.addObject("list", list);
-		mav.addObject("addt", false);
-		mav.addObject("section", "event/view");
-		}
+		mav.addObject("section", "event/home");
 		return mav;
-}
+	}
+
 }

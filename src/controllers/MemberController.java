@@ -122,7 +122,8 @@ public class MemberController {
 			session.setAttribute("cartCnt", shoppingDao.getCartCnt((String)m.get("ID")));
 			System.out.println(shoppingDao.getCartCnt((String)m.get("ID")));
 			System.out.println(session.getAttribute("auth") + "´Ô ·Î±×ÀÎ");
-			return "home";
+			mMap.addAttribute("section", "home");
+			return "t_expr";
 		} catch (Exception e) {
 			mMap.addAttribute("temp", map);
 			mMap.addAttribute("section", "member/login");

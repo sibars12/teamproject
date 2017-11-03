@@ -8,7 +8,7 @@
 	<div align="left" style="width: 80%;">
 	
 		
-		<form action="/notice/add" method="post">
+		<form action="/master/noticeadd" method="post">
 			<p>
 				<b>공지제목</b><br /> <input type="text"  name="title" placeholder="공지제목"
 					autocomplete="off" style="width: 100%;" required/>
@@ -21,7 +21,7 @@
 			<p>
 				<button type="submit">글등록</button>
 				<button type="reset">재작성</button>
-				<a href="/notice/list"><button type="button">목록으로</button></a>
+				<a href="/master/noticelist"><button type="button">목록으로</button></a>
 			</p>
 		</form>
 		

@@ -35,6 +35,8 @@
 				<input type="text" class="form-control" id="address"
 					value="${readDetail.ADDRESS}" name="address">
 			</div>
+
+
 		</div>
 
 		<div class="form-group">
@@ -63,4 +65,4 @@
 
 	</form>
 </div>
-
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
