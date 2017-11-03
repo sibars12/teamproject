@@ -780,6 +780,24 @@ public class Master_Controller {
 		}
 		map.put("start", (page-1)*5+1);
 		map.put("end", page*5);
+		
+		
+		//------------------------------------------------
+		int allBlock=0;//전체 페이지 블럭
+		//int nowBlock=0; //현재 페이지 블럭
+		int startPage = (page-1)/3*3+1;
+		int endPage = startPage+3-1;
+		
+		if(pageCount%3==0){
+			allBlock = pageCount/3;
+		}else{
+			allBlock = allBlock+1;
+		} 
+		if(endPage > pageCount){
+			endPage = pageCount;
+		}		
+		//----------------------------------------------
+		
 		List<Map> list = productDao.reviewList_master(map);
 
 		ModelAndView mav = new ModelAndView("t_expr");		
@@ -787,6 +805,10 @@ public class Master_Controller {
 		mav.addObject("pageCount",pageCount);
 		mav.addObject("page",page);
 		mav.addObject("section","master/reviewList_Master");
+		mav.addObject("allBlock",allBlock);
+		//mav.addObject("nowBlock", nowBlock);
+		mav.addObject("sp", startPage);
+		mav.addObject("ep", endPage);
 		return mav;
 	}
 	// 후기 리스트 삭제

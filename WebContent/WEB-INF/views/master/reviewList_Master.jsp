@@ -43,9 +43,9 @@
 		<a href="/master/reviewList_Master"><button type="button">목록으로</button></a>
 	</div>
 	<div align="center" id="paging">
+	<c:if test="${sp-1!=0}"><a  class="w3-button" href="/master/reviewList_Master?page=${sp-1 }">&laquo;</a></c:if>
 	<c:set var="idx" value="${empty param.page ?1: param.page}"/>
-		<c:forEach var="n" begin="1" end="${pageCount }" varStatus="vs">
-			<c:if test="${vs.first }">&lt;</c:if>
+		<c:forEach var="n" begin="${sp }" end="${ep }" varStatus="vs">
 			<c:choose>
 				<c:when test="${n ne idx }">
 					<a href="/master/reviewList_Master?page=${n }"> <b>${n }</b>
@@ -55,9 +55,9 @@
 					<b style="color: red">${n }</b>
 				</c:otherwise>
 			</c:choose>
-			<c:if test="${!vs.last }">&nbsp;</c:if>
-			<c:if test="${vs.last }">&gt;</c:if>
-		</c:forEach>
+		</c:forEach>		
+		<c:if test="${ep%3==0 && pageCount>ep }"><a class="w3-button" href="/master/reviewList_Master?page=${ep+1 }">&raquo;</a></c:if>
+		<c:if test="${ep%3!=0 && ep==pageCount }"></c:if>
 	</div>
 </div>
 
