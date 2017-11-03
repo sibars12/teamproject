@@ -43,9 +43,9 @@
 		<a href="/master/reviewList_Master"><button type="button">목록으로</button></a>
 	</div>
 	<div align="center" id="paging">
-	<c:if test="${sp-1!=0}"><a  class="w3-button" href="/master/reviewList_Master?page=${sp-1 }">&laquo;</a></c:if>
+	<c:if test="${startPage-1!=0}"><a  class="w3-button" href="/master/reviewList_Master?page=${startPage-1 }">&laquo;</a></c:if>
 	<c:set var="idx" value="${empty param.page ?1: param.page}"/>
-		<c:forEach var="n" begin="${sp }" end="${ep }" varStatus="vs">
+		<c:forEach var="n" begin="${startPage }" end="${endPage }" varStatus="vs">
 			<c:choose>
 				<c:when test="${n ne idx }">
 					<a href="/master/reviewList_Master?page=${n }"> <b>${n }</b>
@@ -56,8 +56,8 @@
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>		
-		<c:if test="${ep%3==0 && pageCount>ep }"><a class="w3-button" href="/master/reviewList_Master?page=${ep+1 }">&raquo;</a></c:if>
-		<c:if test="${ep%3!=0 && ep==pageCount }"></c:if>
+		<c:if test="${endPage%3==0 && pageCount>endPage }"><a class="w3-button" href="/master/reviewList_Master?page=${endPage+1 }">&raquo;</a></c:if>
+		<c:if test="${endPage%3!=0 && endPage==pageCount }"></c:if>
 	</div>
 </div>
 
@@ -114,11 +114,12 @@ function search(p){
 	}
 	$.ajax({
 		"type":"get",
-		"url":"/product/searchReview",
+		"url":"/master/searchReview",
 		"data":{
 			"mode":$("#schMode").val(),
 			"key":$("#schKey").val(),
 			"page":p,
+			"startPage":1,
 		}		
 	}).done(function(obj){
 		var schList="<table class=\"table table-hover\"><tr><th><input type=\"checkbox\" id=\"allcheck\"></th><th>올린날짜</th>	<th>상품번호</th>";
@@ -135,12 +136,18 @@ function search(p){
 		
 		//페이지 번호 처리
 		var pages = "";
-		for(var i=1;i<=obj.pageCount;i++){
+		if((obj.startPage-1)!=0){
+			pages += "<a class=\"w3-button\" href=\"javascript:search("+(obj.startPage-1)+")\">&laquo;</a>"
+		}
+		for(var i=obj.startPage; i<=obj.endPage; i++){
 			if(i != obj.page){
 				pages += "&nbsp;<a href=\"javascript:search("+i+")\"><b>"+i+"</b></a>";
 			}else{
 				pages += "&nbsp;<b style=\"color:red\">"+i+"</b>";
 			}
+		}
+		if(obj.endPage%3==0 && obj.pageCount>obj.endPage){
+			pages += "<a class=\"w3-button\" href=\"javascript:search("+(obj.endPage+1)+")\">&raquo;</a>"
 		}
 		$("#paging").html(pages);
 		
