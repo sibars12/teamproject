@@ -108,7 +108,7 @@ public class ProductController {
 	//후기 입력
 	@RequestMapping(path="/addReview",produces="applilcation/json;charset=utf-8")
 	@ResponseBody
-	public String addReviewHandler(@RequestParam Map map){
+	public String addReviewHandler(@RequestParam Map map, HttpSession session){
 		System.out.println(map);
 		boolean r = productDao.addReview(map);
 		if (r){			

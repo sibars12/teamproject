@@ -75,11 +75,11 @@ th, td {
 							<c:forEach items="${productInfo}" var="m">
 								<c:choose>
 									<c:when test="${m.VOLUME eq 0 }">
-										<option value="${m.NO }_${m.COLOR}" disabled>
+										<option id="${m.COLOR}" value="${m.NO }" data="${m.COLOR}" title="${m.VOLUME }" disabled>
 											${m.COLOR }-일시품절</option>
 									</c:when>
 									<c:otherwise>
-										<option value="${m.NO }_${m.COLOR}">${m.COLOR }</option>
+										<option id="${m.COLOR}" value="${m.NO }" data="${m.COLOR}" title="${m.VOLUME }" >${m.COLOR }</option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
@@ -97,7 +97,7 @@ th, td {
 							&nbsp;&nbsp; 
 							<!-- 수량 -->
 							<button type="button" id="minusA_B">-</button>
-							<input id="stockCnt" name="stockCnt" type="number" style="width: 40px;"	value="1" min="1" />
+							<input id="stockCnt" name="stockCnt" type="number" style="width: 40px;"	value="1" min="1" max="${productInfo[0].VOLUME }" />
 							<button type="button" id="plusA_B">+</button>&nbsp;&nbsp; 
 							<span id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span>
 							<input type="hidden" id="stockNo" name="stockNo" value="${productInfo[0].NO }">
@@ -229,7 +229,7 @@ print();
 
 //수량 minus
 $("#minusA_B").click(function(){
-	if(parseInt($("#stockCnt").val()) > 1){
+	if(parseInt($("#stockCnt").val()) > 1){	
 		$("#stockCnt").val(parseInt($("#stockCnt").val())-1); 
 		var n = $("#stockCnt").val();
 		var price = ${productInfo[0].PRICE }*n;
@@ -239,8 +239,13 @@ $("#minusA_B").click(function(){
 	}
 });
 // 수량 plus
-$("#plusA_B").click(function(){	
+$("#plusA_B").click(function(){		
+	if($("#stockCnt").val()>=${productInfo[0].VOLUME}){
+		window.alert("최대수량입니다.");
+		$("#stockCnt").val(${productInfo[0].VOLUME});		
+	}else{		
 	$("#stockCnt").val(parseInt($("#stockCnt").val())+1);
+	}
 	var n = $("#stockCnt").val();
 	var price = ${productInfo[0].PRICE }*n;
 	$("#priceA_Span").html("<b>"+price+"원</b>");
@@ -251,6 +256,10 @@ $("#plusA_B").click(function(){
 // 옵션 선택시
 $("#color_Select").change(function(){
 	console.log($(this).val());
+	var maxVolume = $("#color_Select option:selected").attr("title");
+	var data = $("#color_Select option:selected").attr("data");
+	console.log("maxVolume:"+maxVolume);
+	console.log("data:"+data);
 	if($(this).val()!="색상 옵션 선택"){
 		cnt++; // script 전역 변수 -> 옵션 선택 갯수 제한
 		if(cnt>0){
@@ -264,14 +273,16 @@ $("#color_Select").change(function(){
 			$("#color_Select").val("색상 옵션 선택");
 			return;
 		}
+		$("#color_Select option:selected").prop("disabled",true);
 		// 선택된 옵션 표기
 		var optionValue=$(this).val();
-		var	arr = optionValue.split("_");
-		var sno = arr[0];
+		//var	arr = optionValue.split("_");
+		//var sno = arr[0];
+		var sno = data;
 		var selectOption="<p>";
-		selectOption += "<label >"+$(this).val()+"</label>";
+		selectOption += "<label >"+data+"</label>";
 		selectOption += "&nbsp;&nbsp;<button type=\"button\" class=\"minus_B\">-</button>";
-		selectOption += "<input type=\"number\" name=\"stockCnt\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
+		selectOption += "<input type=\"number\" name=\"stockCnt\" style=\"width: 40px;\" value=\"1\" min=\"1\" max=\""+maxVolume+"\"/>";
 		selectOption += "<button type=\"button\" class=\"plus_B\">+</button>";
 		selectOption += "&nbsp;<button type=\"button\" class=\"remove_B\">X</button>";
 		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"</span>";
@@ -301,17 +312,31 @@ $("#color_Select").change(function(){
 		}); 
 		// 수량 plus
 		$(".plus_B").click(function(){	
+			if($(this).prev().val()>= maxVolume)	{
+				window.alert("최대수량입니다.");
+				$(this).prev().val(maxVolume);
+				var n = parseInt($(this).prev().val());
+				var price = ${productInfo[0].PRICE }*n;
+				$(this).next().next().html(price);
+				$(this).next().next().next().next().val(price);
+			}
+			else{
 			$(this).prev().val(parseInt($(this).prev().val())+1);
-			console.log($(this).prev().val());	
-			var n = parseInt($(this).prev().val());
-			var price = ${productInfo[0].PRICE }*n;
-			$(this).next().next().html(price);
-			$(this).next().next().next().next().val(price);
-			total+=${productInfo[0].PRICE };
-			print();
+				console.log($(this).prev().val());	
+				var n = parseInt($(this).prev().val());
+				var price = ${productInfo[0].PRICE }*n;
+				$(this).next().next().html(price);
+				$(this).next().next().next().next().val(price);
+				total+=${productInfo[0].PRICE };
+			}
+				print();
+			
 		});
 		// 삭제
 		$(".remove_B").click(function(){
+			var reflash = $(this).prev().prev().prev().prev().text();
+			console.log("reflash:"+reflash);
+			$("#"+reflash).attr("disabled",false);
 			console.log($(this).next().html());
 			total -= parseInt($(this).next().html());
 			$(this).parent().remove();
@@ -373,6 +398,7 @@ $("#review_Submit").click(function () {
 	var scoreSelected = $(":input[name=score]:radio:checked").length;
 	var con = $("#reviewContent_Ta").val();
 	var pname=$("#pname").val();
+	var id = "${auth}";
 	console.log(pname);
 	if(writer=="" || scoreSelected==0 || con==""){
 		window.alert("항목을 모두 기입해주세요");
@@ -385,7 +411,7 @@ $("#review_Submit").click(function () {
 		"data":{
 			"ownernumber":${productInfo[0].OWNERNUMBER},
 			"pname": pname,
-			"id":'TEST', 
+			"id":id, 
 			"writer":writer,
 			"score": score,
 			"content":con,
@@ -393,7 +419,8 @@ $("#review_Submit").click(function () {
 	}).done(function(r){
 		var obj = JSON.parse(r);
 		$("#reviewWriter_I").val("");
-		$(":input[name=score]:radio:checked:false");
+		$(":input[name=score]:radio:checked").attr("chaeckd",false);
+		//$("#color_Select").attr("chaeckd",false);
 		$("#reviewContent_Ta").val("");
 		reviewList(1);
 	});
