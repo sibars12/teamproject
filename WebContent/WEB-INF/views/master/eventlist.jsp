@@ -96,9 +96,9 @@ $(document).ready(function(){
 			$.get("/master/eventcheckdel",{"dnum":dnum},function(data){
 				if(data=="YY"){
 					alert("삭제되었습니다");
+			 location.href="/master/eventlist";
 				}
 			});
-			location.href="/master/eventlist";
 		}
 	}
 	})

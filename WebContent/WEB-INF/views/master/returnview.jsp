@@ -15,7 +15,7 @@
 				<p>${obj.CONTENT }</p>
 				
 				
-				<b>관리자 답글</b>  작성일 :<fmt:formatDate	pattern="yyyy.MM.dd HH:mm:ss" value="${obj.WRITEDATE }" /><br/>
+				<b>관리자 답글</b>  작성일 :<fmt:formatDate	pattern="yyyy.MM.dd HH:mm:ss" value="${obj.MASTERDATE }" /><br/>
 				<p> ${obj.COMENT }</p>
 				<a href="/master/returnlist?page=${page }"><button type="button">목록으로</button></a>
 				<form action="/master/returncoment" method="post">

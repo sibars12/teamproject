@@ -26,12 +26,10 @@ public class inquire_Controller {
 	inquire_Dao inquireDao;
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page ,@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) throws SQLException {
-		System.out.println("??");
 		List<Map> li = inquireDao.readAll(ownernumber);
 		int size=inquireDao.all(ownernumber);
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_inquire");
-			System.out.println("size="+size);
 			double c=(size/5.0);
 			int cc=size/5;
 			if(c-cc>0) {
@@ -45,7 +43,6 @@ public class inquire_Controller {
 			a.put("ownernumber", ownernumber);
 			a.put("start", (page*5)-4);
 			a.put("end", page*5);
-			System.out.println("size cc=" +cc);
 			List<Map> ila = inquireDao.allist(a);
 		mav.addObject("list", ila);
 		mav.addObject("cnt", li.size());

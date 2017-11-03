@@ -45,4 +45,13 @@ public class inquire_Dao {
 		int d= template.insert("inquire.reply",map);
 		return d==1;
 	}
+	public List<Map> uesrin(String auth) {
+		return template.selectList("inquire.uesrin",auth);
+	}
+	public int insize(String auth) {
+		return template.selectOne("inquire.insize" , auth);
+	}
+	public List<Map> uesrlist(Map map) {
+		return template.selectList("inquire.uesrlist" , map);
+	}
 }

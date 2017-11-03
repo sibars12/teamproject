@@ -30,7 +30,7 @@ th, td {
 		<c:forEach var="obj" items="${list }" >
 		<tr>
 					<td>
-					<p>${obj.ID }</p>s
+					<p>${obj.ID }</p>
 					</td>
 					<td>
 					<p>${obj.NAME }</p>

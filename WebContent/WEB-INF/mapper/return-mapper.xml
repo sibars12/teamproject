@@ -27,4 +27,13 @@
   	<insert id="coment" parameterType="java.util.HashMap">
   	update return set coment=#{coment} , masterdate=SYSDATE where num=#{num}
   	</insert>
+  	<select id="uesrre" parameterType="java.lang.String" resultType="java.util.HashMap">
+  	select * from return where WRITER=#{auth}
+  	</select>
+  	<select id="resize" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(*) from return where WRITER=#{auth}
+	</select>
+	<select id="uesrlist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select * from (select rownum r, a.* from (select * from return  where WRITER = #{auth} order by num desc) a) where r between #{start} and #{end}
+	</select>
   </mapper>
