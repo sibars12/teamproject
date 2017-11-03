@@ -75,5 +75,8 @@ public class StockDao {
 	public Map getStockInfo(String stockNo){
 		return sql.selectOne("stock.getStockInfo",stockNo);
 	}
+	public int subStockVolum(Map param){
+		return sql.update("stock.subStockVolum", param);
+	}
 	
 }

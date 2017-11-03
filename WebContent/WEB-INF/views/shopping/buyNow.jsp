@@ -12,30 +12,34 @@
 </style>
 <div class="w3-container" align="center">
 	<div align="left" class="tabName_D">ORDER</div>
-	<div id="StockList">
-		<table class="table">
-			<tr>
-				<td>상품명</td>
-				<td>상품번호</td>
-				<td>사이즈</td>
-				<td>색상</td>
-				<td>수량</td>
-				<td>가격</td>
-			</tr>
-		<c:forEach var="i" begin="0" end="${stockNo.size()-1}">
-			<tr>
-				<td>${infoList[i].NAME }</td>
-				<td>${infoList[i].OWNERNUMBER }</td>
-				<td>${infoList[i].SIZE }</td>
-				<td>${infoList[i].COLOR }</td>
-				<td>${stockCnt[i] }</td>
-				<td>${stockPrice[i] }</td>			
-			</tr>
-		</c:forEach>
-		</table>
-	</div>
-	<hr>
 	<form action="/shopping/buyNow" method="post">
+		<div id="StockList">
+			<table class="table">
+				<tr>
+					<td>상품명</td>
+					<td>상품번호</td>
+					<td>사이즈</td>
+					<td>색상</td>
+					<td>수량</td>
+					<td>가격</td>
+				</tr>
+			<c:forEach var="i" begin="0" end="${stockNo.size()-1}">
+				<tr>
+					<td>${infoList[i].NAME }</td>
+					<td>${infoList[i].OWNERNUMBER }</td>
+					<td>${infoList[i].SIZE }</td>
+					<td>${infoList[i].COLOR }</td>
+					<td>${stockCnt[i] }</td>
+					<td>${stockPrice[i] }</td>
+					<input type="hidden" name="ownernumber" value="${infoList[i].OWNERNUMBER }">
+					<input type="hidden" name="stockNo" value="${stockNo[i] }">
+					<input type="hidden" name="stockCnt" value="${stockCnt[i] }">
+					<input type="hidden" name="stockPrice" value="${stockPrice[i] }">						
+				</tr>
+			</c:forEach>
+			</table>
+		</div>
+	<hr>
 		<div id="buyerInfo">
 			<div align="left" class="tabName_D">구매자 정보</div>
 			<table class="table">
@@ -71,7 +75,7 @@
 				<tr>
 					<th>배송료</th>
 					<c:choose>
-					<c:when test="${totPrice ge 30000}">
+					<c:when test="${totPrice ge 40000}">
 						<td><input type="hidden" name="delivery" id="delivery" value="0">무료 배송</td>
 					</c:when>
 					<c:otherwise>					
@@ -85,7 +89,7 @@
 				<tr>
 					<td>보유포인트 : ${memInfo.POINT }</td>
 					<td>
-						<input type="number" id="payPoint" name="payPoint" placeholder="사용할 포인트" >
+						<input type="number" id="payPoint" name="payPoint" placeholder="사용할 포인트" value="0">
 						<button type="button"  id="payPoint_B">사용하기</button>&nbsp;
 						<button type="button"  id="delPoint_B" disabled>취소</button>
 					</td>
@@ -98,7 +102,7 @@
 						<select id="coupon">
 						<option>쿠폰선택</option>
 						<c:forEach var="i" items="${coupons}">	
-							<option value="${i.DISCOUNT }" data="${i.NO }" n="${i.NAME }">${i.NAME }</option>
+							<option  value="${i.DISCOUNT }"  title="${i.NO }" >${i.NAME }</option>
 						</c:forEach>
 						</select>
 					</td>
@@ -106,13 +110,11 @@
 				</tr>
 				<tr>
 					<td>최종 결제 금액</td>
-					<td id="lastPay">
-						${totPrice }					
+					<td id="lastPay">					
 					</td>
 				</tr>
 				<tr>
-					<c:set var="points" value="${totPrice * 0.05}"></c:set>
-					<th colspan="2">적립 포인트  :<p id="point">${points }</p></th>
+					<th colspan="2">적립 포인트  :<p id="point"></p></th>
 					<input type="hidden" id="addPoint" name="addPoint" value="${points }">
 				</tr>							
 			</table>		
@@ -123,8 +125,8 @@
 			<table class="table">
 				<tr><th colspan="2">결제 수단</th></tr>
 				<tr>
-					<td><input type="radio" class="type_Radio" name="type" value="계좌이체">실시간 계좌이체</td>
-					<td><input type="radio" class="type_Radio" name="type" value="신용카드">신용카드</td>
+					<td><input type="radio" class="type_Radio" name="type" value="계좌이체" required>실시간 계좌이체</td>
+					<td><input type="radio" class="type_Radio" name="type" value="신용카드" required>신용카드</td>
 				</tr>
 				<tr id="banking" style="display:none" >
 					<td colspan="2">
@@ -171,21 +173,19 @@
 		</div>
 		<div id="hiddens">
 					<input type="hidden" name="id" value="${auth }">
-					<input type="hidden" name="stockNo" value="${stockNo }">
-					<input type="hidden" name="StockCnt" value="${stockCnt }">
-					<input type="hidden" name="infoList" value="${infoList }">
 					<input type="hidden" id="kind" name="kind" value="">
 					<input type="hidden" id="installment" name="installment" value="일시불">
 					<input type="hidden" id="couponNo" name="couponNo" value="0" >
 					<input type="hidden" id="couponDiscount" name="couponDiscount"  value="0">
+					<input type="hidden" name="point" value="${memInfo.POINT }">
 					<input type="hidden" id="payment" name="payment" value="${totPrice }">
 		</div>
-		<button type="submit" name="buy">구매하기</button>
+		<button type="submit">구매하기</button>
 	</form>
 	
 </div>
 <script>
-var totPrice = ${totPrice};
+var totPrice = parseInt(${totPrice})+parseInt($("#delivery").val());
 var cou_cnt=0;// 쿠폰 적용 카운트
 var po_cnt=0;
 var coupon=0;
@@ -218,6 +218,8 @@ $("#coupon").change(function(){
 			$("#payCoupon_B").attr("disabled",false);
 			$("#coupon").val("쿠폰선택");
 			printPayment();
+			$("#couponNo").val(0);
+			$("#couponDiscount").val(0);
 		});
 	}
 	//쿠폰적용 
@@ -227,6 +229,9 @@ $("#coupon").change(function(){
 			coupon = parseInt($("#coupon option:selected").val());
 			console.log("쿠폰가격"+coupon);
 			$("#payCoupon_B").attr("disabled",true);
+			console.log($("#coupon option:selected").attr("title"));
+			$("#couponNo").val($("#coupon option:selected").attr("title"));
+			$("#couponDiscount").val(coupon);
 			totPrice -= parseInt(coupon);
 			printPayment();
 		});
@@ -241,6 +246,9 @@ $("#coupon").change(function(){
 			$("#payCoupon_B").attr("disabled",false);
 			$("#coupon").val("쿠폰선택");
 			$("#checkCoupon").html("");
+			$("#couponNo").val(0);
+			$("#couponDiscount").val(0);
+			
 		});
 	
 	}
@@ -295,6 +303,7 @@ function printPayment(){
 	$("#addPoint").val(point);
 	console.log("payment:"+$("#payment").val());
 };
+printPayment();
 </script>
 
 <script>

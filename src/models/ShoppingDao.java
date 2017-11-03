@@ -36,6 +36,9 @@ public class ShoppingDao {
 	public int addPurchase(Map param){
 		return sql.insert("shopping.addPurchase", param);
 	}
+	public int addOrderInfo(Map param){
+		return sql.insert("shopping.addOrderInfo", param);
+	}
 	public int addPayment(Map param){
 		return sql.insert("shopping.addPayment", param);
 	}
@@ -44,5 +47,11 @@ public class ShoppingDao {
 	}
 	public List<Map> getCoupon(String id){
 		return sql.selectList("shopping.getCoupon", id);
+	}
+	public int updatePoint(Map map){
+		return sql.update("shopping.updatePoint", map);
+	}
+	public int deletePayCoupon(Map coupon){
+		return sql.delete("shopping.deletePayCoupon", coupon);
 	}
 }

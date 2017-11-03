@@ -22,17 +22,23 @@
 		select count(*) from cart where id=#{id}
 	</select>
 <!-- 구매테이블 -->
-	<!-- 구매(주문)정보 추가 -->
+	<!-- purchase정보 추가 -->
 	<insert id="addPurchase">
-		insert into purchase values
-        (purchase_seq.nextval,#{purchaseNo},#{id},#{ownernumber},#{stockNo},#{stockCnt},#{stockPrice},
-        #{name,jdbcType=VARCHAR},#{addr1},#{postCode},sysdate,#{paymentNo,jdbcType=NUMERIC},
-        #{note,jdbcType=VARCHAR},#{return,jdbcType=VARCHAR},#{addr2},#{tel})
+		insert into purchase(purchaseno,id,name,postcode,addr1,addr2,tel,orderdate) 
+		values
+        (#{purchaseNo},#{id},#{name},#{postcode},#{addr1},#{addr2},#{tel},sysdate)
+	</insert>
+	<!-- orderInfo -->
+	<insert id="addOrderInfo">
+		insert into orderinfo values
+		 (orderinfo_seq.nextval,#{purchaseNo},#{ownernumber},#{stockNo},#{stockCnt},#{stockPrice},#{return,jdbcType=VARCHAR})
 	</insert>
 	<!-- 결제정보 -->
 	<insert id="addPayment">
-	insert into payment values(payment_seq.nextval,#{id},#{purchaseNo},#{type},#{kind},#{installment,jdbcType=NUMERIC},#{totPrice},
-	#{delivery},#{pointpay,jdbcType=NUMERIC},#{discount,jdbcType=NUMERIC},#{coupon,jdbcType=NUMERIC},#{payment},sysdate)
+	insert into payment (paymentno,id,purchaseno,type,kind,installment,totprice,delivery,pointpay,coupon,payment,paymentdate)
+	values
+	(payment_seq.nextval,#{id},#{purchaseNo},#{type},#{kind},#{installment,jdbcType=NUMERIC},#{totPrice},
+	#{delivery},#{payPoint,jdbcType=NUMERIC},#{coupon,jdbcType=NUMERIC},#{payment},sysdate)
 	</insert>
 	
 	<!-- 회원 정보&쿠폰 가져오기-->
@@ -42,5 +48,15 @@
 	<select id="getCoupon" resultType="java.util.HashMap">
 		select * from coupon where id=#{id} and (enddate >= sysdate)
 	</select>
+	
+	<!-- 포인트 변경 -->
+	<update id="updatePoint">
+		update detail set point=#{resultPoint} where id=#{id}
+	</update>
+	<!-- 쿠폰 삭제 -->
+	<delete id="deletePayCoupon">
+		delete from coupon where id=#{id} and no=#{couponNo} 
+	</delete>
+	
 
 </mapper>
