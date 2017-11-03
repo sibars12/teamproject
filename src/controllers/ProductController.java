@@ -50,7 +50,7 @@ public class ProductController {
 	
 	// 상품상세보기
 	@RequestMapping("/view")
-	public ModelAndView ViewHandler(@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) {
+	public ModelAndView ViewHandler(@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber, HttpSession session) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		List<Map> li = inquireDao.readAll(ownernumber);
 		productDao.updateCount(ownernumber);

@@ -46,7 +46,7 @@ th, td {
 				</tr>
 				<tr>
 					<th>배송비</th>
-					<td>3만원 이상 구매시 무료배송</td>
+					<td>4만원 이상 구매시 무료배송</td>
 				</tr>
 				<tr>
 					<th>제조사/판매원</th>
@@ -393,7 +393,7 @@ $("#review_Submit").click(function () {
 	}).done(function(r){
 		var obj = JSON.parse(r);
 		$("#reviewWriter_I").val("");
-		//$(":input[name=score]:radio:checked:false");
+		$(":input[name=score]:radio:checked:false");
 		$("#reviewContent_Ta").val("");
 		reviewList(1);
 	});
