@@ -11,12 +11,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.CouponDao;
+import models.inquire_Dao;
+import models.return_Dao;
 
 @Controller
 @RequestMapping("/mypage")
 public class MypageController {
 	@Autowired
 	CouponDao couponDao;
+	@Autowired
+	inquire_Dao inquireDao;
+	@Autowired
+	return_Dao returnDao;
 	
 	@RequestMapping("/index")
 	public ModelAndView IndexHandler() {
@@ -71,6 +77,52 @@ public class MypageController {
 		map.put("no", n);
 		boolean rst = couponDao.addCoupon(map);
 		mav.addObject("result", rst);
+		return mav;
+	}
+	@RequestMapping("/board")
+	public ModelAndView boardhandler(@RequestParam String auth, @RequestParam(name="inpage" , defaultValue="1")int inpage ,@RequestParam(name="repage" , defaultValue="1") int repage) {
+		List<Map> li = inquireDao.uesrin(auth);
+		int size=inquireDao.insize(auth);
+		ModelAndView mav = new ModelAndView();
+			mav.setViewName("t_expr");
+			double c=(size/3.0);
+			int cc=size/3;
+			if(c-cc>0) {
+				cc+=1; 
+			}
+			if(inpage>cc)
+				inpage = cc;
+			if(inpage <=0) 
+				inpage = 1;
+			Map map=new HashMap();
+			map.put("auth", auth);
+			map.put("start", (inpage*3)-2);
+			map.put("end", inpage*3);
+			List<Map> ila = inquireDao.uesrlist(map);
+		mav.addObject("inlist", ila);
+		mav.addObject("incnt", li.size());
+		mav.addObject("insize", cc);
+		
+		List<Map> reli = returnDao.uesrre(auth);
+		int resize=returnDao.resize(auth);
+			double rec=(resize/3.0);
+			int recc=resize/3;
+			if(rec-recc>0) {
+				recc+=1; 
+			}
+			if(repage>recc)
+				repage = recc;
+			if(repage <=0) 
+				repage = 1;
+			Map remap=new HashMap();
+			remap.put("auth", auth);
+			remap.put("start", (repage*3)-2);
+			remap.put("end", repage*3);
+			List<Map> reila = returnDao.uesrlist(remap);
+		mav.addObject("relist", reila);
+		mav.addObject("recnt", reli.size());
+		mav.addObject("resize", recc);
+		mav.addObject("section", "mypage/board");
 		return mav;
 	}
 }

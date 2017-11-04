@@ -52,4 +52,13 @@ public class return_Dao {
 		int d= template.insert("return.coment",map);
 		return d==1;
 	}
+	public List<Map> uesrre(String auth) {
+		return template.selectList("return.uesrre",auth);
+	}
+	public int resize(String auth) {
+		return template.selectOne("return.resize" , auth);
+	}
+	public List<Map> uesrlist(Map map) {
+		return template.selectList("return.uesrlist" , map);
+	}
 }

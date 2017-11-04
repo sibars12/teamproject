@@ -7,7 +7,7 @@
   		insert into event values(event_seq.nextval,#{title}, #{content},SYSDATE,#{startdate} ,#{enddate},#{eventimg})
   	</insert>
   	<select id="list" resultType="java.util.HashMap">
-  			select * from event num order by num DESC
+  			select * from event num order by ENDDATE DESC
   	</select>
   	<select id="read" parameterType="java.lang.String" resultType="java.util.HashMap">
   		select * from event where NUM=#{num}
@@ -15,12 +15,34 @@
   	<insert id="del" parameterType="java.lang.String">
   	delete from event where num=#{num}
   	</insert>
-  	<select id="allist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-	select * from (select rownum r, a.* from (select * from event order by num desc) a) where r between #{start} and #{end}
+  	<!-- ===================================================================== -->
+  	<select id="stlist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select * from (select rownum r, a.* from (select * from event  where STartdate &gt;= SYSDATE and ENDDATE &gt;= SYSDATE order by num desc) a) where r between #{start} and #{end}
+	</select>
+	<select id="stall" resultType="java.lang.Integer">
+		select count(*) FROM event where startdate &gt;= SYSDATE and ENDDATE &gt;= SYSDATE
+	</select>
+	<select id="allist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select * from (select rownum r, a.* from (select * from event order by ENDDATE desc) a) where r between #{start} and #{end}
 	</select>
 	<select id="all" resultType="java.lang.Integer">
 		select count(*) FROM event num
 	</select>
+	<!-- ===================================================================== -->
+	<select id="inlist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select * from (select rownum r, a.* from (select * from event  where STartdate &lt;= SYSDATE and ENDDATE &gt;= SYSDATE order by num desc) a) where r between #{start} and #{end}
+	</select>
+	<select id="inall" resultType="java.lang.Integer">
+		select count(*) FROM event where startdate &lt;= SYSDATE and ENDDATE &gt;= SYSDATE
+	</select>
+	<!-- ===================================================================== -->
+  	<select id="edlist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select * from (select rownum r, a.* from (select * from event  where STartdate &lt;= SYSDATE and ENDDATE &lt;= SYSDATE order by num desc) a) where r between #{start} and #{end}
+	</select>
+	<select id="edall" resultType="java.lang.Integer">
+		select count(*) FROM event where startdate &lt;= SYSDATE and ENDDATE &lt;= SYSDATE
+	</select>
+	<!-- ===================================================================== -->
 	<insert id="change" parameterType="java.util.HashMap">
   	update event set title= #{title} , content=#{content} , startdate=#{startdate} , enddate=#{enddate } , eventimg=#{eventimg}  where num=#{num}
   	</insert>

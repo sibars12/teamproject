@@ -98,15 +98,15 @@ th, td {
 
 	<h2>이벤트</h2>
 	<p align="right" style="margin-right: 30px;">
-		총 <b>${cnt }</b> 개의 이벤트가 진행중입니다.
+		총 <b>${cnt }</b> 개의 이벤트가 예정되어 있습니다.
 	</p>
 	<div align="right">
-	<a href="/event/startlist">예정된 이벤트</a>	|	<a>진행중인 이벤트 </a>	|	<a href="/event/endlist">종료된 이벤트</a>
+		<a>예정된 이벤트 </a>		|	<a href="/event/list">진행중인 이벤트</a>		|	<a href="/event/endlist">종료된 이벤트</a>
 	</div>
 	<table id="productList_T">
 			<c:choose>	
 			<c:when test="${empty list }">
-				<b>진행중인  이벤트가  없습니다.</b>
+				<b>예정된 이벤트가  없습니다.</b>
 			</c:when> 
 			<c:otherwise>
 			
@@ -117,7 +117,7 @@ th, td {
 							<c:choose>
 						<c:when test="${list[j+(i*3)]!=null}">
 								<td width="270" align="center" class="productList_Td" style="border-bottom: none;">
-								<a class="pList_A" href="/event/view?num=${list[j+(i*3)].NUM}&page=${param.page}"><img width="260" height="260" src="/event/eventimg/${list[j+(i*3)].EVENTIMG }"></a>
+								<a class="pList_A" href="/event/view?num=${list[j+(i*3)].NUM}&page=${param.page}&mode=start"><img  class="w3-opacity" width="260" height="260" src="/event/eventimg/${list[j+(i*3)].EVENTIMG }"></a>
 							</td>
 							</c:when>
 						<c:otherwise>
@@ -157,20 +157,20 @@ th, td {
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/event/list?page=${param.page-1 }">&laquo;</a></c:if>
+ <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/event/startlist?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
 					<a class="w3-button" class="active">${i }</a>
 				</c:when>
 				<c:otherwise>
-					<a href="/event/list?page=${i }" class="w3-button"
+					<a href="/event/startlist?page=${i }" class="w3-button"
 						><b style="color: #9c9892;">${i }</b></a>	
 				</c:otherwise>
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page lt size }"><a class="w3-button" href="/event/list?page=${param.page+1 }">&raquo;</a></c:if>
+  <c:if test="${param.page lt size }"><a class="w3-button" href="/event/startlist?page=${param.page+1 }">&raquo;</a></c:if>
 </div>
 
 </div>

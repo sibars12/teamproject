@@ -26,7 +26,7 @@ th, td {
 				<th style="width: 40%">글제목</th>
 				<th style="width: 10%">작성자</th>
 				<th style="width: 20%">작성일</th>
-				<th style="width: 10%">상태 </th>
+			
 			</tr>
 		</thead>
 		<tbody>
@@ -40,6 +40,7 @@ th, td {
 						<a href="/master/returnview?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
 					</td>
 					<td>${obj.WRITER }</td>
+					<td>${obj.WRITEDATE }</td>
 				</tr>
 			</c:forEach>
 		</tbody>

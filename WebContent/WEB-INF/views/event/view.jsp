@@ -16,5 +16,5 @@
 				<pre>${obj.CONTENT }</pre>
 				
 				</c:forEach>
-				<a href="/event/list?page=${page }"><button type="button">목록으로</button></a>
+				<a href="/event/${mode }list?page=${page }"><button type="button">목록으로</button></a>
 			</div>

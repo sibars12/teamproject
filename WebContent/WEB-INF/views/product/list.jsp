@@ -165,7 +165,7 @@
 	</div>
 	
 	<!-- 상품 추가,삭제버튼 -->
-	<c:if test="${auth eq master}">
+	<c:if test="${auth eq 'master'}">
 		<div id="addBt_D" align="right">
 			<button id="addProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue">추가</button>
 			<button id="deleteProduct_B" class="plist_B w3-button w3-white w3-border w3-border-blue">삭제</button>

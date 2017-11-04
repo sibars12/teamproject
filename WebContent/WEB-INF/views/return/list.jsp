@@ -46,7 +46,9 @@ th, td {
 			</c:forEach>
 		</tbody>
 	</table>
+	<c:if test="${!empty auth }">
 	<a href="/return/add"><button type="button">반품 신청</button></a>
+	</c:if>
 	<p align="right" style="margin-right: 30px;">
 	</p>
 </div>

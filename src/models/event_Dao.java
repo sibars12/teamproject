@@ -43,4 +43,26 @@ public class event_Dao {
 		int d= template.insert("event.change",map);
 		return d==1;
 	}
+	
+	
+	
+	public int inall() {
+		return template.selectOne("event.inall");
+	}
+	public List<Map> inlist(Map map) {
+		return template.selectList("event.inlist",map);
+	}
+	public int stall() {
+		return template.selectOne("event.stall");
+	}
+	public List<Map> stlist(Map map) {
+		return template.selectList("event.stlist",map);
+	}
+	
+	public int edall() {
+		return template.selectOne("event.edall");
+	}
+	public List<Map> edlist(Map map) {
+		return template.selectList("event.edlist",map);
+	}
 }

@@ -30,14 +30,14 @@ th, td {
 		<c:forEach var="obj" items="${list }" >
 		<tr>
 					<td>
-					<p>${obj.ID }</p>s
+					<p>${obj.ID }</p>
 					</td>
 					<td>
 					<p>${obj.NAME }</p>
 					</td>
 					<td>
 					<button onclick="inquire('memo${obj.NUM}')"
-							class="w3-btn w3-block w3-black w3-left-align">
+							class="w3-btn w3-block w3-Lime w3-left-align">
 							${obj.CONTENT }
 							</button>
 						<div id="memo${obj.NUM}" class="w3-container w3-hide">

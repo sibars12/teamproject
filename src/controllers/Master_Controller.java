@@ -59,9 +59,7 @@ public class Master_Controller {
 	
 	@RequestMapping("/noticelist")
 	public ModelAndView noticemsListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
-		System.out.println("??");
 		int size=noticeDao.all();
-		System.out.println(size);
 		Map a=new HashMap();
 		a.put("start", (page*10)-9);
 		a.put("end", page*10);
@@ -74,7 +72,6 @@ public class Master_Controller {
 			page = cc;
 		if(page <=0) 
 			page = 1;
-		System.out.println(cc);
 		List<Map> ila = noticeDao.allist(a);
 		List<Map> li = noticeDao.readAll();
 		ModelAndView mav = new ModelAndView();
@@ -108,7 +105,6 @@ public class Master_Controller {
 			if(c-cc>0) {
 				cc+=1;
 			}
-			System.out.println(cc);
 			List<Map> ila = noticeDao.allist(abc);
 			List<Map> li = noticeDao.readAll();
 			mav.addObject("list", ila);
@@ -183,9 +179,7 @@ public class Master_Controller {
 	@RequestMapping("/eventlist")
 	public ModelAndView masterListHandle(@RequestParam(name = "page", defaultValue = "1") int page)
 			throws SQLException {
-		System.out.println("??");
 		int size = eventDao.all();
-		System.out.println(size);
 		double c = (size / 10.0);
 		int cc = size / 10;
 		if (c - cc > 0) {
@@ -200,8 +194,6 @@ public class Master_Controller {
 		Map a = new HashMap();
 		a.put("start", (page * 10) - 9);
 		a.put("end", page * 10);
-		System.out.println("page="+page);
-		System.out.println(cc);
 		List<Map> ila = eventDao.allist(a);
 		List<Map> li = eventDao.readAll();
 		ModelAndView mav = new ModelAndView();
@@ -229,7 +221,6 @@ public class Master_Controller {
 		String fileName = null;
 		if (!f.isEmpty() && f.getContentType().startsWith("image")) {
 			String path = application.getRealPath("/event/eventimg");
-			System.out.println("위치     " + path);
 			File dir = new File(path);
 			if (!dir.exists()) {
 				dir.mkdirs();
@@ -237,12 +228,10 @@ public class Master_Controller {
 			fileName = System.currentTimeMillis() + ".jpg";
 			File target = new File(dir, fileName);
 			f.transferTo(target);
-			System.out.println("파일 이름   " + target.getPath());
 			map.put("eventimg", fileName);
 		} else {
 			map.put("eventimg", null);
 		}
-		System.out.println(map);
 		boolean a = eventDao.addOnd(map);
 		mav.setViewName("t_event");
 		if (a == true) {
@@ -255,13 +244,12 @@ public class Master_Controller {
 			if (c - cc > 0) {
 				cc += 1;
 			}
-			System.out.println(cc);
 			List<Map> ila = eventDao.allist(abc);
 			List<Map> li = eventDao.readAll();
 			mav.addObject("list", ila);
 			mav.addObject("cnt", li.size());
 			mav.addObject("size", cc);
-			mav.addObject("section", "event/masterlist");
+			mav.addObject("section", "master/eventlist");
 		} else {
 			mav.addObject("addt", false);
 			mav.addObject("section", "master/eventadd");
@@ -294,7 +282,6 @@ public class Master_Controller {
 			File file =new File(application.getRealPath("/event/eventimg/"+map.get("defimg")));
 			file.delete();
 			String path = application.getRealPath("/event/eventimg");
-			System.out.println("위치     " + path);
 			File dir = new File(path);
 			if (!dir.exists()) {
 				dir.mkdirs();
@@ -302,12 +289,10 @@ public class Master_Controller {
 			fileName = System.currentTimeMillis() + ".jpg";
 			File target = new File(dir, fileName);
 			f.transferTo(target);
-			System.out.println("파일 이름   " + target.getPath());
 			map.put("eventimg", fileName);
 		} else {
 			map.put("eventimg" , map.get("defimg"));
 		}
-		System.out.println(map);
 		boolean a = eventDao.change(map);
 		mav.setViewName("t_event");
 		if (a == true) {
@@ -320,7 +305,6 @@ public class Master_Controller {
 			if (c - cc > 0) {
 				cc += 1;
 			}
-			System.out.println(cc);
 			List<Map> ila = eventDao.allist(abc);
 			List<Map> li = eventDao.readAll();
 			mav.addObject("list", ila);
@@ -354,10 +338,10 @@ public class Master_Controller {
 		int flag = 0;
 		while (true) {
 			int idx = tre.indexOf("/event/content", flag);
-			if(idx == -1)
+			if(idx == -1) {
 				break;
+		}
 			String url = tre.substring(idx, tre.indexOf("\"", idx));
-			System.out.println("url=" + url);
 			File file =new File(application.getRealPath(url));
 			file.delete();
 			flag = idx + 10;
@@ -388,6 +372,22 @@ public class Master_Controller {
 	public String eventProduct(@RequestParam String dnum) {
 		String[] ar = dnum.split(",");
 		for (int i = 0; i < ar.length; i++) {
+			List<Map> fle = eventDao.readOne(ar[i]);
+			String tre = (String) fle.get(0).get("CONTENT");
+
+			int flag = 0;
+			while (true) {
+				int idx = tre.indexOf("/event/content", flag);
+				if(idx == -1) {
+					break;
+			}
+				String url = tre.substring(idx, tre.indexOf("\"", idx));
+				File file =new File(application.getRealPath(url));
+				file.delete();
+				flag = idx + 5;
+			}
+			File mainfile =new File(application.getRealPath("/event/eventimg/"+(String) fle.get(0).get("EVENTIMG")));
+			mainfile.delete();
 			eventDao.del(ar[i]);
 		}
 		return "YY";
@@ -398,7 +398,9 @@ public class Master_Controller {
 	@RequestMapping("/inquirecheckdel")
 	public String msdelhandle(@RequestParam String dnum ) throws SQLException {
 		String[] ar = dnum.split(",");
+		
 		for(int i=0;i<ar.length;i++) {
+			
 			inquireDao.del(ar[i]);
 		}
 		
@@ -410,7 +412,6 @@ public class Master_Controller {
 		List<Map> li = inquireDao.masterlist();
 		int size=li.size();
 			mav.setViewName("t_inquire");
-			System.out.println("size="+size);
 			double c=(size/10.0);
 			int cc=size/10;
 			if(c-cc>0) {
@@ -536,17 +537,13 @@ public class Master_Controller {
 		List<Map> li=QnADao.read(num);
 		mav.setViewName("t_QnA");
 		mav.addObject("title", li.get(0).get("TITLE"));
-				System.out.println("title= "+li.get(0).get("TITLE"));
 		mav.addObject("num", li.get(0).get("NUM"));
-				System.out.println("NUM= "+li.get(0).get("NUM"));
 		mav.addObject("content", li.get(0).get("CONTENT"));
-				System.out.println("CONTENT= "+li.get(0).get("CONTENT"));
 		mav.addObject("section", "master/QnAchange");
 		return mav;
 	}
 	@PostMapping("/QnAchange")
 	public ModelAndView changehandle(@RequestParam Map map) throws SQLException {
-		System.out.println(map);
 		boolean as=QnADao.change(map);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_QnA");
@@ -594,8 +591,6 @@ public class Master_Controller {
 		Map a = new HashMap();
 		a.put("start", (page * 10) - 9);
 		a.put("end", page * 10);
-		System.out.println("page="+page);
-		System.out.println(cc);
 		List<Map> ila = returnDao.allist(a);
 		List<Map> li = returnDao.list();
 		ModelAndView mav = new ModelAndView();
@@ -666,10 +661,8 @@ public class Master_Controller {
 			fileName = (String)param.get("ownernumber")+".jpg"; // 파일이름
 			File target = new File(dir, fileName);
 			f.transferTo(target);
-			System.out.println(path);
 			param.put("imag", fileName);
 		}
-		System.out.println("param: "+param);
 		productDao.addProduct(param);
 		stockDao.updateRegist(param);
 		mav.addObject("type", param.get("type"));
@@ -695,7 +688,6 @@ public class Master_Controller {
 			fileName = sdf.format(System.currentTimeMillis())+"."+of.substring(of.lastIndexOf(".")+1);
 			File target = new File(dir, fileName);
 			f.transferTo(target);
-			System.out.println(fileName);
 		}
 		return "/images/product/content/"+fileName;
 	}
@@ -712,7 +704,6 @@ public class Master_Controller {
 	@ResponseBody
 	@RequestMapping(path="/getSchList", produces="application/json;charset=utf-8")
 	public String getSchListHandler(@RequestParam Map map) throws JsonProcessingException {
-		System.out.println("map: "+map);
 		List list;
 		if(map.containsKey("page")) {
 			list = stockDao.getOptionSchStockList(map);
@@ -742,19 +733,16 @@ public class Master_Controller {
 			// 이미지 파일들 지우기
 			Map info = productDao.loadPInfo(ar[i]);
 		      String cont = (String) info.get("CONTENTS");
-		      System.out.println("내용: "+cont);
 			int flag = 0;
 		      while (true) {
 		         int idx = cont.indexOf("/images/product/content", flag);
 		         if(idx == -1)
 		            break;
 		         String url = cont.substring(idx, cont.indexOf("\"", idx));
-		         System.out.println("url=" + url);
 		         File file = new File(application.getRealPath(url));
 		         file.delete();
 		         flag = idx + 10;
 		      }
-		      //System.out.println("리얼패스: "+application.getRealPath("/images/product/content"+(String)info.get("IMAG")));
 		      File mainfile = new File(application.getRealPath("/images/product/"+(String)info.get("IMAG")));
 		      mainfile.delete();			
 			
@@ -810,7 +798,6 @@ public class Master_Controller {
 	public String deleteReviewHandler(@RequestParam String arr){
 		String[] ar = arr.split(",");
 		int r =	productDao.deleteReview(ar);
-		System.out.println(r);
 		String rst="";
 		if(ar.length==r){ rst="모두 삭제되었습니다.";}
 		else{			
@@ -865,7 +852,6 @@ public class Master_Controller {
 	// 상품 내용 수정
 		@RequestMapping("/updateProduct")
 		public String updateProductHandler(@RequestParam Map param,@RequestParam(name="imag") MultipartFile f) throws IllegalStateException, IOException{
-			System.out.println(param);
 			String fileName = null;
 			int r=0;
 			fileName = (String)param.get("ownernumber")+".jpg"; // 파일 이름
@@ -875,10 +861,7 @@ public class Master_Controller {
 				String path = application.getRealPath("/images/product");
 				File dir = new File(path); // 파일경로
 				File target = new File(dir, fileName);
-				System.out.println("target: "+target);
 				f.transferTo(target);
-				System.out.println("path:"+path);
-				System.out.println("파일이름 : "+fileName);
 				param.put("imag", fileName);
 			}else{
 				param.put("imag", fileName);

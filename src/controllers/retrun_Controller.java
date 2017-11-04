@@ -94,9 +94,7 @@ public class retrun_Controller {
 
 	@PostMapping("/add")
 	public ModelAndView noticeaddHandle(@RequestParam Map map, 	HttpServletRequest request, HttpSession session) throws SQLException, IllegalStateException, IOException {
-		System.out.println("¸Ê" + map);
 		ModelAndView mav = new ModelAndView();
-		System.out.println(map);
 		boolean a = returnDao.add(map);
 		mav.setViewName("t_return");
 		if (a == true) {
@@ -166,7 +164,7 @@ public class retrun_Controller {
 		return mav;
 	}
 	@RequestMapping("/view")
-	public ModelAndView noticeViewHandle(@RequestParam String num, @RequestParam String page) throws SQLException {
+	public ModelAndView noticeViewHandle(@RequestParam String num, @RequestParam(name = "page", defaultValue = "1") int page) throws SQLException {
 		List<Map> list = returnDao.read(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_return");
@@ -178,7 +176,7 @@ public class retrun_Controller {
 	}
 
 	@RequestMapping("/masterview")
-	public ModelAndView masterViewHandle(@RequestParam String num, @RequestParam String page) throws SQLException {
+	public ModelAndView masterViewHandle(@RequestParam String num, @RequestParam(name = "page", defaultValue = "1") int page) throws SQLException {
 		List<Map> list = returnDao.read(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_return");
@@ -200,7 +198,6 @@ public class retrun_Controller {
 			if(idx == -1)
 				break;
 			String url = tre.substring(idx, tre.indexOf("\"", idx));
-			System.out.println("url=" + url);
 			File file =new File(application.getRealPath(url));
 			file.delete();
 			flag = idx + 10;
