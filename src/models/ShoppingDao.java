@@ -9,7 +9,7 @@ import java.util.*;
 public class ShoppingDao {
 	@Autowired
 	SqlSessionTemplate sql;
-	
+	// 장바구니
 	public boolean addCart(Map map) {
 		sql.insert("shopping.addCart", map);
 		return true;
@@ -17,8 +17,8 @@ public class ShoppingDao {
 	public List getCartList(String id) {
 		return sql.selectList("shopping.getCartList", id);
 	}
-	public boolean deleteCart(String dnum) {
-		sql.delete("shopping.deleteCart", dnum);
+	public boolean deleteCart(Map cart) {
+		sql.delete("shopping.deleteCart", cart);
 		return true;
 	}
 	public int checkCart(Map map) {
@@ -53,5 +53,8 @@ public class ShoppingDao {
 	}
 	public int deletePayCoupon(Map coupon){
 		return sql.delete("shopping.deletePayCoupon", coupon);
+	}
+	public Map getRecentPurchase(String id){
+		return sql.selectOne("shopping.getRecentPurchase", id);
 	}
 }

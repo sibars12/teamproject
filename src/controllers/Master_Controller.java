@@ -272,7 +272,7 @@ public class Master_Controller {
 		return mav;
 	}
 	@PostMapping("/eventchange")
-	public ModelAndView ¤Ä¤¤changeHandle(@RequestParam Map map, @RequestParam(name = "eventimg") MultipartFile f,
+	public ModelAndView eventchangeHandle(@RequestParam Map map, @RequestParam(name = "eventimg") MultipartFile f,
 			HttpServletRequest request, HttpSession session) throws SQLException, IllegalStateException, IOException {
 		ModelAndView mav = new ModelAndView();
 

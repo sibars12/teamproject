@@ -10,7 +10,7 @@
 		left join stock s on c.num = s.no) cs left join product p on cs.ownernumber = p.ownernumber
 	</select>
 	<delete id="deleteCart">
-		delete from cart where num=#{dnum}
+		delete from cart where id=#{id} and num=#{num}
 	</delete>
 	<select id="checkCart" resultType="java.lang.Integer">
 		select count(*) from cart where num=#{num} and id=#{id}
@@ -33,7 +33,7 @@
 		insert into orderinfo values
 		 (orderinfo_seq.nextval,#{purchaseNo},#{ownernumber},#{stockNo},#{stockCnt},#{stockPrice},#{return,jdbcType=VARCHAR})
 	</insert>
-	<!-- 결제정보 -->
+	<!-- 결제정보 테이블 -->
 	<insert id="addPayment">
 	insert into payment (paymentno,id,purchaseno,type,kind,installment,totprice,delivery,pointpay,coupon,payment,paymentdate)
 	values
@@ -41,12 +41,15 @@
 	#{delivery},#{payPoint,jdbcType=NUMERIC},#{coupon,jdbcType=NUMERIC},#{payment},sysdate)
 	</insert>
 	
-	<!-- 회원 정보&쿠폰 가져오기-->
+	<!-- 회원 정보&쿠폰&최근결제정뵤 가져오기-->
 	<select id="getMemInfo" resultType="java.util.HashMap">
 		select * from detail where id=#{id}
 	</select>
 	<select id="getCoupon" resultType="java.util.HashMap">
 		select * from coupon where id=#{id} and (enddate >= sysdate)
+	</select>
+	<select id="getRecentPurchase" resultType="java.util.HashMap">
+		select * from (select rownum r, a.* from (select * from purchase where id=#{id} order by orderdate desc) a ) where r=1
 	</select>
 	
 	<!-- 포인트 변경 -->
@@ -57,6 +60,7 @@
 	<delete id="deletePayCoupon">
 		delete from coupon where id=#{id} and no=#{couponNo} 
 	</delete>
+	
 	
 
 </mapper>

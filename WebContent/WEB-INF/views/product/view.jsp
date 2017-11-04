@@ -257,9 +257,8 @@ $("#plusA_B").click(function(){
 $("#color_Select").change(function(){
 	console.log($(this).val());
 	var optionValue=$(this).val();
-	var maxVolume = $("#color_Select option:selected").attr("title");
+	var maxVolume;
 	var data = $("#color_Select option:selected").attr("data");
-	console.log("maxVolume:"+maxVolume);
 	console.log("data:"+data);
 	if($(this).val()!="색상 옵션 선택"){
 		cnt++; // script 전역 변수 -> 옵션 선택 갯수 제한
@@ -280,7 +279,7 @@ $("#color_Select").change(function(){
 		var selectOption="<p>";
 		selectOption += "<label >"+data+"</label>";
 		selectOption += "&nbsp;&nbsp;<button type=\"button\" class=\"minus_B\">-</button>";
-		selectOption += "<input type=\"number\" name=\"stockCnt\" style=\"width: 40px;\" value=\"1\" min=\"1\" max=\""+maxVolume+"\"/>";
+		selectOption += "<input type=\"number\" name=\"stockCnt\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
 		selectOption += "<button type=\"button\" class=\"plus_B\">+</button>";
 		selectOption += "&nbsp;<button type=\"button\" class=\"remove_B\">X</button>";
 		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"</span>";
@@ -310,6 +309,9 @@ $("#color_Select").change(function(){
 		}); 
 		// 수량 plus
 		$(".plus_B").click(function(){	
+			var optionName = $(this).prev().prev().prev().text();
+			maxVolume = $("#"+optionName).attr("title");
+			console.log(maxVolume);
 			if($(this).prev().val()>= maxVolume)	{
 				window.alert("최대수량입니다.");
 				$(this).prev().val(maxVolume);
