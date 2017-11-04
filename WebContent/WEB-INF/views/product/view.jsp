@@ -368,7 +368,7 @@ function reviewList(p){
 	}).done(function(obj){	
 		var list = "<table class=\"table table-hover\"><tr><th>작성자</th><th>별점</th><th>후기</th><tr>";
 		for(i in obj.list){
-			var star =""; 
+			var star ="";  
 			for(var j=0; j<obj.list[i].SCORE; j++){
 				star += "☆";
 			}
@@ -398,6 +398,7 @@ function reviewList(p){
 reviewList(1);
 //후기 작성
 $("#review_Submit").click(function () {
+	
 	var writer = $("#reviewWriter_I").val();
 	var score = $(":input[name=score]:radio:checked").val();
 	var scoreSelected = $(":input[name=score]:radio:checked").length;
