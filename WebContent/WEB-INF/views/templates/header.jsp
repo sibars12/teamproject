@@ -40,6 +40,9 @@
 		width: 100;
 		margin-top: 7px;
 		margin-right: 3px;
+		padding:4px 6px;
+		font-family: 'NanumBarunGothic';
+		font-size: 13px;
 	}
 </style>
 <div id="head_D" align="center">
@@ -63,7 +66,7 @@
 			<table><tr><td>
 				<form style="margin:0;" action="/search" method="get">
 					<input type="text" class="headerSearch_I">
-					<button style="transform: translate(0%, -5%);" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+					<button style="transform: translate(0%, 3%);" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
 				</form>
 			</td></tr></table>
 		</div>
