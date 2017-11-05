@@ -15,5 +15,13 @@
   	<insert id="del" parameterType="java.lang.String">
   	delete from qna where num=#{num}
   	</insert>
-  
+  <select id="allist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select * from (select rownum r, a.* from (select * from qna order by num desc) a) where r between #{start} and #{end}
+	</select>
+	<select id="all" resultType="java.lang.Integer">
+		select count(*) FROM qna num
+	</select>
+	<insert id="change" parameterType="java.util.HashMap" >
+	update qna set TITLE= #{title} , CONTENT=#{content} where num=#{num}
+	</insert>
   </mapper>

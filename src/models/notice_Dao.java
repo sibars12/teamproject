@@ -39,4 +39,8 @@ public class notice_Dao {
 	public List<Map> allist(Map map) {
 		return template.selectList("notice.allist",map);
 	}
+	public boolean change(Map map) {
+		int d= template.insert("notice.change",map);
+		return d==1;
+	}
 }

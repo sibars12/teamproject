@@ -27,5 +27,7 @@
 	<select id="all" resultType="java.lang.Integer">
 		select count(*) FROM notice num
 	</select>
-  
+	<insert id="change" parameterType="java.util.HashMap">
+  		update notice set title= #{title} , content=#{content} , adddate=SYSDATE  where num=#{num}
+  	</insert>
   </mapper>

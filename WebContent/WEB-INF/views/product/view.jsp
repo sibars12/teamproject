@@ -46,7 +46,7 @@ th, td {
 				</tr>
 				<tr>
 					<th>배송비</th>
-					<td>3만원 이상 구매시 무료배송</td>
+					<td>4만원 이상 구매시 무료배송</td>
 				</tr>
 				<tr>
 					<th>제조사/판매원</th>
@@ -75,11 +75,11 @@ th, td {
 							<c:forEach items="${productInfo}" var="m">
 								<c:choose>
 									<c:when test="${m.VOLUME eq 0 }">
-										<option value="${m.NO }_${m.COLOR}" disabled>
+										<option id="${m.COLOR}" value="${m.NO }" data="${m.COLOR}" title="${m.VOLUME }" disabled>
 											${m.COLOR }-일시품절</option>
 									</c:when>
 									<c:otherwise>
-										<option value="${m.NO }_${m.COLOR}">${m.COLOR }</option>
+										<option id="${m.COLOR}" value="${m.NO }" data="${m.COLOR}" title="${m.VOLUME }" >${m.COLOR }</option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
@@ -94,14 +94,14 @@ th, td {
 					<form id="selectListForm" name="selectListForm"
 						action="/shopping/buyNow" method="get">
 						<span id="select_Span"> <label>${productInfo[0].NAME }</label>
-							&nbsp;&nbsp; <!-- 수량 -->
-							<button type="button" id="minusA_B">-</button> <input
-							id="stockCnt" name="stockCnt" type="number" style="width: 40px;"
-							value="1" min="1" />
-							<button type="button" id="plusA_B">+</button>&nbsp;&nbsp; <span
-							id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span> <input
-							type="hidden" id="stockNo" name="stockNo"
-							value="${productInfo[0].NO }">
+							&nbsp;&nbsp; 
+							<!-- 수량 -->
+							<button type="button" id="minusA_B">-</button>
+							<input id="stockCnt" name="stockCnt" type="number" style="width: 40px;"	value="1" min="1" max="${productInfo[0].VOLUME }" />
+							<button type="button" id="plusA_B">+</button>&nbsp;&nbsp; 
+							<span id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span>
+							<input type="hidden" id="stockNo" name="stockNo" value="${productInfo[0].NO }">
+							<input type="hidden" id="stockPrice" name="stockPrice" value="0">
 						</span>
 						<hr>
 						<span style="text-align: right" id="total_Span"></span>
@@ -176,24 +176,20 @@ th, td {
 					<div class="w3-container">
 						<table class="w3-table-all w3-margin-top" id="nn">
 							<tr class="rkqms">
-								<th style="width: 20%;">아이디</th>
 								<th style="width: 20%;">이름</th>
-								<th style="width: 40%;">문의 제목</th>
+								<th style="width: 40%;">문의 내용</th>
 								<th style="width: 20%;">문의한 날자</th>
 							</tr>
 						<c:forEach var="obj" items="${list }" begin="0" end="4">
 							<tr>
 								<td>
-									<p>${obj.ID }</p>
-								</td>
-								<td>
 									<p>${obj.NAME }</p>
 								</td>
 								<td>
-									<button onclick="inquire('memo${obj.NUM}')"	class="w3-btn w3-block w3-black w3-left-align">
-										${fn:substring(obj.TITLE, 0, 12) }</button>
+									<button onclick="inquire('memo${obj.NUM}')"	class="w3-btn w3-block w3-Gray w3-left-align">
+										${obj.CONTENT }</button>
 									<div id="memo${obj.NUM}" class="w3-container w3-hide">
-										<p>${obj.CONTENT }</p>
+										<p>${obj.TITLE }</p>
 										<input type="hidden" id="truepass${obj.NUM }" value="${obj.PASS }" />
 										<input type="password" id="${obj.NUM }" onkeyup="passcheck(${obj.NUM });"maxlength="4" /> 
 										<a href="/inquire/del?num=${obj.NUM }&ownernumber=${obj.OWNERNUMBER}">
@@ -223,36 +219,47 @@ function print() {
 	if(${productInfo[0].COLOR == "none"}){
 		var t = ${productInfo[0].PRICE}*parseInt($("#stockCnt").val());
 		console.log(t);
-		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+t+"원</large></b><input type=\"hidden\" name=\"total\" value=\""+t+"\">");
+		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+t+"원</large></b><input type=\"hidden\" name=\"totPrice\" value=\""+t+"\">");
 	}
 	else{
-		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+total+"원</large></b><input type=\"hidden\" name=\"total\" value=\""+t+"\">");
+		$("#total_Span").html("<b>총 상품금액 <large style=\"color:blue;\">"+total+"원</large></b><input type=\"hidden\" name=\"totPrice\" value=\""+total+"\">");
 	}
 }
 print();
 
 //수량 minus
 $("#minusA_B").click(function(){
-	if(parseInt($("#stockCnt").val()) > 1){
+	if(parseInt($("#stockCnt").val()) > 1){	
 		$("#stockCnt").val(parseInt($("#stockCnt").val())-1); 
 		var n = $("#stockCnt").val();
 		var price = ${productInfo[0].PRICE }*n;
 		$("#priceA_Span").html("<b>"+price+"원</b>");
+		$("#stockPrice").val(price);
 		print();
 	}
 });
 // 수량 plus
-$("#plusA_B").click(function(){	
+$("#plusA_B").click(function(){		
+	if($("#stockCnt").val()>=${productInfo[0].VOLUME}){
+		window.alert("최대수량입니다.");
+		$("#stockCnt").val(${productInfo[0].VOLUME});		
+	}else{		
 	$("#stockCnt").val(parseInt($("#stockCnt").val())+1);
+	}
 	var n = $("#stockCnt").val();
 	var price = ${productInfo[0].PRICE }*n;
 	$("#priceA_Span").html("<b>"+price+"원</b>");
+	$("#stockPrice").val(price)
 	print();
 });
  
 // 옵션 선택시
 $("#color_Select").change(function(){
 	console.log($(this).val());
+	var optionValue=$(this).val();
+	var maxVolume;
+	var data = $("#color_Select option:selected").attr("data");
+	console.log("data:"+data);
 	if($(this).val()!="색상 옵션 선택"){
 		cnt++; // script 전역 변수 -> 옵션 선택 갯수 제한
 		if(cnt>0){
@@ -266,18 +273,18 @@ $("#color_Select").change(function(){
 			$("#color_Select").val("색상 옵션 선택");
 			return;
 		}
+		$("#color_Select option:selected").prop("disabled",true);
 		// 선택된 옵션 표기
-		var optionValue=$(this).val();
-		var	arr = optionValue.split("_");
-		var sno = arr[0];
+		console.log(optionValue);
 		var selectOption="<p>";
-		selectOption += "<label >"+$(this).val()+"</label>";
+		selectOption += "<label >"+data+"</label>";
 		selectOption += "&nbsp;&nbsp;<button type=\"button\" class=\"minus_B\">-</button>";
 		selectOption += "<input type=\"number\" name=\"stockCnt\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
 		selectOption += "<button type=\"button\" class=\"plus_B\">+</button>";
 		selectOption += "&nbsp;<button type=\"button\" class=\"remove_B\">X</button>";
 		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"</span>";
-		selectOption += "<input type=\"hidden\" name=\"stockNo\" value=\""+sno+"\"><p>";
+		selectOption += "<input type=\"hidden\" name=\"stockNo\" value=\""+optionValue+"\">";
+		selectOption += "<input type=\"hidden\" name=\"stockPrice\" value=\""+${productInfo[0].PRICE }+"\"></p>";
 		$("#select_Span").append(selectOption);
 		$("#color_Select").val("색상 옵션 선택");
 		total+=${productInfo[0].PRICE };
@@ -293,22 +300,43 @@ $("#color_Select").change(function(){
 			if(parseInt($(this).next().val()) > 1){
 				$(this).next().val(parseInt($(this).next().val())-1);
 				var n = parseInt($(this).next().val());
-				$(this).next().next().next().next().html(${productInfo[0].PRICE }*n);
+				var price = ${productInfo[0].PRICE }*n;
+				$(this).next().next().next().next().html(price);
+				$(this).next().next().next().next().next().next().val(price);
 				total-=${productInfo[0].PRICE };
 				print();
 			}
 		}); 
 		// 수량 plus
 		$(".plus_B").click(function(){	
+			var optionName = $(this).prev().prev().prev().text();
+			maxVolume = $("#"+optionName).attr("title");
+			console.log(maxVolume);
+			if($(this).prev().val()>= maxVolume)	{
+				window.alert("최대수량입니다.");
+				$(this).prev().val(maxVolume);
+				var n = parseInt($(this).prev().val());
+				var price = ${productInfo[0].PRICE }*n;
+				$(this).next().next().html(price);
+				$(this).next().next().next().next().val(price);
+			}
+			else{
 			$(this).prev().val(parseInt($(this).prev().val())+1);
-			console.log($(this).prev().val());	
-			var n = parseInt($(this).prev().val());
-			$(this).next().next().html(${productInfo[0].PRICE }*n);
-			total+=${productInfo[0].PRICE };
-			print();
+				console.log($(this).prev().val());	
+				var n = parseInt($(this).prev().val());
+				var price = ${productInfo[0].PRICE }*n;
+				$(this).next().next().html(price);
+				$(this).next().next().next().next().val(price);
+				total+=${productInfo[0].PRICE };
+			}
+				print();
+			
 		});
 		// 삭제
 		$(".remove_B").click(function(){
+			var reflash = $(this).prev().prev().prev().prev().text();
+			console.log("reflash:"+reflash);
+			$("#"+reflash).attr("disabled",false);
 			console.log($(this).next().html());
 			total -= parseInt($(this).next().html());
 			$(this).parent().remove();
@@ -342,7 +370,7 @@ function reviewList(p){
 	}).done(function(obj){	
 		var list = "<table class=\"table table-hover\"><tr><th>작성자</th><th>별점</th><th>후기</th><tr>";
 		for(i in obj.list){
-			var star =""; 
+			var star ="";  
 			for(var j=0; j<obj.list[i].SCORE; j++){
 				star += "☆";
 			}
@@ -351,12 +379,19 @@ function reviewList(p){
 			list += "<td>"+obj.list[i].CONTENT+"</td></tr>";
 		}
 		list += "</table><div id=\"paging\">";
-		for(var i=1;i<=obj.pageCount;i++){
+		
+		if((obj.startPage-1)!=0){
+			list += "<a class=\"w3-button\" href=\"javascript:reviewList("+(obj.startPage-1)+")\">&laquo;</a>"
+		}
+		for(var i=obj.startPage; i<=obj.endPage; i++){
 			if(i != obj.page){
 				list += "&nbsp;<a href=\"javascript:reviewList("+i+")\"><b>"+i+"</b></a>";
 			}else{
 				list += "&nbsp;<b style=\"color:red\">"+i+"</b>";
 			}
+		}
+		if(obj.endPage%5==0 && obj.pageCount>obj.endPage){
+			list += "<a class=\"w3-button\" href=\"javascript:reviewList("+(obj.endPage+1)+")\">&raquo;</a>"
 		}
 		list += "</div>"
 		$("#reviewList").html(list);
@@ -365,11 +400,13 @@ function reviewList(p){
 reviewList(1);
 //후기 작성
 $("#review_Submit").click(function () {
+	
 	var writer = $("#reviewWriter_I").val();
 	var score = $(":input[name=score]:radio:checked").val();
 	var scoreSelected = $(":input[name=score]:radio:checked").length;
 	var con = $("#reviewContent_Ta").val();
 	var pname=$("#pname").val();
+	var id = "${auth}";
 	console.log(pname);
 	if(writer=="" || scoreSelected==0 || con==""){
 		window.alert("항목을 모두 기입해주세요");
@@ -382,7 +419,7 @@ $("#review_Submit").click(function () {
 		"data":{
 			"ownernumber":${productInfo[0].OWNERNUMBER},
 			"pname": pname,
-			"id":'TEST', 
+			"id":id, 
 			"writer":writer,
 			"score": score,
 			"content":con,
@@ -390,7 +427,8 @@ $("#review_Submit").click(function () {
 	}).done(function(r){
 		var obj = JSON.parse(r);
 		$("#reviewWriter_I").val("");
-		//$(":input[name=score]:radio:checked:false");
+		$(":input[name=score]:radio:checked").attr("chaeckd",false);
+		//$("#color_Select").attr("chaeckd",false);
 		$("#reviewContent_Ta").val("");
 		reviewList(1);
 	});

@@ -9,7 +9,7 @@ import java.util.*;
 public class ShoppingDao {
 	@Autowired
 	SqlSessionTemplate sql;
-	
+	// 장바구니
 	public boolean addCart(Map map) {
 		sql.insert("shopping.addCart", map);
 		return true;
@@ -17,12 +17,12 @@ public class ShoppingDao {
 	public List getCartList(String id) {
 		return sql.selectList("shopping.getCartList", id);
 	}
-	public boolean deleteCart(String dnum) {
-		sql.delete("shopping.deleteCart", dnum);
+	public boolean deleteCart(Map cart) {
+		sql.delete("shopping.deleteCart", cart);
 		return true;
 	}
-	public int checkCart(String num) {
-		return sql.selectOne("shopping.checkCart", num);
+	public int checkCart(Map map) {
+		return sql.selectOne("shopping.checkCart", map);
 	}
 	public boolean addCartVol(Map map) {
 		sql.update("shopping.addCartVol",map);
@@ -30,5 +30,31 @@ public class ShoppingDao {
 	}
 	public int getCartCnt(String id) {
 		return sql.selectOne("shopping.getCartCnt", id);
+	}
+	
+	//구매
+	public int addPurchase(Map param){
+		return sql.insert("shopping.addPurchase", param);
+	}
+	public int addOrderInfo(Map param){
+		return sql.insert("shopping.addOrderInfo", param);
+	}
+	public int addPayment(Map param){
+		return sql.insert("shopping.addPayment", param);
+	}
+	public Map getMemInfo(String id){
+		return sql.selectOne("shopping.getMemInfo", id);
+	}
+	public List<Map> getCoupon(String id){
+		return sql.selectList("shopping.getCoupon", id);
+	}
+	public int updatePoint(Map map){
+		return sql.update("shopping.updatePoint", map);
+	}
+	public int deletePayCoupon(Map coupon){
+		return sql.delete("shopping.deletePayCoupon", coupon);
+	}
+	public Map getRecentPurchase(String id){
+		return sql.selectOne("shopping.getRecentPurchase", id);
 	}
 }

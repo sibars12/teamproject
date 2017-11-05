@@ -11,7 +11,7 @@
 		<form action="/inquire/add" method="post" enctype="multipart/form-data">
 			<p>
 			<!-- 나중에 히든으로변경 -->
-			<input type="text" name="id" >
+			<input type="hidden" name="id"  value="${empty auth ? '비회원 ' : auth }">
 			</p>	
 			<p>
 				<b>이름</b> <input type="text" style="width:20%; " name="name" placeholder="이름"
@@ -21,10 +21,7 @@
 				<b>비밀번호</b> <input type="password" style="width: 20%;" name="pass" placeholder="비밀번호" maxlength="4"
 					 required/>
 			</p>
-			<p>
-				<b>문의 제목</b><br/>
-				<input type="text" name="title" placeholder="문의 제목" required> 
-			</p>
+			
 			<p>
 				<b>문의 내용</b><br/>
 			<textarea  id="summernote" name="content"placeholder="문의 내용" required 

@@ -8,15 +8,15 @@
 	<div align="left" style="width: 80%;">
 	
 		
-		<form action="/QnA/add" method="post">
+		<form action="/master/QnAadd" method="post">
 			<p>
 				<b>질문</b><br /> <input type="text" name="title" placeholder="QnA"
-					autocomplete="off" style="width: 100%;" />
+					autocomplete="off" style="width: 100%;" required />
 			</p>
 			<p>
 				<b>답변</b><br />
 				<textarea rows="10" name="content" placeholder="답변"
-					style="width: 100%;"></textarea>
+					style="width: 100%;" required></textarea>
 			</p>
 			<p>
 				<button type="submit">Q&A등록</button>

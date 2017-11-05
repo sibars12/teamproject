@@ -83,4 +83,13 @@
 	<select id="checkPlusStock" resultType="java.lang.Integer">
 		select count(*) from stock where ownernumber=#{ownernumber} and color=#{color}
 	</select>
+	
+	<select id="getStockInfo" resultType="java.util.HashMap">
+		select * from stock where no=#{stockNo}
+	</select>
+	<!-- 상품 구매시 재고수량 변경 -->
+  	<update id="subStockVolum">
+  		update stock set volume= volume-#{stockCnt} where no=#{stockNo}
+  	</update>
+	
 </mapper>

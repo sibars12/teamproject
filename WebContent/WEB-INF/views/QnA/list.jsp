@@ -15,10 +15,9 @@
 		<tr>
 					<td>
 					<button onclick="anser('Demo${obj.NUM}')"
-							class="w3-btn w3-block w3-black w3-left-align">${fn:substring(obj.TITLE, 0, 12) }</button>
+							class="w3-btn w3-block w3-Yellow w3-left-align">${fn:substring(obj.TITLE, 0, 12) }</button>
 						<div id="Demo${obj.NUM}" class="w3-container w3-hide">
 							<p>${obj.CONTENT }</p>
-							<a href="/QnA/del?num=${obj.NUM }"><button type="button">삭제</button></a>
 						</div>
 						</td>
 				</tr>
@@ -28,16 +27,15 @@
 			placeholder="질문 검색.." id="myInput" onkeyup="myFunction()">
 
 		<table class="w3-table-all w3-margin-top" id="myTable">
-			<tr>
+			<tr class="gg">
 				<th style="width: 60%;">질문</th>
 			</tr>
 			<c:forEach var="obj" items="${list }">
 				<tr style="display: none">
 					<td><button onclick="ansers('Demos${obj.NUM}')"
-							class="w3-btn w3-block w3-black w3-left-align">${fn:substring(obj.TITLE, 0, 12) }</button>
+							class="w3-btn w3-block w3-Green w3-left-align">${fn:substring(obj.TITLE, 0, 12) }</button>
 						<div id="Demos${obj.NUM}" class="w3-container w3-hide">
 							<p>${obj.CONTENT }</p>
-							<a href="/QnA/del?num=${obj.NUM }"><button type="button">삭제</button></a>
 						</div></td>
 				</tr>
 			</c:forEach>
@@ -81,5 +79,4 @@
 			}
 		}
 	</script>
-	<a href="/QnA/add"><button type="button">QnA작성</button></a>
 

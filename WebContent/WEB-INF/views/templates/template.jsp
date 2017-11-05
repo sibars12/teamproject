@@ -73,6 +73,10 @@
 	padding-left: 0 !important;
 }
 </style>
+<!-- 이벤트 테그 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 
 <title><t:getAsString name="title" /></title>
 

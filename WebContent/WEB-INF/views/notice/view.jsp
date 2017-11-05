@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -12,9 +12,8 @@
 							pattern="MM.dd.yyyy HH:mm:ss" value="${obj.ADDDATE }" /> 
 					</small>
 				</p>
-				<pre>${obj.CONTENT }</pre>
+				<p>${obj.CONTENT }</p>
 				
-				<a href="/notice/del?num=${obj.NUM }"><button type="button">공지 삭제</button></a>
 				</c:forEach>
-				<a href="/notice/list"><button type="button">목록으로</button></a>
+				<a href="/notice/list?page=${param.page }"><button type="button">목록으로</button></a>
 			</div>

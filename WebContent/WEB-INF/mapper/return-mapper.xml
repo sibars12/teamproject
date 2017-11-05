@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="return">
+  	<insert id="add" parameterType="java.util.HashMap">
+  		insert into return values(return_seq.nextval,#{title}, #{content},SYSDATE,#{writer} , '답글대기중...' , SYSDATE)
+  	</insert>
+  	<select id="list" resultType="java.util.HashMap">
+  			select * from return num order by num DESC
+  	</select>
+  	<select id="read" parameterType="java.lang.String" resultType="java.util.HashMap">
+  		select * from return where NUM=#{num}
+  	</select>
+  	<insert id="del" parameterType="java.lang.String">
+  	delete from return where num=#{num}
+  	</insert>
+  	<select id="allist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select * from (select rownum r, a.* from (select * from return order by num desc) a) where r between #{start} and #{end}
+	</select>
+	<select id="all" resultType="java.lang.Integer">
+		select count(*) FROM return num
+	</select>
+	<insert id="change" parameterType="java.util.HashMap">
+  	update return set title= #{title} , content=#{content} , writedate=SYSDATE where num=#{num}
+  	</insert>
+  	<insert id="coment" parameterType="java.util.HashMap">
+  	update return set coment=#{coment} , masterdate=SYSDATE where num=#{num}
+  	</insert>
+  	<select id="uesrre" parameterType="java.lang.String" resultType="java.util.HashMap">
+  	select * from return where WRITER=#{auth}
+  	</select>
+  	<select id="resize" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(*) from return where WRITER=#{auth}
+	</select>
+	<select id="uesrlist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select * from (select rownum r, a.* from (select * from return  where WRITER = #{auth} order by num desc) a) where r between #{start} and #{end}
+	</select>
+  </mapper>

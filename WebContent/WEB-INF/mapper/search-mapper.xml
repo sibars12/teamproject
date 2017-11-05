@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="search">
+	<select id="searchList" resultType="java.util.HashMap">
+		select * from 
+		(select DISTINCT p.name,p.imag,p.signup,p.cnt,s.type,s.price,s.comp,s.name as sname from product p left join stock s on p.ownernumber = s.ownernumber 
+		where
+		<!-- type -->
+		<if test="type != null">
+			s.type like '%'||#{type}||'%' and 
+		</if>
+		<!-- 검색어 -->
+		<if test="name != null">
+			<choose>
+				<!-- 이름으로 찾을 때 -->
+				<when test="option = 'name'">
+					s.name 
+				</when>
+				<!-- 제조사로 찾을 때 -->
+				<when test="option = 'comp">
+					s.comp
+				</when>
+			</choose>
+			like '%'||#{name}||'%' and
+		</if>
+		<!-- 최소가격 -->
+		<if test="minPrice != null">
+			s.price <![CDATA[>=]]> #{minPrice, jdbcType=INTEGER} and
+		</if>
+		<!-- 최고가격 -->
+		<if test="MaxPrice != null">
+			s.price <![CDATA[<=]]> #{MaxPrice, jdbcType=INTEGER} and
+		</if>
+		<!-- and 넣기 위해 의미없는 where문 -->
+		p.cnt <![CDATA[>=]]> 0
+		<!-- 정렬 -->
+		<choose>
+			<!-- 신상품 -->
+			<when test="Lineup == 'signup'">
+				order by p.signup desc
+			</when>
+			<!-- 제품명 -->
+			<when test="Lineup == 'name'">
+				order by s.name
+			</when>
+			<!-- 낮은가격 -->
+			<when test="Lineup == 'rowPrice'">
+				order by s.price
+			</when>
+			<!-- 높은가격 -->
+			<when test="Lineup == 'highPrice'">
+				order by s.price desc
+			</when>
+			<!-- 후기 -->
+			<when test="Lineup == 'signup'">
+				order by p.cnt desc
+			</when>
+		</choose>
+		)
+	</select>
+	
+	<!-- 검색 결과 개수 -->
+	<select id="searchCnt" resultType="java.lang.Integer">
+		select count(*) from 
+		(select DISTINCT p.name,p.imag,p.signup,p.cnt,s.type,s.price,s.comp,s.name as sname from product p left join stock s on p.ownernumber = s.ownernumber 
+		where
+		<!-- type -->
+		<if test="type != null">
+			type like '%'||#{type}||'%' and 
+		</if>
+		<!-- 검색어 -->
+		<if test="name != null">
+			<choose>
+				<!-- 이름으로 찾을 때 -->
+				<when test="option = 'name'">
+					s.name 
+				</when>
+				<!-- 제조사로 찾을 때 -->
+				<when test="option = 'comp">
+					s.comp
+				</when>
+			</choose>
+			like '%'||#{name}||'%' and
+		</if>
+		<!-- 최소가격 -->
+		<if test="minPrice != null">
+			s.price <![CDATA[>=]]> #{minPrice, jdbcType=INTEGER} and
+		</if>
+		<!-- 최고가격 -->
+		<if test="MaxPrice != null">
+			s.price <![CDATA[<=]]> #{MaxPrice, jdbcType=INTEGER} and
+		</if>
+		<!-- and 넣기 위해 의미없는 where문 -->
+		p.cnt <![CDATA[>=]]> 0)
+	</select>
+</mapper>

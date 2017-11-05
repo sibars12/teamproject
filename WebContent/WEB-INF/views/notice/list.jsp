@@ -33,7 +33,7 @@ th, td {
 					
 					<td>
 					
-						<a href="/notice/view?num=${obj.NUM}">${fn:substring(obj.TITLE, 0, 12) } </a>
+						<a href="/notice/view?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 20) } </a>
 					</td>
 					<td>${obj.MASTER }</td>
 				</tr>
@@ -41,14 +41,13 @@ th, td {
 		</tbody>
 	</table>
 	<p align="right" style="margin-right: 30px;">
-		<a href="/notice/add"><button type="button">공지글작성</button></a>
 	</p>
 </div>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/notice/list?page=${param.page-1 }">&laquo;</a></c:if>
+ <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/notice/list?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
@@ -61,7 +60,7 @@ th, td {
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page ne size }"><a class="w3-button" href="/notice/list?page=${param.page+1 }">&raquo;</a></c:if>
+  <c:if test="${param.page lt size }"><a class="w3-button" href="/notice/list?page=${param.page+1 }">&raquo;</a></c:if>
 </div>
 
 </div>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.ProductDao;
@@ -25,26 +26,23 @@ public class inquire_Controller {
 	inquire_Dao inquireDao;
 	@RequestMapping("/list")
 	public ModelAndView noticeListHandle(@RequestParam(name="page" , defaultValue="1")int page ,@RequestParam(name="ownernumber" , defaultValue="10000") String ownernumber) throws SQLException {
-		System.out.println("??");
 		List<Map> li = inquireDao.readAll(ownernumber);
 		int size=inquireDao.all(ownernumber);
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_inquire");
-			System.out.println("size="+size);
-			if(page>size)
-				page = size;
+			double c=(size/5.0);
+			int cc=size/5;
+			if(c-cc>0) {
+				cc+=1; 
+			}
+			if(page>cc)
+				page = cc;
 			if(page <=0) 
 				page = 1;
 			Map a=new HashMap();
 			a.put("ownernumber", ownernumber);
 			a.put("start", (page*5)-4);
 			a.put("end", page*5);
-			double c=(size/5.0);
-			int cc=size/5;
-			if(c-cc>0) {
-				cc+=1; 
-			}
-			System.out.println("size cc=" +cc);
 			List<Map> ila = inquireDao.allist(a);
 		mav.addObject("list", ila);
 		mav.addObject("cnt", li.size());
@@ -81,11 +79,14 @@ public class inquire_Controller {
 		return mav;
 	}
 	@RequestMapping("/del")
-	public ModelAndView noticedelHandle(@RequestParam String num ,@RequestParam String ownernumber) throws SQLException {
+	public ModelAndView delhandle(@RequestParam String num ,@RequestParam String ownernumber) throws SQLException {
+		
 		boolean a=inquireDao.del(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("redirect:/product/view?ownernumber="+ownernumber);
 		
 		return mav;
 }
+	
+	
 }

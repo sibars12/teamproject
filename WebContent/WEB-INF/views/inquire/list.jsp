@@ -24,7 +24,7 @@ th, td {
 		<tr>
 		<th style="width: 20%;">아이디</th>
 		<th style="width: 20%;">이름</th>
-		<th style="width: 40%;">문의 제목</th>
+		<th style="width: 40%;">문의 내용</th>
 		<th style="width: 20%;">문의한 날자</th>
 		</tr>
 		<c:forEach var="obj" items="${list }" >
@@ -37,16 +37,14 @@ th, td {
 					</td>
 					<td>
 					<button onclick="inquire('memo${obj.NUM}')"
-							class="w3-btn w3-block w3-black w3-left-align">
-							
-							${fn:substring(obj.TITLE, 0, 12) }
-							
+							class="w3-btn w3-block w3-Lime w3-left-align">
+							${obj.CONTENT }
 							</button>
 						<div id="memo${obj.NUM}" class="w3-container w3-hide">
-							<p>${obj.CONTENT }</p>
+							<p>${obj.TITLE }</p>
 							<input type="hidden" id="truepass${obj.NUM }" value="${obj.PASS }"/>
-							<input type="password"
-							 id="${obj.NUM }" onkeyup="passcheck(${obj.NUM });"
+							<input type="password" placeholder="비밀번호"
+							 id="${obj.NUM }" onkeyup="passcheck(${obj.NUM })"
 							 maxlength="4"/>
 							<a href="/inquire/del?num=${obj.NUM }&ownernumber=${obj.OWNERNUMBER}">
 							<button id="del${obj.NUM }" disabled="disabled" type="button">삭제</button></a>
@@ -81,15 +79,23 @@ th, td {
 		}
 	</script>
 	<p align="right" style="margin-right: 30px;">
-	
+	<c:choose>
+		<c:when test="${empty param.ownernumber}">
+		<a href="/product/view?ownernumber=10000"><button type="button">상품 보기</button></a>
+		<a href="/inquire/add?ownernumber=10000"><button type="button">문의글 작성</button></a>
+		</c:when>
+		<c:otherwise>
+		<a href="/product/view?ownernumber=${param.ownernumber }"><button type="button">상품 보기</button></a>
 		<a href="/inquire/add?ownernumber=${param.ownernumber }"><button type="button">문의글 작성</button></a>
+		</c:otherwise>
+		</c:choose>
 	</p>
 </div>
 
 
 <div class="w3-container">
 <div class="w3-bar">
- <c:if test="${param.page ne 1 }"><a  class="w3-button" href="/inquire/list?page=${param.page-1 }&ownernumber=${param.ownernumber}">&laquo;</a></c:if>
+ <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/inquire/list?page=${param.page-1 }&ownernumber=${param.ownernumber}">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
 				<c:when test="${i eq param.page }">
@@ -102,7 +108,7 @@ th, td {
 			</c:choose>
 			
 		</c:forEach>
-  <c:if test="${param.page ne size }"><a class="w3-button" href="/inquire/list?page=${param.page+1 }&ownernumber=${param.ownernumber}">&raquo;</a></c:if>
+  <c:if test="${param.page lt size }"><a class="w3-button" href="/inquire/list?page=${param.page+1 }&ownernumber=${param.ownernumber}">&raquo;</a></c:if>
 </div>
 
 </div>
