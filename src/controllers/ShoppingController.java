@@ -106,7 +106,10 @@ public class ShoppingController {
 		System.out.println(dnum);
 		String[] ar = dnum.split(",");
 		for(int i=0;i<ar.length;i++) {
-			shoppingDao.deleteCart(ar[i]);
+			Map map = new HashMap<>();
+			map.put("num", ar[i]);
+			map.put("id", session.getAttribute("auth"));
+			shoppingDao.deleteCart(map);
 		}
 		session.setAttribute("cartCnt", shoppingDao.getCartCnt((String)session.getAttribute("auth")));
 		return "YY";
