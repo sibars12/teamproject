@@ -36,32 +36,28 @@
 	<select id="readJoinDate" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select joindate from member where id =#{id}
 	</select>
-		
-	<!-- point 출력 -->
-	<select id="readPoint" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		select point from detail where id =#{id}
-	</select>
+
 	
 	<!-- 정보수정 -->
 	<update parameterType="java.util.HashMap" id="editDetail">
 		update detail set name=#{name,jdbcType=VARCHAR}, birth=#{birth,jdbcType=DATE}, tel=#{tel, jdbcType=VARCHAR}, point=#{point,jdbcType=NUMERIC}, postcode=#{postcode,jdbcType=NUMERIC}, addr1=#{addr1,jdbcType=VARCHAR}, addr2=#{addr2,jdbcType=VARCHAR} where id =#{id}
 	</update>	
 	
-	<!-- 입력한 값 받아서 아이디 출력 -->
+	<!-- 아이디찾기 아이디 출력 -->
 	<select id="findId" parameterType="java.util.HashMap" resultType="java.lang.String">
 		select id from detail where name=#{name} and birth=#{birth} and tel=#{tel}
 	</select>
 	
-	<!-- 입력한값 받아서 비밀번호 출력 -->
+	<!-- 비밀번호찾기 비밀번호 출력(회원인지 아닌지 구별) -->
 	<select id="findPw" parameterType="java.util.HashMap" resultType="java.lang.String">
 		select pw from member where id=#{id} and email=#{email}
 	</select>
-	
-	
-	<!-- 비밀번호 찾기 시 비밀번호 재설정 -->
+
+	<!-- 비밀번호 찾기 비밀번호 변경 -->
 	<update id="newPw" parameterType="java.util.HashMap">
-		update member set id=#{id} and email=#{email} where id=#{id} and email=#{email}
+		update member set pw=#{pw,jdbcType=VARCHAR} where id=#{id} and email=#{email}
 	</update>
+
 	
 	<!-- 회원탈퇴 (delete는 *표시 필요없음!)-->
 	<delete id="dropMember" parameterType="java.util.HashMap">

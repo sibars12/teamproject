@@ -47,11 +47,6 @@ public class MemberDao {
 		return template.selectOne("member.readJoinDate", id);
 	}
 	
-	// point 출력
-	public Map readPoint(String id) {
-		return template.selectOne("member.readPoint", id);
-	}
-	
 	// 개인정보 수정
 	public int editDetail(Map map) {
 		int r = template.update("member.editDetail", map);
@@ -63,22 +58,17 @@ public class MemberDao {
 		return template.selectOne("member.findId", map);
 	}
 	
-	// 비밀번호 찾기
+	// 비밀번호 찾기(비밀번호 출력)
 	public String findPw(Map map) {
 		return template.selectOne("member.findPw", map);
 	}
 	
-	// 비밀번호 찾기 시 새 비밀번호 설정
+	// 비밀번호 찾기 새비밀번호 설정
 	public int newPw(Map map) {
-		int r = template.update("member.newPw", map);
+		int r = template.update("member.newPw",map);
 		return r;
 	}
 	
-	// 비밀번호 변경
-	public int changePw(Map map) {
-		int r = template.update("member.changePw", map);
-		return r;
-	}
 
 	// 회원 탈퇴
 	public int drop(Map map) {
@@ -88,4 +78,10 @@ public class MemberDao {
 		return r;
 	}
 	
+	
+	// 비밀번호 변경
+	public int changePw(Map map) {
+		int r = template.update("member.changePw", map);
+		return r;
+	}
 }

@@ -40,15 +40,16 @@
 
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="point">Point : </label>
+				<label class="control-label col-sm-2" for="point">${readDetail.POINT}</label>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="address">*Address : </label>
 				<div class="col-sm-9">
-					<input type="text" id="postcode" placeholder="우편번호">
+					<input type="text" id="postcode" name="postcode" placeholder="우편번호" value="${readDetail.POSTCODE}">
 					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-					<input type="text" id="addr1" placeholder="주소" style="width:400px;">
-					<input type="text" id="addr2" placeholder="상세주소" style="width:300px;">
+					<input type="text" id="addr1" name="addr1" placeholder="주소" style="width:400px;" value="${readDetail.ADDR1}">
+					<input type="text" id="addr2" name="addr2" placeholder="상세주소" style="width:300px;" value="${readDetail.ADDR2}">
 				</div>
 			</div>
 
@@ -59,7 +60,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">MODIFY</button>
+					<button type="submit" id="submit" class="btn btn-default">MODIFY</button>
 					<button type="reset" class="btn btn-default">RESET</button>
 					<a href="/member/changePw"><button type="button" class="btn btn-default">비밀번호 변경</button></a>
 					<a href="/member/drop"><button type="button" class="btn btn-default">탈퇴하기</button></a>
@@ -71,6 +72,18 @@
 
 
 <script>
+
+// 빈칸 X
+$(document).ready(function(){
+	$("#submit").click(function(){
+		if($("#name").val().length==0){alert("이름을 입력하세요"); $("#name").focus(); return false;}
+		if($("#tel").val().length==0){alert("전화번호를 입력하세요"); $("#tel").focus(); return false;}
+		if($("#postcode").val().length==0){alert("우편번호를 입력하세요"); $("#postcode").focus(); return false;}
+		if($("#addr1").val().length==0){alert("주소를 입력하세요"); $("#addr1").focus(); return false;}
+		if($("#addr2").val().length==0){alert("상세주소를 입력하세요"); $("#addr2").focus(); return false;}
+	})
+})
+
 
 function execDaumPostcode() {
     new daum.Postcode({
