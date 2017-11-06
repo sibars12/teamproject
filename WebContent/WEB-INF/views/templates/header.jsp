@@ -54,6 +54,14 @@
 					<a href="/member/logout" id="join_A" class="header_A">LOGOUT</a>
 				</div>
 			</c:when>
+			
+			<c:when test =" ${auth eq 'master'}">
+				<div id="head1_D" class="col-sm-4 text-right">
+					<a href="" id="login_A" class="header_A">1</a>
+					<a href="" id="join_A" class="header_A">2</a>
+				</div>
+			</c:when>
+			
 			<c:otherwise>
 				<div id="head1_D" class="col-sm-4 text-left">
 					<a href="/member/login" id="login_A" class="header_A">LOGIN</a>

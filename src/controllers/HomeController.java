@@ -2,6 +2,7 @@ package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +24,7 @@ public class HomeController {
 	ObjectMapper mapper;
 	@Autowired
 	event_Dao eventDao;
+
 	
 	@RequestMapping({"/","/index"})
 	public ModelAndView HomeHandler() {
@@ -39,6 +41,7 @@ public class HomeController {
 		mav.addObject("bestList", productDao.getNewProductList(map));
 		return mav;
 	}
+
 	
 	@ResponseBody
 	@RequestMapping(path="/getNewTypeList", produces="application/json;charset=utf-8")

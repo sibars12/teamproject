@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -134,6 +135,7 @@ public class MemberController {
 			mMap.addAttribute("eventlist" , eventlist);
 			mMap.addAttribute("section", "home");
 			return "t_expr";
+
 		} catch (Exception e) {
 			mMap.addAttribute("temp", map);
 			mMap.addAttribute("section", "member/login");
@@ -161,7 +163,9 @@ public class MemberController {
 	public String getMyInfoHandle(HttpSession session, ModelMap mMap) {
 		String id = (String) session.getAttribute("auth");
 		Map map = memberDao.readDetail(id);
+		Map joindate = memberDao.readJoinDate(id);	
 		mMap.addAttribute("readDetail", map);
+		mMap.addAttribute("readJoinDate", joindate);
 		mMap.addAttribute("section", "member/myInfo");
 		return "t_expr";
 	}
@@ -169,7 +173,8 @@ public class MemberController {
 	@PostMapping("/myInfoEdit")
 	public String postMyInfoHandle(HttpSession session, @RequestParam Map map, ModelMap mMap) {
 		try {
-			int r = memberDao.editDetail(map);
+			map.put("id", session.getAttribute("auth") );
+			int r = memberDao.editDetail(map);			
 			System.out.println(session.getAttribute("auth") + "님 정보수정");
 			return "redirect:/member/myInfo";
 		} catch (Exception e) {
@@ -179,6 +184,7 @@ public class MemberController {
 		}
 	}
 
+	
 	// 아이디,비밀번호 찾기 메인 창
 	@GetMapping("/find")
 	public String getFindHandle(Map map) {
@@ -196,31 +202,87 @@ public class MemberController {
 	// 아이디 찾기 결과
 	@PostMapping("/findIdOk")
 	public String getFindIdOkHandle(@RequestParam Map pmap, Map map) { // pmap는 파라미터로 받아오는 맵, map은 셋팅시키는 맵
-		String id = memberDao.findId(pmap); // 파라미터로 받은 값을 id에 저장
-		System.out.println(id);
-		map.put("findId", id); // map의 findId에 id를 세팅시킴
-		map.put("section", "member/findIdOk"); // section에 /member/findIdOk 넣기
+		String id = memberDao.findId(pmap); 					// 파라미터로 받은 값을 id에 저장
+		map.put("findId", id); 									// map의 findId에 id를 세팅시킴
+		map.put("section", "member/findIdOk"); 					// section에 /member/findIdOk 넣기
 		return "t_expr";
 	}
 	
-	// findPw.jsp 비밀번호 찾기 입력 창(아이디, 이름, 생년월일, 이메일 입력받기)
+	// findPw.jsp 비밀번호 찾기 입력 창(아이디, 이메일 입력)
 	@GetMapping("/findPw")
 	public String getFindPwHandle(Map map) {
 		map.put("section", "member/findPw");
 		return "t_expr";
 	}
 	
+	// findPwRst (아이디, 이메일 입력 후 회원이면 다음페이지로 넘기고 회원이 아니면 에러페이지 보여주기)
+	@PostMapping("/findPwRst")
+	public String postFindPwRstHandle(@RequestParam Map pmap, Map map) {
+		String pw = memberDao.findPw(pmap);				//일치하는 pw값 가져옴
+		if(pw != null) {								//pw가 있을 때 = 회원일 떄
+			map.put("findPw", pw);
+			map.put("section", "member/findRePw");
+			return "t_expr";
+		} else {										//회원이 아닐 때
+			map.put("section", "member/findPwReturn");
+			return "t_expr";
+		}
+	}
 	
-	// findRePw.jsp 비밀번호 재설정 창(새로운 비밀번호 입력받아서 update)
+	// findRePw(비밀번호 재설정)
+	@PostMapping("/findRePw")
+	public String postFindRePwHandle(@RequestParam Map map, ModelMap mMap) {
+		//map.put("id", session.getAttribute("auth"));
+		
+		try {
+			int r = memberDao.newPw(map);
+			return "redirect:/member/findPwOk";
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "recirect:/member/findPw";
+		}
 	
-
+		
+	}	
+	
+	// findPwOk(비밀번호 재설정 완료)
+	@PostMapping("/findPwOk")
+	public String postFindPwOkHandle(Map map) {		
+		map.put("section", "member/findPwOk");
+		return "t_expr";
+	}
+	
+	//비밀번호 변경
+	@GetMapping("/changePw")
+	public String getRePwHandle(Map map) {
+		map.put("section", "/member/changePw");
+		return "t_expr";
+	}
+	
+	@PostMapping("/changePwOk")
+	public String postRePwOkHandle(HttpSession session, @RequestParam Map map, ModelMap mMap) {
+		map.put("id", session.getAttribute("auth"));
+		try {			
+			int r = memberDao.changePw(map);
+			System.out.println(session.getAttribute("auth") + "님 비밀번호 변경");
+			System.out.println(session.getAttribute("auth") + "님 로그아웃");
+			session.invalidate();
+			return "redirect:/member/login";
+		}catch(Exception e) {
+			mMap.addAttribute("section","member/changePw");
+			e.printStackTrace();
+			return "t_expr";
+		}
+	}
+	
+	
 	// 회원 탈퇴
 	@GetMapping("/drop")
 	public String getDropHandle(Map map) {
 		map.put("section", "/member/drop");
 		return "t_expr";
 	}
-
+	
 	
 	@PostMapping("/dropOk")		// 비밀번호가 맞을경우 or 비밀번호가 틀릴경우 
 	public String postDropOkHandle(HttpSession session, @RequestParam Map pmap, Map map) {
@@ -236,12 +298,10 @@ public class MemberController {
 			return "t_expr";
 		}
 	}
-
+	
 	@GetMapping("/dropOk")
 	public String getDropOkHandle(Map map) {
 		map.put("section", "/member/dropOk");
 		return "t_expr";
 	}
-	
-	
 }

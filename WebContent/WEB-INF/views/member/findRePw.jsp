@@ -27,6 +27,15 @@
 </div>
 
 <script>
+//빈칸 X
+$(document).ready(function(){
+	$("#findRePw").click(function(){
+		if($("#pw").val().length==0){alert("비밀번호를 입력하세요"); $("#pw").focus(); return false;}
+		if($("#pw2").val().length==0){alert("비밀번호를 입력하세요"); $("#pw2").focus(); return false;}
+	})
+})
+
+
 	//비밀번호 확인
 	document.getElementById("pw2").onblur = function() {
 		var pass = document.getElementById("pw").value;
