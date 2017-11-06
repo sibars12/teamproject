@@ -30,9 +30,9 @@ public class HomeController {
 	public ModelAndView HomeHandler() {
 		ModelAndView mav = new ModelAndView("t_expr");
 		Map eventmap=new HashMap<>();
-		eventmap.put("start", "0");
-		eventmap.put("end", "3");
-		List<Map> eventlist=eventDao.allist(eventmap);
+		eventmap.put("start", "1");
+		eventmap.put("end", "4");
+		List<Map> eventlist=eventDao.inlist(eventmap);
 				mav.addObject("section", "home");
 		Map map = new HashMap();
 		map.put("type", "cloth");

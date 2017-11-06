@@ -2,6 +2,8 @@ package controllers;
 
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.MemberDao;
 import models.ShoppingDao;
+import models.event_Dao;
 
 @Controller
 @RequestMapping("/member")
@@ -39,6 +42,8 @@ public class MemberController {
 	
 	@Autowired
 	ShoppingDao shoppingDao;
+	@Autowired
+	event_Dao eventDao;
 
 	// join ÆäÀÌÁö ¶ç¿ò
 	@GetMapping("/join")
@@ -125,6 +130,11 @@ public class MemberController {
 			session.setAttribute("cartCnt", shoppingDao.getCartCnt((String)m.get("ID")));
 			System.out.println(shoppingDao.getCartCnt((String)m.get("ID")));
 			System.out.println(session.getAttribute("auth") + "´Ô ·Î±×ÀÎ");
+			Map eventmap=new HashMap<>();
+			eventmap.put("start", "1");
+			eventmap.put("end", "4");
+			List<Map> eventlist=eventDao.inlist(eventmap);
+			mMap.addAttribute("eventlist" , eventlist);
 			mMap.addAttribute("section", "home");
 			return "t_expr";
 
