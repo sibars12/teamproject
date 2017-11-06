@@ -128,8 +128,8 @@ public class MemberController {
 			System.out.println(shoppingDao.getCartCnt((String)m.get("ID")));
 			System.out.println(session.getAttribute("auth") + "´Ô ·Î±×ÀÎ");
 			Map eventmap=new HashMap<>();
-			eventmap.put("start", "0");
-			eventmap.put("end", "3");
+			eventmap.put("start", "1");
+			eventmap.put("end", "4");
 			List<Map> eventlist=eventDao.inlist(eventmap);
 			mMap.addAttribute("eventlist" , eventlist);
 			mMap.addAttribute("section", "home");
