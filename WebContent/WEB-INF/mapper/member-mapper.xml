@@ -40,7 +40,7 @@
 	
 	<!-- 정보수정 -->
 	<update parameterType="java.util.HashMap" id="editDetail">
-		update detail set name=#{name,jdbcType=VARCHAR}, birth=#{birth,jdbcType=DATE}, tel=#{tel, jdbcType=VARCHAR}, postcode=#{postcode,jdbcType=NUMERIC}, addr1=#{addr1,jdbcType=VARCHAR}, addr2=#{addr2,jdbcType=VARCHAR} where id =#{id}
+		update detail set name=#{name,jdbcType=VARCHAR}, birth=#{birth,jdbcType=DATE}, tel=#{tel, jdbcType=VARCHAR}, postcode=#{postcode,jdbcType=VARCHAR}, addr1=#{addr1,jdbcType=VARCHAR}, addr2=#{addr2,jdbcType=VARCHAR} where id =#{id}
 	</update>	
 	
 	<!-- 아이디찾기 아이디 출력 -->

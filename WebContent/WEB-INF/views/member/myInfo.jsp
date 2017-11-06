@@ -24,7 +24,7 @@
 		</div>
 
 		<div class="form-group">
-			<label class="control-label col-sm-2" for="birth">*Birth : </label>
+			<label class="control-label col-sm-2" for="birth">Birth : </label>
 			<div class="col-sm-5">
 				<input type="date" class="form-control" id="birth" value="${readDetail.BIRTH}" name="birth">
 			</div>
