@@ -272,7 +272,7 @@ public class Master_Controller {
 		return mav;
 	}
 	@PostMapping("/eventchange")
-	public ModelAndView ㅔㄴchangeHandle(@RequestParam Map map, @RequestParam(name = "eventimg") MultipartFile f,
+	public ModelAndView eventchangeHandle(@RequestParam Map map, @RequestParam(name = "eventimg") MultipartFile f,
 			HttpServletRequest request, HttpSession session) throws SQLException, IllegalStateException, IOException {
 		ModelAndView mav = new ModelAndView();
 
@@ -768,6 +768,18 @@ public class Master_Controller {
 		}
 		map.put("start", (page-1)*5+1);
 		map.put("end", page*5);
+		
+		
+		//------------------------------------------------
+		int allBlock=0;//전체 페이지 블럭
+		//int nowBlock=0; //현재 페이지 블럭
+		int startPage = (page-1)/5*5+1;
+		int endPage = startPage+5-1;
+		if(endPage > pageCount){
+			endPage = pageCount;
+		}		
+		//----------------------------------------------
+		
 		List<Map> list = productDao.reviewList_master(map);
 
 		ModelAndView mav = new ModelAndView("t_expr");		
@@ -775,6 +787,9 @@ public class Master_Controller {
 		mav.addObject("pageCount",pageCount);
 		mav.addObject("page",page);
 		mav.addObject("section","master/reviewList_Master");
+		mav.addObject("allBlock",allBlock);
+		mav.addObject("startPage", startPage);
+		mav.addObject("endPage", endPage);
 		return mav;
 	}
 	// 후기 리스트 삭제
@@ -810,8 +825,17 @@ public class Master_Controller {
 		param.put("start", (page-1)*5+1);
 		param.put("end", page*5);
 		List<Map> list = productDao.searchReview(param);
+		
+		int allBlock=0;//전체 페이지 블럭
+		int startPage = (page-1)/5*5+1;
+		int endPage = startPage+5-1;
+		if(endPage > pageCount){	endPage = pageCount;	}	
+		
 		map.put("schlist", list);
 		map.put("pageCount", pageCount);
+		map.put("startPage",startPage );
+		map.put("endPage",endPage );
+		map.put("page", page);
 		return map;
 	}
 	

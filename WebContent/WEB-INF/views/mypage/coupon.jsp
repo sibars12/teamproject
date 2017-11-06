@@ -24,7 +24,7 @@
 	}
 	.addCoupon_B{
 		padding: 7 16;
-		 transform: translate(0%, 4%);
+		transform: translate(0%, 4%);
 	}
 	.coupon_Th{ /* 쿠폰 테이블 thead */
 		background-color: rgb(240,240,240);

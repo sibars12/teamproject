@@ -27,7 +27,7 @@
 				<tr>
 					<td>${infoList[i].NAME }</td>
 					<td>${infoList[i].OWNERNUMBER }</td>
-					<td>${infoList[i].SIZE }</td>
+					<td>${infoList[i].SCALE }</td>
 					<td>${infoList[i].COLOR }</td>
 					<td>${stockCnt[i] }</td>
 					<td>${stockPrice[i] }</td>
@@ -42,27 +42,37 @@
 	<hr>
 		<div id="buyerInfo">
 			<div align="left" class="tabName_D">구매자 정보</div>
-			<table class="table">
-				<tr>
-					<th>받으실분 성함</th>
-	    			<td><input type="text" class="form-control" id="name" name="name" placeholder="받는분 성함" required>	</td>
-	    		</tr>
-    			<tr>
-	    			<th>우편번호</th>
-	    			<td><input type="text" class="form-control" id="postcode" name="postcode" placeholder="우편번호" required>
-	    				<button type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
-	    			</td>
-	    		</tr>
-	    		<tr>	    		
-	    			<th>주소</th>
-	    			<td><input type="text" class="form-control" id="addr1" name="addr1" placeholder="주소" required></td>
-	    			<td><input type="text" class="form-control" id="addr2" name="addr2" placeholder="상세주소"></td>
-	    		</tr>
-	    		<tr>
-	    			<th>전화번호</th>
-	    			<td><input type="text" class="form-control" name="tel" id="tel" placeholder="전화번호" required></td>
-	    		</tr>
-			</table>
+		    	<table class="table">
+		    		<tr>
+						<th>받으실분 성함</th>
+		    			<td>
+		    				<input type="text" class="form-control" id="name" name="name" placeholder="받는분 성함" 
+		    				value="${recent.NAME }" required>
+		    			</td>
+		    		</tr>
+	    			<tr>
+		    			<th>우편번호</th>
+		    			<td><input type="text" class="form-control" id="postcode" name="postcode" placeholder="우편번호" 
+		    				value="${recent.POSTCODE }"	required>
+		    				<button type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
+		    			</td>
+		    		</tr>
+		    		<tr>	    		
+		    			<th>주소</th>
+		    			<td><input type="text" class="form-control" id="addr1" name="addr1" placeholder="주소" 
+		    				value="${recent.ADDR1 }" required>
+		    			</td>
+		    			<td><input type="text" class="form-control" id="addr2" name="addr2" placeholder="상세주소"
+		    				value="${recent.ADDR2 }">
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<th>전화번호</th>
+		    			<td><input type="text" class="form-control" name="tel" id="tel" placeholder="전화번호"
+		    				value="${recent.TEL }" required>
+		    			</td>
+		    		</tr>
+		    	</table>
 		</div>
 		<hr>
 		<div id="paymentInfo">
@@ -385,6 +395,5 @@ function execDaumPostcode() {
             document.getElementById('addr2').focus();
         }
     }).open();
-}
-
+};
 </script>

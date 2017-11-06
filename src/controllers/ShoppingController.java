@@ -54,8 +54,12 @@ public class ShoppingController {
 			infoList.add(stockInfo);
 		}
 		String id = (String) session.getAttribute("auth");
+		// 개인정보 가져오기
 		Map memInfo = shoppingDao.getMemInfo(id);
+		// 쿠폰 가져오기
 		List<Map> coupons = shoppingDao.getCoupon(id);
+		//최근 주문정보 가져오기
+		Map recentPurchase = shoppingDao.getRecentPurchase(id);
 	
 		mav.addObject("section", "shopping/buyNow");
 		mav.addObject("stockNo", stockNo);
@@ -65,6 +69,7 @@ public class ShoppingController {
 		mav.addObject("infoList", infoList);
 		mav.addObject("memInfo",memInfo );
 		mav.addObject("coupons", coupons);
+		mav.addObject("recent",recentPurchase );
 		
 		return mav;
 	}
@@ -86,68 +91,79 @@ public class ShoppingController {
 		String purchaseNo = ((List)param.get("id")).get(0)+"_"+System.currentTimeMillis();
 		System.out.println(purchaseNo);
 		try{
-		//purchase에 넣을것들
-		Map pur = new HashMap();
-		pur.put("purchaseNo", purchaseNo);
-		pur.put("id",id);
-		pur.put("name", ((List) param.get("name")).get(0));
-		pur.put("postcode", ((List) param.get("postcode")).get(0));
-		pur.put("addr1", ((List) param.get("addr1")).get(0));
-		pur.put("addr2", ((List) param.get("addr2")).get(0));
-		pur.put("tel", ((List) param.get("tel")).get(0));		
-		int purchase_r = shoppingDao.addPurchase(pur);	
-		
-		//orderInfo에 넣을것들
-		int order_r=0;
-		for(int i=0; i<stockNo.size(); i++){
-			Map or = new HashMap();
-			or.put("purchaseNo",purchaseNo);	//주문번호;
-			or.put("ownernumber", (String)ownernumber.get(i));//상품번호
-			or.put("stockNo", (String)stockNo.get(i));//재고번호
-			or.put("stockCnt", (String)stockCnt.get(i));//구매수량
-			or.put("stockPrice",(String)stockPrice.get(i));//수량*가격	
-			order_r += shoppingDao.addOrderInfo(or);
-		}
-		
-		// 결제 테이블 넣기
-		Map pay = new HashMap();
-		pay.put("purchaseNo", purchaseNo);
-		pay.put("id",id );
-		pay.put("type",((List) param.get("type")).get(0) );
-		pay.put("kind",((List) param.get("kind")).get(0) );
-		pay.put("installment",((List) param.get("installment")).get(0) );
-		pay.put("totPrice", ((List)param.get("totPrice")).get(0) );
-		pay.put("delivery", ((List) param.get("delivery")).get(0));
-		pay.put("payPoint",((List) param.get("payPoint")).get(0) );
-		pay.put("coupon",((List) param.get("couponDiscount")).get(0) );
-		pay.put("payment",((List) param.get("payment")).get(0) );
-		int pay_r = shoppingDao.addPayment(pay);
-		
-		// 포인트 변경( 사용액+적립액)
-		String ownPoint = (String) ((List)param.get("point")).get(0);
-		String payPoint = (String) ((List) param.get("payPoint")).get(0);
-		String addPoint = (String)((List) param.get("addPoint")).get(0);
-		int resultPoint = Integer.parseInt(ownPoint)-Integer.parseInt(payPoint)+Integer.parseInt(addPoint);
-		System.out.println(resultPoint);
-		Map po = new HashMap();
-		po.put("resultPoint", resultPoint);
-		po.put("id", id);
-		int point_r = shoppingDao.updatePoint(po);
-		
-		//쿠폰 사용시 쿠폰 삭제
-		Map coupon = new HashMap();
-		coupon.put("couponNo",((List)param.get("couponNo")).get(0));
-		coupon.put("id",id);		
-		int coupon_r = shoppingDao.deletePayCoupon(coupon);	
-		
-		//재고에서 빼기
-		int stock_r=0;
-		for(int i=0; i<stockNo.size(); i++){
-			Map or = new HashMap();
-			or.put("stockNo", (String)stockNo.get(i));//재고번호
-			or.put("stockCnt", (String)stockCnt.get(i));//구매수량	
-			stock_r += stockDao.subStockVolum(or);
-		}
+			//purchase에 넣을것들
+			Map pur = new HashMap();
+			pur.put("purchaseNo", purchaseNo);
+			pur.put("id",id);
+			pur.put("name", ((List) param.get("name")).get(0));
+			pur.put("postcode", ((List) param.get("postcode")).get(0));
+			pur.put("addr1", ((List) param.get("addr1")).get(0));
+			pur.put("addr2", ((List) param.get("addr2")).get(0));
+			pur.put("tel", ((List) param.get("tel")).get(0));		
+			int purchase_r = shoppingDao.addPurchase(pur);	
+			
+			//orderInfo에 넣을것들
+			int order_r=0;
+			for(int i=0; i<stockNo.size(); i++){
+				Map or = new HashMap();
+				or.put("purchaseNo",purchaseNo);	//주문번호;
+				or.put("ownernumber", (String)ownernumber.get(i));//상품번호
+				or.put("stockNo", (String)stockNo.get(i));//재고번호
+				or.put("stockCnt", (String)stockCnt.get(i));//구매수량
+				or.put("stockPrice",(String)stockPrice.get(i));//수량*가격	
+				order_r += shoppingDao.addOrderInfo(or);
+			}
+			
+			// 결제 테이블 넣기
+			Map pay = new HashMap();
+			pay.put("purchaseNo", purchaseNo);
+			pay.put("id",id );
+			pay.put("type",((List) param.get("type")).get(0) );
+			pay.put("kind",((List) param.get("kind")).get(0) );
+			pay.put("installment",((List) param.get("installment")).get(0) );
+			pay.put("totPrice", ((List)param.get("totPrice")).get(0) );
+			pay.put("delivery", ((List) param.get("delivery")).get(0));
+			pay.put("payPoint",((List) param.get("payPoint")).get(0) );
+			pay.put("coupon",((List) param.get("couponDiscount")).get(0) );
+			pay.put("payment",((List) param.get("payment")).get(0) );
+			int pay_r = shoppingDao.addPayment(pay);
+			
+			// 포인트 변경( 사용액+적립액)
+			String ownPoint = (String) ((List)param.get("point")).get(0);
+			String payPoint = (String) ((List) param.get("payPoint")).get(0);
+			String addPoint = (String)((List) param.get("addPoint")).get(0);
+			int resultPoint = Integer.parseInt(ownPoint)-Integer.parseInt(payPoint)+Integer.parseInt(addPoint);
+			System.out.println(resultPoint);
+			Map po = new HashMap();
+			po.put("resultPoint", resultPoint);
+			po.put("id", id);
+			int point_r = shoppingDao.updatePoint(po);
+			
+			//쿠폰 사용시 쿠폰 삭제
+			Map coupon = new HashMap();
+			coupon.put("couponNo",((List)param.get("couponNo")).get(0));
+			coupon.put("id",id);		
+			int coupon_r = shoppingDao.deletePayCoupon(coupon);	
+			
+			//재고에서 빼기
+			int stock_r=0;
+			for(int i=0; i<stockNo.size(); i++){
+				Map or = new HashMap();
+				or.put("stockNo", (String)stockNo.get(i));//재고번호
+				or.put("stockCnt", (String)stockCnt.get(i));//구매수량	
+				stock_r += stockDao.subStockVolum(or);
+			}
+			
+			//주문된 상품 카트에서 빼기
+			boolean cart_r;
+			for(int i=0; i<stockNo.size(); i++){				
+				Map cart = new HashMap();
+				cart.put("id", id);
+				cart.put("num", stockNo.get(i));
+				cart_r = shoppingDao.deleteCart(cart);
+			}			
+			session.setAttribute("cartCnt", shoppingDao.getCartCnt((String)session.getAttribute("auth")));
+			
 				
 		}catch(Exception e){
 			e.printStackTrace();
@@ -174,6 +190,7 @@ public class ShoppingController {
 	
 	@RequestMapping("/cartDb") // 장바구니 DB저장
 	public ModelAndView cartDbHandler(@RequestParam MultiValueMap<String,String> multiMap, HttpSession session) {
+		System.out.println(multiMap);
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "shopping/cart");
 		List<String> stockNo = multiMap.get("stockNo");
@@ -200,9 +217,13 @@ public class ShoppingController {
 	public String deleteCartHandler(@RequestParam String dnum, HttpSession session) {
 		System.out.println(dnum);
 		String[] ar = dnum.split(",");
-		for(int i=0;i<ar.length;i++) {
-			shoppingDao.deleteCart(ar[i]);
+		for(int i=0; i<ar.length; i++){
+			Map cart = new HashMap();
+			cart.put("id", session.getAttribute("auth"));
+			cart.put("num", ar[i]);
+			shoppingDao.deleteCart(cart);
 		}
+		
 		session.setAttribute("cartCnt", shoppingDao.getCartCnt((String)session.getAttribute("auth")));
 		return "YY";
 	}

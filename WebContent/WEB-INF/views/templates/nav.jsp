@@ -11,7 +11,7 @@
 	}
 	
 	.menu_A {
-		margin-right: 10;
+		margin-right: 30;
 		margin_left: 10;
 	}
 	
@@ -37,7 +37,7 @@
 	<div id="mainTitle_D" class="col-sm-5 text-left">
 		<a href="/" class="title_A">F O R P Y</a>
 	</div>
-	<div id="menu_D" class="col-sm-7 text-center">
+	<div id="menu_D" class="col-sm-7 text-right">
 		<a class="menu_A" href="/product/list">PRODUCT</a>
 		<c:if test="${'master' eq auth }">
 		<a class="menu_A" href="/master/eventlist">EVENT</a>
@@ -45,6 +45,8 @@
 		<a class="menu_A" href="/master/noticelist">NOTICE</a>
 		<a class="menu_A" href="/master/inquirelist">INQUIRE</a>
 		<a class="menu_A" href="/master/returnlist">RETURN</a>
+		<a class="menu_A" href="/master/reviewList_Master">REVIEW</a>
+		<a class="menu_A" href="/master/addProduct">ADDPRO</a>
 		</c:if>
 		<c:if test="${'master' ne auth}">
 		<a class="menu_A" href="/event/list?page=1">EVENT</a>

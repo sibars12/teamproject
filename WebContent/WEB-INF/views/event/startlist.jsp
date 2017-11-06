@@ -176,5 +176,4 @@ th, td {
 </div>
 
 <script>
-
 </script>
