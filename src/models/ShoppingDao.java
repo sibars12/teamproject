@@ -57,4 +57,12 @@ public class ShoppingDao {
 	public Map getRecentPurchase(String id){
 		return sql.selectOne("shopping.getRecentPurchase", id);
 	}
+	
+	//Order∆‰¿Ã¡ˆ
+	public List getOrderNoDateList(Map map) {
+		return sql.selectList("shopping.getOrderNoDateList", map);
+	}
+	public List getOrderDateList(Map map) {
+		return sql.selectList("shopping.getOrderDateList", map);
+	}
 }

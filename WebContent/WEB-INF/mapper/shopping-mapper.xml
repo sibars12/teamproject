@@ -61,6 +61,14 @@
 		delete from coupon where id=#{id} and no=#{couponNo} 
 	</delete>
 	
-	
-
+<!-- Order페이지 -->
+	<select id="getOrderNoDateList" resultType="java.util.HashMap">
+		select t1.*,pr.imag, pr.name as name from (select o.purchaseno as num, o.stockcnt as cnt, o.sotckprice as price,o.ownernumber, p.orderdate  from orderinfo o 
+		left join purchase p on o.PURCHASENO = p.PURCHASENO where p.id=#{id}) t1 left join product pr on t1.ownernumber = pr.ownernumber
+	</select>
+	<select id="getOrderDateList" resultType="java.util.HashMap">
+		select t1.*,pr.imag, pr.name as name from (select o.purchaseno as num, o.stockcnt as cnt, o.sotckprice as price,o.ownernumber, p.orderdate  from orderinfo o 
+		left join purchase p on o.PURCHASENO = p.PURCHASENO where p.id=#{id} and (p.orderdate <![CDATA[>=]]> #{edate}) and (p.orderdate <![CDATA[<=]]> #{sdate})) t1 left join product pr 
+		on t1.ownernumber = pr.ownernumber
+	</select>
 </mapper>
