@@ -124,20 +124,25 @@ public class ShoppingController {
 			pay.put("totPrice", ((List)param.get("totPrice")).get(0) );
 			pay.put("delivery", ((List) param.get("delivery")).get(0));
 			pay.put("payPoint",((List) param.get("payPoint")).get(0) );
+			pay.put("addPoint",((List) param.get("addPoint")).get(0) );
 			pay.put("coupon",((List) param.get("couponDiscount")).get(0) );
 			pay.put("payment",((List) param.get("payment")).get(0) );
 			int pay_r = shoppingDao.addPayment(pay);
 			
-			// 포인트 변경( 사용액+적립액)
+			//포인트 로그 남기기
+			int addpo = shoppingDao.addPointLog(pay);			
+		
+			// 포인트 변경( 포인트-사용액)
 			String ownPoint = (String) ((List)param.get("point")).get(0);
 			String payPoint = (String) ((List) param.get("payPoint")).get(0);
 			String addPoint = (String)((List) param.get("addPoint")).get(0);
-			int resultPoint = Integer.parseInt(ownPoint)-Integer.parseInt(payPoint)+Integer.parseInt(addPoint);
+			int resultPoint = Integer.parseInt(ownPoint)-Integer.parseInt(payPoint);
 			System.out.println(resultPoint);
 			Map po = new HashMap();
 			po.put("resultPoint", resultPoint);
 			po.put("id", id);
 			int point_r = shoppingDao.updatePoint(po);
+
 			
 			//쿠폰 사용시 쿠폰 삭제
 			Map coupon = new HashMap();

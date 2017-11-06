@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div align="center" style="position:fixed">
+	<h3>최근 본 상품</h3>
 	<div align="center" id="cookieView" style="border:1px;"></div>
 	<a href="#"><button id="up" type="button">TOP</button></a>
 </div>
@@ -12,7 +13,7 @@ function crequest(){
 	}).done(function(obj){
 		console.log(obj.ownInfo[0].OWNERNUMBER);
 		
-		var hm="<table><tr><th align=\"center\">최근 본 상품</th></tr>";
+		var hm="<table>";
 		for(var i in obj.ownInfo){
 			hm += "<tr><td>";
 			hm += "<a href=\"/product/view?ownernumber="+obj.ownInfo[i].OWNERNUMBER+"\">";
