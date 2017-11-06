@@ -140,7 +140,7 @@ public class event_Controller {
 		return "/event/content/" + fileName;
 	}
 	@RequestMapping("/view")
-	public ModelAndView noticeViewHandle(@RequestParam String num, @RequestParam String page,@RequestParam(name="mode" , defaultValue="")String mode) throws SQLException {
+	public ModelAndView noticeViewHandle(@RequestParam String num, @RequestParam(name="page" , defaultValue="1") String page,@RequestParam(name="mode" , defaultValue="")String mode) throws SQLException {
 		List<Map> list = eventDao.readOne(num);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_event");

@@ -6,7 +6,7 @@
 	
 		
 			<c:forEach var="obj" items="${list }">
-				<h3>${obj.TILTE }</h3>
+				<h3>${obj.TITLE }</h3>
 				<p style="padding-left: 10px;">
 					<small>작성자 : 관리자 | 시작일 : <fmt:formatDate
 							pattern="MM.dd.yyyy HH:mm:ss" value="${obj.STARTDATE }" /> |

@@ -48,6 +48,19 @@
 </div>
 
 <script>
+
+// 빈칸 X
+$(document).ready(function(){
+	$("#join").click(function(){
+		if($("#id").val().length==0){alert("ID를 입력하세요"); $("#id").focus(); return false;}
+		if($("#pw").val().length==0){alert("비밀번호를 입력하세요"); $("#pw").focus(); return false;}
+		if($("#pw2").val().length==0){alert("비밀번호를 입력하세요"); $("#pw2").focus(); return false;}
+		if($("#email").val().length==0){alert("Email을 입력하세요"); $("#email").focus(); return false;}
+	})
+})
+
+
+
 	//ID 중복확인
 	document.getElementById("id").onblur = function() {
 		if (this.value.length != 0) {

@@ -80,9 +80,9 @@ public class MypageController {
 		return mav;
 	}
 	@RequestMapping("/board")
-	public ModelAndView boardhandler(@RequestParam String auth, @RequestParam(name="inpage" , defaultValue="1")int inpage ,@RequestParam(name="repage" , defaultValue="1") int repage) {
-		List<Map> li = inquireDao.uesrin(auth);
-		int size=inquireDao.insize(auth);
+	public ModelAndView boardhandler(HttpSession session, @RequestParam(name="inpage" , defaultValue="1")int inpage ,@RequestParam(name="repage" , defaultValue="1") int repage) {
+		List<Map> li = inquireDao.uesrin((String)session.getAttribute("auth"));
+		int size=inquireDao.insize((String)session.getAttribute("auth"));
 		ModelAndView mav = new ModelAndView();
 			mav.setViewName("t_expr");
 			double c=(size/3.0);
@@ -95,7 +95,7 @@ public class MypageController {
 			if(inpage <=0) 
 				inpage = 1;
 			Map map=new HashMap();
-			map.put("auth", auth);
+			map.put("auth", session.getAttribute("auth"));
 			map.put("start", (inpage*3)-2);
 			map.put("end", inpage*3);
 			List<Map> ila = inquireDao.uesrlist(map);
@@ -103,8 +103,8 @@ public class MypageController {
 		mav.addObject("incnt", li.size());
 		mav.addObject("insize", cc);
 		
-		List<Map> reli = returnDao.uesrre(auth);
-		int resize=returnDao.resize(auth);
+		List<Map> reli = returnDao.uesrre((String)session.getAttribute("auth"));
+		int resize=returnDao.resize((String)session.getAttribute("auth"));
 			double rec=(resize/3.0);
 			int recc=resize/3;
 			if(rec-recc>0) {
@@ -115,7 +115,7 @@ public class MypageController {
 			if(repage <=0) 
 				repage = 1;
 			Map remap=new HashMap();
-			remap.put("auth", auth);
+			remap.put("auth", session.getAttribute("auth"));
 			remap.put("start", (repage*3)-2);
 			remap.put("end", repage*3);
 			List<Map> reila = returnDao.uesrlist(remap);

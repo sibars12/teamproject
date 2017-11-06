@@ -101,7 +101,7 @@ th, td {
 		총 <b>${cnt }</b> 개의 이벤트가 예정되어 있습니다.
 	</p>
 	<div align="right">
-		<a>예정된 이벤트 </a>		|	<a href="/event/list">진행중인 이벤트</a>		|	<a href="/event/endlist">종료된 이벤트</a>
+		<b><a>예정된 이벤트 </a>		|	<a href="/event/list">진행중인 이벤트</a>		|	<a href="/event/endlist">종료된 이벤트</a></b>
 	</div>
 	<table id="productList_T">
 			<c:choose>	
@@ -176,5 +176,4 @@ th, td {
 </div>
 
 <script>
-
 </script>

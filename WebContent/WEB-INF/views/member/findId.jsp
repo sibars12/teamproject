@@ -29,9 +29,29 @@
     
     <div class="form-group">        
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">FIND</button>
+        <button type="submit" id="submit" class="btn btn-default">FIND</button>
         <a href="home"><button type="button" class="btn btn-default">CANCEL</button></a>
       </div>
     </div>
 	
 </form>
+
+
+<script>
+
+// 빈칸 X
+$(document).ready(function(){
+	$("#submit").click(function(){
+		if($("#name").val().length==0){alert("이름을 입력하세요"); $("#name").focus(); return false;}
+		if($("#birth").val().length==0){alert("생년월일을 입력하세요"); $("#birth").focus(); return false;}
+		if($("#tel").val().length==0){alert("전화번호를 입력하세요"); $("#tel").focus(); return false;}
+	})
+})
+
+
+</script>
+
+
+
+
+
