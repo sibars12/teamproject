@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,6 +119,7 @@ public class MemberController {
 	@PostMapping("/session")
 	public String postLoginHandle(@RequestParam Map map, HttpSession session, ModelMap mMap) throws SQLException {
 		try {
+			
 			Map m = memberDao.login(map);
 			session.setAttribute("auth", m.get("ID")); // 대문자 ID로 할 것!!
 			session.setAttribute("cartCnt", shoppingDao.getCartCnt((String)m.get("ID")));
