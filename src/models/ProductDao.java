@@ -26,6 +26,9 @@ public class ProductDao {
 	public List<Map> getProductInfo(String ownernumber){
 		return sql.selectList("product.getProductInfo", ownernumber);
 	}
+	public Map getPro(String ownernumber){
+		return sql.selectOne("product.getPro", ownernumber);
+	}	
 	public int getProductPage(Map map) {
 		return sql.selectOne("product.getProductPage", map);
 	}

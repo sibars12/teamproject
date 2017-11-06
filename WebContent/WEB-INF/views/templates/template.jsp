@@ -118,8 +118,11 @@
 		<div style="min-height: 130;"></div>
 		<div class="container text-center">
 			<div class="row content">
-				<div class="col-sm-12 text-left">
+				<div class="col-sm-11 text-left">
 					<t:insertAttribute name="section" />
+				</div>
+				<div class="col-sm-1 text-left">
+					<t:insertAttribute name="remote" />
 				</div>
 			</div>
 		</div>
