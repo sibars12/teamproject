@@ -6,6 +6,7 @@
 		<put-attribute name="title" value="team"/>
 		<put-attribute name="header" value="/WEB-INF/views/templates/header.jsp"/>
 		<put-attribute name="nav" value="/WEB-INF/views/templates/nav.jsp"/>
+		<put-attribute name="remote" value="/WEB-INF/views/remote/recentView.jsp"/>
 		<put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp"/>
 	</definition>
 	<definition name="t_expr" extends="t_base">

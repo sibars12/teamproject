@@ -53,8 +53,7 @@
 	    			<tr>
 		    			<th>우편번호</th>
 		    			<td><input type="text" class="form-control" id="postcode" name="postcode" placeholder="우편번호" 
-		    				value="${recent.POSTCODE }"	required>
-		    				<button type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
+		    				value="${recent.POSTCODE }"	required><button type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
 		    			</td>
 		    		</tr>
 		    		<tr>	    		
@@ -124,7 +123,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th colspan="2">적립 포인트  :<p id="point"></p></th>
+					<th colspan="2">적립 예정 포인트  :<p id="point"></p></th>
 					<input type="hidden" id="addPoint" name="addPoint" value="${points }">
 				</tr>							
 			</table>		
@@ -308,7 +307,7 @@ $("#delPoint_B").click(function(){
 function printPayment(){
 	$("#lastPay").html(totPrice);
 	$("#payment").val(totPrice);
-	var point = parseInt(totPrice)*0.05;
+	var point = Math.floor(parseInt(totPrice)*0.05);
 	$("#point").html(point);
 	$("#addPoint").val(point);
 	console.log("payment:"+$("#payment").val());

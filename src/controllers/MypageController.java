@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.CouponDao;
+import models.ShoppingDao;
 import models.inquire_Dao;
 import models.return_Dao;
 
@@ -23,6 +24,8 @@ public class MypageController {
 	inquire_Dao inquireDao;
 	@Autowired
 	return_Dao returnDao;
+	@Autowired
+	ShoppingDao shoppingDao;
 	
 	@RequestMapping("/index")
 	public ModelAndView IndexHandler() {
@@ -125,4 +128,33 @@ public class MypageController {
 		mav.addObject("section", "mypage/board");
 		return mav;
 	}
+	@RequestMapping("/order")
+	public ModelAndView OrderHandler(@RequestParam(required=false) Map map,
+			HttpSession session) {
+		ModelAndView mav = new ModelAndView("t_expr");
+		System.out.println(map);
+		mav.addObject("section", "mypage/order");
+		if(map.isEmpty()) {
+			map.put("id", session.getAttribute("auth"));
+			List list = shoppingDao.getOrderNoDateList(map);
+			mav.addObject("list", list);
+		}else {
+			map.put("id", session.getAttribute("auth"));
+			List list = shoppingDao.getOrderDateList(map);
+			mav.addObject("list", list);
+		}
+		return mav;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
