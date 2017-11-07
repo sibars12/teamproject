@@ -134,8 +134,10 @@ th, td {
 			</div>
 			<!-- 상품 후기  -->
 			<div id="menu2" class="tab-pane fade">
-				<div>			
+				<div>
+					<c:if test="${!empty auth }">			
 					<p>
+					
 					<label for="reviewWriter_I"> 작성자 </label>
 					<input type="text" class="form-control" id="reviewWriter_I" name="reviewWriter_I" placeholder="작성자" >
 					<input type="hidden" id="pname" value="${productInfo[0].NAME }">
@@ -157,6 +159,7 @@ th, td {
 					<div class="col-sm-12 form-group">
 						<button class="btn pull-right" type="submit" id="review_Submit">Send</button>
 					</div>
+					</c:if>
 				</div>
 				<div id="reviewList">
 					

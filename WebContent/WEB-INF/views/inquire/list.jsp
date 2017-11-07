@@ -94,7 +94,7 @@ th, td {
 
 
 <div class="w3-container">
-<div class="w3-bar">
+<div class="w3-bar" align="center">
  <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/inquire/list?page=${param.page-1 }&ownernumber=${param.ownernumber}">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>

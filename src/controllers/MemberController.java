@@ -1,13 +1,19 @@
 package controllers;
 
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+
 import javax.servlet.http.Cookie;
+
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +64,7 @@ public class MemberController {
 		try {
 			int r = memberDao.addMember(map);
 			// session.setAttribute("auth", map.get("id"));
+			
 			return "redirect:/member/login";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,14 +129,47 @@ public class MemberController {
 	}
 
 	@PostMapping("/session")
-	public String postLoginHandle(@RequestParam Map map, HttpSession session, ModelMap mMap) throws SQLException {
+	public String postLoginHandle(@RequestParam Map map, HttpSession session, ModelMap mMap ,HttpServletResponse response) throws SQLException {
 		try {
 			
 			Map m = memberDao.login(map);
+			if(map.get("keep")!=null) {
+					Cookie c = new Cookie("keep", (String) map.get("id"));
+					c.setPath("/");
+					c.setMaxAge(60*60*24*7);
+					response.addCookie(c);
+			}
 			session.setAttribute("auth", m.get("ID")); // 대문자 ID로 할 것!!
 			session.setAttribute("cartCnt", shoppingDao.getCartCnt((String)m.get("ID")));
 			System.out.println(shoppingDao.getCartCnt((String)m.get("ID")));
 			System.out.println(session.getAttribute("auth") + "님 로그인");
+			
+		// 포인트 적립함--------
+			List<Map> logList = shoppingDao.selectAfter10Log((String)m.get("ID"));
+			Map mem = memberDao.readDetail((String)m.get("ID"));
+			
+			int adds=0;
+			for(int i=0; i<logList.size(); i++ ){
+				System.out.println(logList.get(i).get("ADDPOINT"));
+				int a = ((BigDecimal) logList.get(i).get("ADDPOINT")).intValue();
+				adds += a;
+				System.out.println("addp"+adds);
+			}
+			
+			System.out.println("addPoint"+adds);
+			int mp = ((BigDecimal)mem.get("POINT")).intValue();
+			System.out.println("mp"+mp);
+			int result = mp+adds;
+			System.out.println("resultPoint"+result);
+			
+			Map pointMap = new HashMap();
+			pointMap.put("id",(String)m.get("ID")); 
+			pointMap.put("resultPoint", result);
+			shoppingDao.updatePoint(pointMap);			
+			shoppingDao.editPointLog((String)m.get("ID"));
+			
+		//------------------
+			
 			Map eventmap=new HashMap<>();
 			eventmap.put("start", "1");
 			eventmap.put("end", "4");
@@ -148,7 +188,11 @@ public class MemberController {
 
 	// logout
 	@GetMapping("/logout")
-	public String getLogoutHandle(HttpSession session) {
+	public String getLogoutHandle(HttpSession session ,HttpServletResponse response) {
+		Cookie c = new Cookie("keep", "");
+		c.setPath("/");
+		c.setMaxAge(0);
+		response.addCookie(c);
 		System.out.println(session.getAttribute("auth") + "님 로그아웃");
 		session.invalidate();
 		return "redirect:/member/logoutOk";

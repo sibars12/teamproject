@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div class="container">
+
 	<h3>후기 관리</h3>
 	<div id="search_Div">
 		<select id="schMode">
@@ -59,7 +59,7 @@
 		<c:if test="${endPage%5==0 && pageCount>endPage }"><a class="w3-button" href="/master/reviewList_Master?page=${endPage+1 }">&raquo;</a></c:if>
 		<c:if test="${endPage%5!=0 && endPage==pageCount }"></c:if>
 	</div>
-</div>
+
 
 <script>
 // 전체 선택

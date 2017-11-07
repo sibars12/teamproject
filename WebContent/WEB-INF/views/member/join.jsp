@@ -33,10 +33,9 @@
 					id="checkEmail"></span><br />
 				<button type="button" id="en">Email 인증하기</button>
 				<span id="em"></span>
+				<input type="hidden" id="trcheck">
 			</div>
 		</div>
-</div>
-</div>
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
@@ -56,6 +55,7 @@ $(document).ready(function(){
 		if($("#pw").val().length==0){alert("비밀번호를 입력하세요"); $("#pw").focus(); return false;}
 		if($("#pw2").val().length==0){alert("비밀번호를 입력하세요"); $("#pw2").focus(); return false;}
 		if($("#email").val().length==0){alert("Email을 입력하세요"); $("#email").focus(); return false;}
+		if($("#trcheck").val().length==0){alert("이메일 인증이 완료되지 않았습니다."); $("#email").focus(); return false;}
 	})
 })
 
@@ -94,6 +94,38 @@ $(document).ready(function(){
 					if (this.responseText.trim() == "false") {
 						document.getElementById("checkEmail").innerHTML = "<b style=\"color:green\">사용가능 Email</b>"
 						//document.getElementById("sbt").disabled = "disabled";
+							document.getElementById("en").onclick=function(){
+							var email = document.getElementById("email").value;
+						var xhrr = new XMLHttpRequest();
+						xhrr.open("get", "/member/join/auth?email=" + email, false);
+						xhrr.onreadystatechange = function() {
+							if (this.readyState == 4) {
+								window.alert("<" + email + "> 로 인증번호가 전송되었습니다.");
+								document.getElementById("en").style.display = "none";
+							}
+						}
+						xhrr.send();
+						document.getElementById("em").innerHTML = "인증번호 : <input type=\"text\" id=\"cre\"><button type=\"button\" id=\"tr\">Email 인증하기</button>";
+						document.getElementById("tr").onclick = function() {
+							var xh = new XMLHttpRequest();
+							var ee = document.getElementById("cre").value;
+							xh.open("get", "/member/join/tre?tre=" + ee, false);
+							xh.onreadystatechange = function() {
+								if (this.readyState == 4) {
+									var obj = JSON.parse(this.responseText);
+									if (obj.tre) {
+										window.alert("인증이 확인되었습니다." + "\n"
+												+ "JOIN버튼을 누르면 로그인창으로 이동합니다.")
+												document.getElementById("trcheck").value="성공"
+									} else {
+										window.alert("인증 번호가 다릅니다.")
+									}
+								}
+							}
+							xh.send();
+						}
+							}
+					
 					} else {
 						document.getElementById("checkEmail").innerHTML = "<b style=\"color:red\">사용불가능 Email</b>"
 					}
@@ -138,6 +170,7 @@ $(document).ready(function(){
 					if (obj.tre) {
 						window.alert("인증이 확인되었습니다." + "\n"
 								+ "JOIN버튼을 누르면 로그인창으로 이동합니다.")
+								document.getElementById("trcheck").value="성공"
 					} else {
 						window.alert("인증 번호가 다릅니다.")
 					}

@@ -10,7 +10,7 @@
 		
 		<form action="/inquire/add" method="post" enctype="multipart/form-data">
 			<p>
-			<!-- 나중에 히든으로변경 -->
+			<!-- 나중에 히든으로변경 --> 
 			<input type="hidden" name="id"  value="${empty auth ? '비회원 ' : auth }">
 			</p>	
 			<p>
