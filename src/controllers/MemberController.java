@@ -168,7 +168,6 @@ public class MemberController {
 			shoppingDao.editPointLog((String)m.get("ID"));
 			
 		//------------------
-			
 			Map eventmap=new HashMap<>();
 			eventmap.put("start", "1");
 			eventmap.put("end", "4");
