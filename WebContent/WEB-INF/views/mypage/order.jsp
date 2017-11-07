@@ -57,7 +57,7 @@
 	 	<td style="padding-left: 10px;"><form action="/mypage/order" method="post" style="margin:0px;">
 	 		<input type="date" class="orderBox_I startDate" name="startdate"> ~ 
 	 		<input type="date" class="orderBox_I endDate">
-	 		<input type="hidden" class="endDateVal" name="enddate">
+	 		<input type="hidden" class="endDateVal" name="enddate"> <!-- 원활한 sql검색을 위해 표시된 endDate날보다 하루+1 되어있는 input -->
 	 		<input type="hidden" name="type" value="order">
 	 		<button class="orderBox_B w3-button w3-Indigo" style="font-size:14px!important;">조회</button>
 	 	</form></td>
@@ -117,6 +117,7 @@
 	</table>
 </div>
 <script>
+	// orderbox div변경하는 function
 	function openTab(evt, tabName) {
 	  var i, x, tablinks;
 	  x = document.getElementsByClassName("tab");
@@ -132,10 +133,12 @@
 	}
 	
 	$(document).ready(function(){
+		// 페이지 로딩시 enddate 오늘로 세팅
 		var today = new Date();
 		$(".endDate").val(changeDate(today));
 		endDateSet();
 		
+		// 날짜버튼 클릭했을 때 startdate 세팅
 		$(".orderBox_B").click(function(){
 			var date = new Date();
 			var text = $(this).text();
@@ -153,11 +156,13 @@
 			}
 		});
 		
+		// enddate 수동으로 세팅시 hidden input 변경
 		$(".endDate").change(function(){
 			endDateSet();
 		});
 	});
 	
+	// hidden input 변경하는 function
 	function endDateSet(){
 		var date = $(".endDate").val();
 		var dar = date.split("-");
@@ -167,6 +172,7 @@
 		$(".endDateVal").val(changeDate(newDate));
 	}
 	
+	// date형식을 string형식으로 바꾸는 function
 	function changeDate(date){
 		var year = date.getFullYear();
 		var month = date.getMonth()+1;
