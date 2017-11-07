@@ -307,7 +307,7 @@ $("#delPoint_B").click(function(){
 function printPayment(){
 	$("#lastPay").html(totPrice);
 	$("#payment").val(totPrice);
-	var point = parseInt(totPrice)*0.05;
+	var point = Math.floor(parseInt(totPrice)*0.05);
 	$("#point").html(point);
 	$("#addPoint").val(point);
 	console.log("payment:"+$("#payment").val());
