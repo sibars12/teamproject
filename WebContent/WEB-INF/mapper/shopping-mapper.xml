@@ -76,7 +76,10 @@
 		delete from coupon where id=#{id} and no=#{couponNo} 
 	</delete>
 	
-	
+		<!-- 상품 구매시 재고수량 변경 -->
+  	<update id="subStockVolum">
+  		update stock set volume= volume-#{stockCnt} where no=#{stockNo}
+  	</update>
 	
 
 </mapper>
