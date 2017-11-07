@@ -38,7 +38,7 @@
 	</filter>
 	
 	
-	<filter-mapping>
+	<filter-mapping> 
 		<filter-name>log</filter-name>
 		<url-pattern>/shopping/*</url-pattern>
 		<url-pattern>/mypage/*</url-pattern>

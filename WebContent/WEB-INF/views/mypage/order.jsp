@@ -37,7 +37,7 @@
 	.orderBox_I{
 		width: 140px;
 		height: 27px;
-		font-size: 13;
+		font-size: 13; 
 	}
 </style>
 <div class="orderBox_D container">
