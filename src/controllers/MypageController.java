@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.CouponDao;
+import models.ShoppingDao;
 import models.inquire_Dao;
 import models.return_Dao;
 
@@ -23,6 +24,9 @@ public class MypageController {
 	inquire_Dao inquireDao;
 	@Autowired
 	return_Dao returnDao;
+	@Autowired
+	ShoppingDao shoppingDao;
+	
 	
 	@RequestMapping("/index")
 	public ModelAndView IndexHandler() {
@@ -125,10 +129,17 @@ public class MypageController {
 		mav.addObject("section", "mypage/board");
 		return mav;
 	}
-	@RequestMapping("/order")
-	public ModelAndView orderhandel() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("section" , "mypage/order");
-		return mav;
-	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

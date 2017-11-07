@@ -123,7 +123,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th colspan="2">적립 포인트  :<p id="point"></p></th>
+					<th colspan="2">적립 예정 포인트  :<p id="point"></p></th>
 					<input type="hidden" id="addPoint" name="addPoint" value="${points }">
 				</tr>							
 			</table>		
