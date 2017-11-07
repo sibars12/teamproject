@@ -55,7 +55,7 @@ th, td {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div class="w3-container">
-<div class="w3-bar">
+<div class="w3-bar" align="center">
  <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/return/list?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>

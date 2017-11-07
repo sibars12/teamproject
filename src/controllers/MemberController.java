@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,9 +126,15 @@ public class MemberController {
 	}
 
 	@PostMapping("/session")
-	public String postLoginHandle(@RequestParam Map map, HttpSession session, ModelMap mMap) throws SQLException {
+	public String postLoginHandle(@RequestParam Map map, HttpSession session, ModelMap mMap ,HttpServletResponse response) throws SQLException {
 		try {
 			Map m = memberDao.login(map);
+			if(map.get("keep")!=null) {
+					Cookie c = new Cookie("keep", (String) map.get("id"));
+					c.setPath("/");
+					c.setMaxAge(60*60*24*7);
+					response.addCookie(c);
+			}
 			session.setAttribute("auth", m.get("ID")); // 대문자 ID로 할 것!!
 			session.setAttribute("cartCnt", shoppingDao.getCartCnt((String)m.get("ID")));
 			System.out.println(shoppingDao.getCartCnt((String)m.get("ID")));
@@ -175,7 +184,11 @@ public class MemberController {
 
 	// logout
 	@GetMapping("/logout")
-	public String getLogoutHandle(HttpSession session) {
+	public String getLogoutHandle(HttpSession session ,HttpServletResponse response) {
+		Cookie c = new Cookie("keep", "");
+		c.setPath("/");
+		c.setMaxAge(0);
+		response.addCookie(c);
 		System.out.println(session.getAttribute("auth") + "님 로그아웃");
 		session.invalidate();
 		return "redirect:/member/logoutOk";

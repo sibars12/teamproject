@@ -82,7 +82,7 @@ th, td {
 	<button id="inmsbt" class="plist_B">체크된 목록 삭제</button>
 
 <div class="w3-container">
-<div class="w3-bar">
+<div class="w3-bar" align="center">
  <c:if test="${param.page gt 1 }"><a  class="w3-button" href="/master/inquirelist?page=${param.page-1 }">&laquo;</a></c:if>
   <c:forEach var="i" begin="1" end="${size}" varStatus="vs">
 			<c:choose>
