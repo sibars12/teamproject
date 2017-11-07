@@ -35,7 +35,7 @@
 		font-size: 20;
 	}
 	.orderBox_I{
-		width: 130px;
+		width: 140px;
 		height: 27px;
 		font-size: 13;
 	}
@@ -45,7 +45,7 @@
 	
 	 <div class="w3-bar w3-Blue-Gray">
 	   <button class="w3-bar-item w3-button tablink w3-red" onclick="openTab(event,'order')">주문내역조회</button>
-	   <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'cancel')">취소/반품/교환내역</button>
+	   <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'cancel')">반품내역조회</button>
 	 </div>
 	 
 	 <div id="order" class="w3-container w3-border tab" style="padding: 25 20!important">
@@ -55,17 +55,30 @@
 	 	<button class="orderBox_B w3-button w3-black w3-hover-red w3-tiny">1개월</button>
 	 	<button class="orderBox_B w3-button w3-black w3-hover-red w3-tiny">3개월</button></td>
 	 	<td style="padding-left: 10px;"><form action="/mypage/order" method="post" style="margin:0px;">
-	 		<input type="date" class="orderBox_I startDate" name="sdate"> ~ 
-	 		<input type="date" class="orderBox_I endDate" name="edate">
+	 		<input type="date" class="orderBox_I startDate" name="startdate"> ~ 
+	 		<input type="date" class="orderBox_I endDate">
+	 		<input type="hidden" class="endDateVal" name="enddate">
+	 		<input type="hidden" name="type" value="order">
 	 		<button class="orderBox_B w3-button w3-Indigo" style="font-size:14px!important;">조회</button>
 	 	</form></td>
 	 	</tr>
 	 	</table>
 	 </div>
 	
-	 <div id="cancel" class="w3-container w3-border tab" style="display:none">
-	   <h2>Paris</h2>
-	   <p>Paris is the capital of France.</p> 
+	 <div id="cancel" class="w3-container w3-border tab" style="display:none; padding: 25 20!important;">
+	   <table><tr height="60"><td>
+	 	<button class="orderBox_B w3-button w3-black w3-hover-red w3-tiny">오늘</button>
+	 	<button class="orderBox_B w3-button w3-black w3-hover-red w3-tiny">1주일</button>
+	 	<button class="orderBox_B w3-button w3-black w3-hover-red w3-tiny">1개월</button>
+	 	<button class="orderBox_B w3-button w3-black w3-hover-red w3-tiny">3개월</button></td>
+	 	<td style="padding-left: 10px;"><form action="/mypage/order" method="post" style="margin:0px;">
+	 		<input type="date" class="orderBox_I startDate" name="sdate"> ~ 
+	 		<input type="date" class="orderBox_I endDate" name="edate">
+	 		<input type="hidden" name="type" value="reorder">
+	 		<button class="w3-button w3-Indigo" style="font-size:14px!important;">조회</button>
+	 	</form></td>
+	 	</tr>
+	 	</table>
 	 </div>
 </div>
 <div class="orderTable_D container" align="center">
@@ -74,11 +87,10 @@
 			<td class="orderTable_Td" width="120">주문번호</td>
 			<td class="orderTable_Td" width="100">주문일자</td>
 			<td class="orderTable_Td" width="90">이미지</td>
-			<td class="orderTable_Td" width="400">상품정보</td>
+			<td class="orderTable_Td" width="300">상품정보</td>
 			<td class="orderTable_Td" width="100">수량</td>
 			<td class="orderTable_Td" width="100">상품구매금액</td>
-			<td class="orderTable_Td" width="100">주문처리상태</td>
-			<td class="orderTable_Td" width="120">취소/교환/환불</td>
+			<td class="orderTable_Td" width="120">반품</td>
 		</tr>
 		<tbody style="font-size: 12px;">
 			<c:choose>
@@ -87,12 +99,11 @@
 						<tr>
 							<td class="orderTable_Td">${obj.NUM}</td>
 							<td class="orderTable_Td">${obj.ORDERDATE}</td>
-							<td class="orderTable_Td">${obj.IMAG}</td>
+							<td class="orderTable_Td"><img width="80" src="/images/product/${obj.IMAG}"></td>
 							<td class="orderTable_Td">${obj.NAME}</td>
 							<td class="orderTable_Td">${obj.CNT}</td>
 							<td class="orderTable_Td">${obj.PRICE}</td>
-							<td class="orderTable_Td"></td>
-							<td class="orderTable_Td"><button>취/교/환</button></td>
+							<td class="orderTable_Td"><a href="/return/list?page=1"><button>반품</button></a></td>
 						</tr>
 					</c:forEach>
 				</c:when>
@@ -123,20 +134,38 @@
 	$(document).ready(function(){
 		var today = new Date();
 		$(".endDate").val(changeDate(today));
+		endDateSet();
 		
 		$(".orderBox_B").click(function(){
 			var date = new Date();
 			var text = $(this).text();
 			if(text=="1주일"){
 				date.setDate(date.getDate()-7);
+				$(".startDate").val(changeDate(date));
 			}else if(text=="1개월"){
 				date.setMonth(date.getMonth()-1);
+				$(".startDate").val(changeDate(date));
 			}else if(text=="3개월"){
 				date.setMonth(date.getMonth()-3);
+				$(".startDate").val(changeDate(date));
+			}else if(text=="오늘"){
+				$(".startDate").val(changeDate(date));
 			}
-			$(".startDate").val(changeDate(date));
+		});
+		
+		$(".endDate").change(function(){
+			endDateSet();
 		});
 	});
+	
+	function endDateSet(){
+		var date = $(".endDate").val();
+		var dar = date.split("-");
+		dar[1]=dar[1]*1-1;
+		var newDate = new Date(dar[0], dar[1], dar[2]);
+		newDate.setDate(newDate.getDate()+1);
+		$(".endDateVal").val(changeDate(newDate));
+	}
 	
 	function changeDate(date){
 		var year = date.getFullYear();

@@ -30,7 +30,7 @@
 	</select>
 	<!-- ===================================================================== -->
 	<select id="inlist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-	select * from (select rownum r, a.* from (select * from event  where STartdate &lt;= SYSDATE and ENDDATE &gt;= SYSDATE order by num desc) a) where r between #{start} and #{end}
+	select * from (select rownum r, a.* from (select * from event  where STartdate &lt;= SYSDATE and ENDDATE &gt;= SYSDATE order by STARTDATE asc) a) where r between #{start} and #{end}
 	</select>
 	<select id="inall" resultType="java.lang.Integer">
 		select count(*) FROM event where startdate &lt;= SYSDATE and ENDDATE &gt;= SYSDATE

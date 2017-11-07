@@ -35,10 +35,10 @@
 	</insert>
 	<!-- 결제정보 테이블 -->
 	<insert id="addPayment">
-	insert into payment (paymentno,id,purchaseno,type,kind,installment,totprice,delivery,pointpay,coupon,payment,paymentdate)
+	insert into payment (paymentno,id,purchaseno,type,kind,installment,totprice,delivery,pointpay,addpoint,coupon,payment,paymentdate)
 	values
 	(payment_seq.nextval,#{id},#{purchaseNo},#{type},#{kind},#{installment,jdbcType=NUMERIC},#{totPrice},
-	#{delivery},#{payPoint,jdbcType=NUMERIC},#{coupon,jdbcType=NUMERIC},#{payment},sysdate)
+	#{delivery},#{payPoint,jdbcType=NUMERIC},#{addPoint},#{coupon,jdbcType=NUMERIC},#{payment},sysdate)
 	</insert>
 	
 	<!-- 회원 정보&쿠폰&최근결제정뵤 가져오기-->
@@ -52,10 +52,25 @@
 		select * from (select rownum r, a.* from (select * from purchase where id=#{id} order by orderdate desc) a ) where r=1
 	</select>
 	
+	<!-- 포인트 로그 -->
+	<insert id="addPointLog">
+		insert into pointlog values(pointlog_seq.nextval,#{id},#{purchaseNo},#{payPoint},#{addPoint},sysdate,'N',#{payment})
+	</insert>
+	<delete id="delPointLog">
+		delete from pointlog where paymentno=#{paymentNo}
+	</delete>
+	<update id="editPointLog">
+		update pointlog set adding='Y' where id=#{id}
+	</update> 
+	<select id="selectAfter10Log" resultType="java.util.Map">
+		select * from(select p.*, sysdate-p.logdate as gab from pointlog p where id=#{id}) where gab>10 and adding='N'
+	</select>
+	
 	<!-- 포인트 변경 -->
 	<update id="updatePoint">
 		update detail set point=#{resultPoint} where id=#{id}
 	</update>
+	
 	<!-- 쿠폰 삭제 -->
 	<delete id="deletePayCoupon">
 		delete from coupon where id=#{id} and no=#{couponNo} 
@@ -68,7 +83,7 @@
 	</select>
 	<select id="getOrderDateList" resultType="java.util.HashMap">
 		select t1.*,pr.imag, pr.name as name from (select o.purchaseno as num, o.stockcnt as cnt, o.sotckprice as price,o.ownernumber, p.orderdate  from orderinfo o 
-		left join purchase p on o.PURCHASENO = p.PURCHASENO where p.id=#{id} and (p.orderdate <![CDATA[>=]]> #{edate}) and (p.orderdate <![CDATA[<=]]> #{sdate})) t1 left join product pr 
+		left join purchase p on o.PURCHASENO = p.PURCHASENO where p.id=#{id} and (p.orderdate <![CDATA[>=]]> #{startdate}) and (p.orderdate <![CDATA[<=]]> #{enddate})) t1 left join product pr 
 		on t1.ownernumber = pr.ownernumber
 	</select>
 </mapper>

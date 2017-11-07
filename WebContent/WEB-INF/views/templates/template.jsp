@@ -116,10 +116,15 @@
 			</nav>
 		</div>
 		<div style="min-height: 130;"></div>
-		<div class="container text-center">
-			<div class="row content">
-				<div class="col-sm-12 text-left">
+		<div class="container-fluid text-center">
+			<div class="row container-fluid">
+				<div class="col-sm-2 text-left">
+				</div>
+				<div class="col-sm-8 text-left">
 					<t:insertAttribute name="section" />
+				</div>
+				<div class="col-sm-2 text-left">
+					<t:insertAttribute name="remote" />
 				</div>
 			</div>
 		</div>

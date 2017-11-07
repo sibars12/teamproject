@@ -65,4 +65,17 @@ public class ShoppingDao {
 	public List getOrderDateList(Map map) {
 		return sql.selectList("shopping.getOrderDateList", map);
 	}
+	public int addPointLog(Map map) {
+		return sql.insert("shopping.addPointLog", map);		
+	}
+	public int delPointLog(String paymentNo){
+		return sql.delete("shopping.delPointLog", paymentNo);
+	}
+	public int editPointLog(String id){
+		return sql.update("shopping.editPointLog", id);
+	}
+	public List<Map> selectAfter10Log(String id){
+		return sql.selectList("shopping.selectAfter10Log", id);
+	}
+ 
 }
