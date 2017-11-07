@@ -76,6 +76,11 @@
 		delete from coupon where id=#{id} and no=#{couponNo} 
 	</delete>
 	
+		<!-- 상품 구매시 재고수량 변경 -->
+  	<update id="subStockVolum">
+  		update stock set volume= volume-#{stockCnt} where no=#{stockNo}
+  	</update>
+	
 <!-- Order페이지 -->
 	<select id="getOrderNoDateList" resultType="java.util.HashMap">
 		select t1.*,pr.imag, pr.name as name from (select o.purchaseno as num, o.stockcnt as cnt, o.sotckprice as price,o.ownernumber, p.orderdate  from orderinfo o 
@@ -86,4 +91,5 @@
 		left join purchase p on o.PURCHASENO = p.PURCHASENO where p.id=#{id} and (p.orderdate <![CDATA[>=]]> #{startdate}) and (p.orderdate <![CDATA[<=]]> #{enddate})) t1 left join product pr 
 		on t1.ownernumber = pr.ownernumber
 	</select>
+
 </mapper>
