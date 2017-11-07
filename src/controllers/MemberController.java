@@ -63,7 +63,6 @@ public class MemberController {
 	public String postJoinHandle(@RequestParam Map map, ModelMap mMap, HttpSession session) {
 		try {
 			int r = memberDao.addMember(map);
-			// session.setAttribute("auth", map.get("id"));
 			
 			return "redirect:/member/login";
 		} catch (Exception e) {
@@ -263,34 +262,35 @@ public class MemberController {
 	
 	// findPwRst (아이디, 이메일 입력 후 회원이면 다음페이지로 넘기고 회원이 아니면 에러페이지 보여주기)
 	@PostMapping("/findPwRst")
-	public String postFindPwRstHandle(@RequestParam Map pmap, Map map) {
+	public ModelAndView postFindPwRstHandle(@RequestParam Map pmap, Map map) {
+		ModelAndView mav = new ModelAndView("t_expr");
 		String pw = memberDao.findPw(pmap);				//일치하는 pw값 가져옴
 		if(pw != null) {								//pw가 있을 때 = 회원일 떄
-			map.put("findPw", pw);
-			map.put("section", "member/findRePw");
-			return "t_expr";
+			mav.addObject("findPw", pw);
+			mav.addObject("section", "member/findRePw");
+			mav.addObject("id", pmap.get("id"));
+			return mav;
 		} else {										//회원이 아닐 때
-			map.put("section", "member/findPwReturn");
-			return "t_expr";
+			mav.addObject("section", "member/findPwReturn");
+			return mav;
 		}
 	}
 	
 	// findRePw(비밀번호 재설정)
 	@PostMapping("/findRePw")
-	public String postFindRePwHandle(@RequestParam Map pmap, Map map) {
-		
-		String id = memberDao.pickId(pmap);				//pw값에 대응하는 id 가져오기
-		map.put("pickId", id);
-		map.put("section", "member/findRePw");
-		return "t_expr";
+	public ModelAndView postFindRePwHandle(@RequestParam Map pmap, Map map) {
+		ModelAndView mav = new ModelAndView("t_expr");
+		mav.addObject("section", "member/findRePw");
+		mav.addObject("id", pmap.get("id"));
+		return mav;
 	}
 	
 	// findPwOk(비밀번호 재설정 완료)
 	@PostMapping("/findPwOk")
 	public String postFindPwOkHandle(@RequestParam Map pmap, Map map) {
-		String pw = memberDao.newPw(pmap);
+		int pw = memberDao.newPw(pmap);
 		try {
-			map.put("newPw", pw);
+			map.put("newPw", pmap.get("pw2"));
 			map.put("section", "member/findPwOk");
 		return "t_expr";
 		} catch(Exception e) {
