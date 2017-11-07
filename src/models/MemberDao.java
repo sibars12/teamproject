@@ -35,7 +35,7 @@ public class MemberDao {
 	// login
 	public Map login(Map map) {
 		return template.selectOne("member.login",map);
-	}
+	}	
 	
 	// 개인정보 읽어오기
 	public Map readDetail(String id) {
@@ -63,10 +63,15 @@ public class MemberDao {
 		return template.selectOne("member.findPw", map);
 	}
 	
+	// 비밀번호 찾기 시 비밀번호에 해당하는 아이디 출력
+	public String pickId(Map map) {
+		return template.selectOne("member.pickId", map);
+	}
+	
+	
 	// 비밀번호 찾기 새비밀번호 설정
 	public int newPw(Map map) {
-		int r = template.update("member.newPw",map);
-		return r;
+		return template.update("member.newPw",map);
 	}
 	
 

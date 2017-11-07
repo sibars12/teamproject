@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<form action="find" method="get">
+<form action="findPw" method="get">
 	<div>
 		<h1>비밀번호 찾기</h1>
 		<hr>

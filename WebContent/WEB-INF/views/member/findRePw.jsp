@@ -8,6 +8,8 @@
 	* 새로운 비밀번호를 입력해주세요<br/>
 	
 	<form class="form-horizontal" action="/member/findPwOk" method="post">
+	
+	<input type="hidden" name="id" value="${id}">
 
 	<div class="form-group">
 		<label class="control-label col-sm-2" for="pw">Password : </label>
@@ -24,6 +26,7 @@
 			</div>
 		</div>
 	</form>
+	`
 </div>
 
 <script>

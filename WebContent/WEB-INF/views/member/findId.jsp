@@ -21,11 +21,11 @@
     </div>
     
     <div class="form-group">
-      <label class="control-label col-sm-2" for="tel">Tel : </label> 
-      <div class="col-sm-5">          
-        <input type="text" class="form-control" id="tel" name="tel">
-      </div>
-    </div>
+			<label class="control-label col-sm-2" for="email">Email : </label>
+			<div class="col-sm-7">
+				<input type="email" class="form-control" id="email" placeholder="Enter Email" name="email"> 
+			</div>
+		</div>
     
     <div class="form-group">        
       <div class="col-sm-offset-2 col-sm-10">
@@ -44,7 +44,7 @@ $(document).ready(function(){
 	$("#submit").click(function(){
 		if($("#name").val().length==0){alert("이름을 입력하세요"); $("#name").focus(); return false;}
 		if($("#birth").val().length==0){alert("생년월일을 입력하세요"); $("#birth").focus(); return false;}
-		if($("#tel").val().length==0){alert("전화번호를 입력하세요"); $("#tel").focus(); return false;}
+		if($("#email").val().length==0){alert("이메일을 입력하세요"); $("#email").focus(); return false;}
 	})
 })
 
