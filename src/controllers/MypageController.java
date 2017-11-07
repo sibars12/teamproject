@@ -128,6 +128,23 @@ public class MypageController {
 		mav.addObject("section", "mypage/board");
 		return mav;
 	}
+	@RequestMapping("/order")
+	public ModelAndView OrderHandler(@RequestParam(required=false) Map map,
+			HttpSession session) {
+		ModelAndView mav = new ModelAndView("t_expr");
+		System.out.println(map);
+		mav.addObject("section", "mypage/order");
+		if(map.isEmpty()) {
+			map.put("id", session.getAttribute("auth"));
+			List list = shoppingDao.getOrderNoDateList(map);
+			mav.addObject("list", list);
+		}else {
+			map.put("id", session.getAttribute("auth"));
+			List list = shoppingDao.getOrderDateList(map);
+			mav.addObject("list", list);
+		}
+		return mav;
+	}
 }
 
 
