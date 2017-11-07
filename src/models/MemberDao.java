@@ -17,7 +17,7 @@ public class MemberDao {
 		int r = 0;
 		r += template.insert("member.addMember",map);
 		r += template.insert("member.addDetail",map);
-		return r;
+		return r; 
 	}
 	
 	// id üũ
