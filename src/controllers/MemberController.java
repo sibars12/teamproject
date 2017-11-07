@@ -233,26 +233,27 @@ public class MemberController {
 	
 	// findRePw(비밀번호 재설정)
 	@PostMapping("/findRePw")
-	public String postFindRePwHandle(@RequestParam Map map, ModelMap mMap) {
-		//map.put("id", session.getAttribute("auth"));
+	public String postFindRePwHandle(@RequestParam Map pmap, Map map) {
 		
-		try {
-			int r = memberDao.newPw(map);
-			return "redirect:/member/findPwOk";
-		} catch(Exception e) {
-			e.printStackTrace();
-			return "recirect:/member/findPw";
-		}
-	
-		
-	}	
+		String id = memberDao.pickId(pmap);				//pw값에 대응하는 id 가져오기
+		map.put("pickId", id);
+		map.put("section", "member/findRePw");
+		return "t_expr";
+	}
 	
 	// findPwOk(비밀번호 재설정 완료)
 	@PostMapping("/findPwOk")
-	public String postFindPwOkHandle(Map map) {		
-		map.put("section", "member/findPwOk");
+	public String postFindPwOkHandle(@RequestParam Map pmap, Map map) {
+		String pw = memberDao.newPw(pmap);
+		try {
+			map.put("newPw", pw);
+			map.put("section", "member/findPwOk");
 		return "t_expr";
-	}
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "redirect:/member/findPw";
+		}
+	}	
 	
 	//비밀번호 변경
 	@GetMapping("/changePw")
