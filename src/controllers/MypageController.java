@@ -125,4 +125,10 @@ public class MypageController {
 		mav.addObject("section", "mypage/board");
 		return mav;
 	}
+	@RequestMapping("/order")
+	public ModelAndView orderhandel() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("section" , "mypage/order");
+		return mav;
+	}
 }

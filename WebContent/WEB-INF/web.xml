@@ -34,12 +34,14 @@
 		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>encode</filter-name>
-		<url-pattern>/*</url-pattern>
+		<filter-name>log</filter-name>
+		<url-pattern>/shopping/*</url-pattern>
+		<url-pattern>/mypage/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>auth</filter-name>
 		<url-pattern>/master/*</url-pattern>
+		<url-pattern>/stock/*</url-pattern>
 		
 	</filter-mapping>
 </web-app>

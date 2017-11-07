@@ -53,8 +53,7 @@
 	    			<tr>
 		    			<th>우편번호</th>
 		    			<td><input type="text" class="form-control" id="postcode" name="postcode" placeholder="우편번호" 
-		    				value="${recent.POSTCODE }"	required>
-		    				<button type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
+		    				value="${recent.POSTCODE }"	required><button type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
 		    			</td>
 		    		</tr>
 		    		<tr>	    		
