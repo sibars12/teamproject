@@ -27,7 +27,6 @@ public class MypageController {
 	@Autowired
 	ShoppingDao shoppingDao;
 	
-	
 	@RequestMapping("/index")
 	public ModelAndView IndexHandler() {
 		ModelAndView mav = new ModelAndView("t_expr");
@@ -130,7 +129,6 @@ public class MypageController {
 		return mav;
 	}
 }
-
 
 
 
