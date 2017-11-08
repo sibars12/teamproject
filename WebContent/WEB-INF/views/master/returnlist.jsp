@@ -5,19 +5,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <style>
-th {
-	border-bottom: 1px solid;
-	text-align: left;
-}
-th, td {
-	padding: 10px;
-}
+
 </style>
 <div align="center" style="line-height: 35px">
 
 	<h2>반품목록</h2>
 	<p align="right" style="margin-right: 30px;">
-		총 <b>${cnt }</b> 개의 반품 신청이 등록되어있습니다.
+	
 	</p>
 	<table style="width: 95%">
 		<thead>
@@ -33,6 +27,7 @@ th, td {
 		</thead>
 		<tbody>
 			<c:forEach var="obj" items="${list }">
+			<c:if test="${'반품대기' eq obj.RETURN }">
 				<tr class="gavan">
 					<td class="gaven">
 						<a> <input class="returncb" type="checkbox" value="${obj.NUM}"></a>
@@ -46,6 +41,7 @@ th, td {
 					<td class="gaven">${obj.NAME }</td>
 					<td class="gaven"><a href="/master/returnY?no=${obj.NO }"><button type="button">반품승인</button></a></td>
 				</tr>
+				</c:if>
 			</c:forEach>
 		</tbody>
 	</table>

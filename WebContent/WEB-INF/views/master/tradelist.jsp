@@ -26,6 +26,8 @@
 		</thead>
 		<tbody>
 			<c:forEach var="obj" items="${list }">
+				
+				
 				<tr class="gavan">
 							<td class="gaven">${obj.NUM}</td>
 							<td class="gaven">${obj.ORDERDATE}</td>
@@ -35,6 +37,7 @@
 							<td class="gaven">${obj.PRICE}</td>
 							<td class="gaven">${obj.RETURN}</td>
 				</tr>
+				
 			</c:forEach>
 		</tbody>
 	</table>

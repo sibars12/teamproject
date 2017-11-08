@@ -16,7 +16,7 @@
   	delete from return where num=#{num}
   	</insert>
   	<select id="allist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-	select * from (select rownum r, a.* from (select * from return order by num desc) a) where r between #{start} and #{end}
+	select * from (select rownum r, a.* from (select r.* ,o.return from return r left outer join orderinfo o on r.no = o.no)a) where r between #{start} and #{end}
 	</select>
 	<select id="all" resultType="java.lang.Integer">
 		select count(*) FROM return num
@@ -38,5 +38,8 @@
 	</select>
 	<insert id="wite" parameterType="java.lang.String">
   	update orderinfo set return='반품대기' where no =#{no}
+  	</insert>
+  	<insert id="ret" parameterType="java.lang.String">
+  	update orderinfo set return='반품됨' where no =#{no}
   	</insert>
   </mapper>

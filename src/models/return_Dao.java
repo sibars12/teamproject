@@ -65,4 +65,8 @@ public class return_Dao {
 		int d= template.insert("return.wite",no);
 		return d==1;
 	}
+	public boolean ret(String no) {
+		int d= template.insert("return.ret",no);
+		return d==1;
+	}
 }
