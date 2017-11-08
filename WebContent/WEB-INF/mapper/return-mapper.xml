@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="return">
   	<insert id="add" parameterType="java.util.HashMap">
-  		insert into return values(return_seq.nextval,#{title}, #{content},SYSDATE,#{writer} , '답글대기중...' , SYSDATE)
+  		insert into return values(return_seq.nextval,#{title}, #{content},SYSDATE,#{writer} , '답글대기중...' , SYSDATE ,#{name},#{no})
   	</insert>
   	<select id="list" resultType="java.util.HashMap">
   			select * from return num order by num DESC
@@ -36,4 +36,7 @@
 	<select id="uesrlist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 	select * from (select rownum r, a.* from (select * from return  where WRITER = #{auth} order by num desc) a) where r between #{start} and #{end}
 	</select>
+	<insert id="wite" parameterType="java.lang.String">
+  	update orderinfo set return='반품대기' where no =#{no}
+  	</insert>
   </mapper>

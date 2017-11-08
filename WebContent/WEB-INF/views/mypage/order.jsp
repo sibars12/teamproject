@@ -103,7 +103,7 @@
 							<td class="orderTable_Td">${obj.NAME}</td>
 							<td class="orderTable_Td">${obj.CNT}</td>
 							<td class="orderTable_Td">${obj.PRICE}</td>
-							<td class="orderTable_Td"><a href="/return/list?page=1"><button>반품</button></a></td>
+							<td class="orderTable_Td"><a href="/return/add?name=${obj.NAME}&no=${obj.NO}"><button>반품</button></a></td>
 						</tr>
 					</c:forEach>
 				</c:when>

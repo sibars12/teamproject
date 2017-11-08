@@ -61,4 +61,8 @@ public class return_Dao {
 	public List<Map> uesrlist(Map map) {
 		return template.selectList("return.uesrlist" , map);
 	}
+	public boolean wite(String no) {
+		int d= template.insert("return.wite",no);
+		return d==1;
+	}
 }

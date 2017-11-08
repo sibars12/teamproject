@@ -31,7 +31,7 @@
 	<!-- orderInfo -->
 	<insert id="addOrderInfo">
 		insert into orderinfo values
-		 (orderinfo_seq.nextval,#{purchaseNo},#{ownernumber},#{stockNo},#{stockCnt},#{stockPrice},#{return,jdbcType=VARCHAR})
+		 (orderinfo_seq.nextval,#{purchaseNo},#{ownernumber},#{stockNo},#{stockCnt},#{stockPrice},'구매')
 	</insert>
 	<!-- 결제정보 테이블 -->
 	<insert id="addPayment">
@@ -83,13 +83,20 @@
 	
 <!-- Order페이지 -->
 	<select id="getOrderNoDateList" resultType="java.util.HashMap">
-		select t1.*,pr.imag, pr.name as name from (select o.purchaseno as num, o.stockcnt as cnt, o.sotckprice as price,o.ownernumber, p.orderdate  from orderinfo o 
+		select t1.*,pr.imag, pr.name as name from (select o.purchaseno as num, o.stockcnt as cnt, o.sotckprice as price,o.ownernumber, p.orderdate ,o.no  from orderinfo o 
 		left join purchase p on o.PURCHASENO = p.PURCHASENO where p.id=#{id}) t1 left join product pr on t1.ownernumber = pr.ownernumber
 	</select>
 	<select id="getOrderDateList" resultType="java.util.HashMap">
-		select t1.*,pr.imag, pr.name as name from (select o.purchaseno as num, o.stockcnt as cnt, o.sotckprice as price,o.ownernumber, p.orderdate  from orderinfo o 
+		select t1.*,pr.imag, pr.name as name from (select o.purchaseno as num, o.stockcnt as cnt, o.sotckprice as price,o.ownernumber, p.orderdate ,o.no from orderinfo o 
 		left join purchase p on o.PURCHASENO = p.PURCHASENO where p.id=#{id} and (p.orderdate <![CDATA[>=]]> #{startdate}) and (p.orderdate <![CDATA[<=]]> #{enddate})) t1 left join product pr 
 		on t1.ownernumber = pr.ownernumber
+	</select>
+	<select id="tradeList" resultType="java.util.HashMap">
+	select * from(select rownum ro ,t1.*,pr.imag, pr.name as name from (select o.purchaseno as num, o.stockcnt as cnt, o.sotckprice as price,o.ownernumber, p.orderdate,o.return  from orderinfo o 
+		left join purchase p on o.PURCHASENO = p.PURCHASENO ) t1 left join product pr on t1.ownernumber = pr.ownernumber order by num asc) where ro between #{start} and #{end}
+	</select>
+	<select id="tradeall" resultType="java.lang.Integer">
+		select count(*) FROM orderinfo num
 	</select>
 
 </mapper>

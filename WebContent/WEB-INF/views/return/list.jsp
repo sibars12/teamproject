@@ -4,15 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<style>
-th {
-	border-bottom: 1px solid;
-	text-align: left;
-}
-th, td {
-	padding: 10px;
-}
-</style>
 <div align="center" style="line-height: 35px">
 
 	<h2>반품 신청 목록</h2>
@@ -21,33 +12,34 @@ th, td {
 	</p>
 	<table style="width: 95%">
 		<thead>
-			<tr>
+			<tr class="gavan">
 				
-				<th style="width: 40%">글제목</th>
-				<th style="width: 20%">작성자</th>
-				<th style="width: 20%">작성일</th>
+				<th class="gaven" style="width: 40%">글제목</th>
+				<th class="gaven" style="width: 20%">작성자</th>
+				<th class="gaven" style="width: 20%">작성일</th>
+				<th class="gaven" style="width: 20%">상품명</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="obj" items="${list }">
-				<tr>
-					<td>
+			
+				<tr class="gavan">
+					<td class="gaven">
 						<c:if test="${obj.WRITER eq auth }">
 						<a href="/return/view?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
 						</c:if>
 						<c:if test="${obj.WRITER ne auth }">
-						<a>비밀글 입니다.<span class="glyphicon glyphicon-lock"></span></span></a>
+						<a>비밀글 입니다.<span class="glyphicon glyphicon-lock"></span></a>
 						</c:if>
 					</td>
-					<td>${obj.WRITER }</td>
-					<td>${obj.WRITEDATE }</td>
-					
+					<td class="gaven">${obj.WRITER }</td>
+					<td class="gaven">${obj.WRITEDATE }</td>
+					<td class="gaven">${obj.NAME }</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	<c:if test="${!empty auth }">
-	<a href="/return/add"><button type="button">반품 신청</button></a>
 	</c:if>
 	<p align="right" style="margin-right: 30px;">
 	</p>

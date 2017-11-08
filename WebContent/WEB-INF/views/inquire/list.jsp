@@ -4,15 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<style>
-th {
-	border-bottom: 1px solid;
-	text-align: left;
-}
-th, td {
-	padding: 10px;
-}
-</style>
+
 <div align="center" style="line-height: 35px">
 
 	<h2>문의</h2>
@@ -21,21 +13,21 @@ th, td {
 	</p>
 	<div class="w3-container">
 		<table class="w3-table-all w3-margin-top" >
-		<tr>
-		<th style="width: 20%;">아이디</th>
-		<th style="width: 20%;">이름</th>
-		<th style="width: 40%;">문의 내용</th>
-		<th style="width: 20%;">문의한 날자</th>
+		<tr class="gavan">
+		<th class="gaven" style="width: 20%;">아이디</th>
+		<th class="gaven" style="width: 20%;">이름</th>
+		<th class="gaven" style="width: 40%;">문의 내용</th>
+		<th class="gaven" style="width: 20%;">문의한 날자</th>
 		</tr>
 		<c:forEach var="obj" items="${list }" >
-		<tr>
-					<td>
+		<tr class="gavan">
+					<td class="gaven">
 					<p>${obj.ID }</p>
 					</td>
-					<td>
+					<td class="gaven">
 					<p>${obj.NAME }</p>
 					</td>
-					<td>
+					<td class="gaven">
 					<button onclick="inquire('memo${obj.NUM}')"
 							class="w3-btn w3-block w3-Lime w3-left-align">
 							${obj.CONTENT }
@@ -50,7 +42,7 @@ th, td {
 							<button id="del${obj.NUM }" disabled="disabled" type="button">삭제</button></a>
 						</div>
 						</td>
-						<td><p><fmt:formatDate
+						<td class="gaven"><p><fmt:formatDate
 							pattern="yyyy.MM.dd " value="${obj.INDATE }" /></p></td>
 				</tr>
 		</c:forEach>

@@ -6,6 +6,13 @@
 <head>
 
 <style>
+.gavan {
+	border-bottom: 1px solid;
+	text-align: left;
+}
+.gaven {
+	padding: 10px;
+}
 @font-face {
 	font-family: "IropkeBatangM";
 	src: url('/fonts/IropkeBatangM.eot');

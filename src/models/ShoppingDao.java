@@ -124,5 +124,11 @@ public class ShoppingDao {
 				
 		return true;
 	}
+	public List<Map> tradelist(Map map){
+		return sql.selectList("shopping.tradeList", map);
+	}
+	public int tradeall() {
+		return sql.selectOne("shopping.tradeall");
+	}
  
 }
