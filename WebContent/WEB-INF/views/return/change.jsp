@@ -15,6 +15,9 @@
 			<input type="hidden" name="num" value="${num }">
 			</p>
 			<p>
+			<b>상품명:</b><br/><input type="text" value="${name }" disabled="disabled">
+			</p>
+			<p>
 				<b>반품 제목</b><br /> <input type="text" name="title"
 					placeholder="반품 제목" value="${title }" autocomplete="off"
 					style="width: 100%;" required />

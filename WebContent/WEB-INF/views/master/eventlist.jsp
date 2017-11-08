@@ -4,15 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<style>
-th {
-	border-bottom: 1px solid;
-	text-align: left;
-}
-th, td {
-	padding: 10px;
-}
-</style>
 <div align="center" style="line-height: 35px">
 
 	<h2>이벤트</h2>
@@ -21,32 +12,32 @@ th, td {
 	</p>
 	<table style="width: 95%">
 		<thead>
-			<tr>
-				<th style="width: 10%">삭제 체크<input id="eventallcb" type="checkbox"></th>
-				<th style="width: 40%">이벤트 목록</th>
-				<th style="width: 20%">시작일</th>
-				<th style="width: 20%">마감일</th>
+			<tr class="gavan">
+				<th class="gaven" style="width: 10%">삭제 체크<input id="eventallcb" type="checkbox"></th>
+				<th class="gaven" style="width: 40%">이벤트 목록</th>
+				<th class="gaven" style="width: 20%">시작일</th>
+				<th class="gaven" style="width: 20%">마감일</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="obj" items="${list }">
-				<tr>
-					<td>
+				<tr class="gavan">
+					<td class="gaven">
 						<a> <input class="eventcb" type="checkbox" value="${obj.NUM}"></a>
 					</td>
-					<td>
+					<td class="gaven">
 					
 						<a href="/master/eventview?num=${obj.NUM}&page=${param.page}"><img width="100" height="100" src="/event/eventimg/${obj.EVENTIMG }"></a>
 					</td>
-					<td>
+					<td class="gaven">
 						<p><fmt:formatDate
 							pattern="yyyy.MM.dd " value="${obj.STARTDATE }" /></p>
 					</td>
-					<td>
+					<td class="gaven">
 						<p><fmt:formatDate
 							pattern="yyyy.MM.dd " value="${obj.ENDDATE }" /></p>
 					</td>
-				</tr>
+				</tr >
 			</c:forEach>
 		</tbody>
 	</table>

@@ -96,6 +96,7 @@ public class retrun_Controller {
 	public ModelAndView noticeaddHandle(@RequestParam Map map, 	HttpServletRequest request, HttpSession session) throws SQLException, IllegalStateException, IOException {
 		ModelAndView mav = new ModelAndView();
 		boolean a = returnDao.add(map);
+		boolean b = returnDao.wite((String)map.get("no"));
 		mav.setViewName("t_return");
 		if (a == true) {
 			int size = returnDao.all();
@@ -127,6 +128,7 @@ public class retrun_Controller {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("t_return");
+		mav.addObject("name",list.get(0).get("NAME"));
 		mav.addObject("num", list.get(0).get("NUM"));
 		mav.addObject("title", list.get(0).get("TITLE"));
 		mav.addObject("content", list.get(0).get("CONTENT"));
@@ -211,7 +213,7 @@ public class retrun_Controller {
 			List<Map> li = returnDao.list();
 			mav.addObject("list", li);
 			mav.addObject("cnt", li.size());
-			mav.addObject("section", "return/masterlist");
+			mav.addObject("section", "return/list");
 
 		} else {
 			List<Map> list = returnDao.read(num);
