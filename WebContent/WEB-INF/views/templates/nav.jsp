@@ -48,7 +48,7 @@
 		<a class="menu_A" href="/master/reviewList_Master">REVIEW</a>
 		<a class="menu_A" href="/master/addProduct">ADDPRO</a>
 		<a class="menu_A" href="/mypage/makecoupon">COUPON</a>
-		<a class="menu_A" href="/master/tradelist">유저 거래 내역</a>
+		<a class="menu_A" href="/master/tradelist">USERTRADE</a>
 		<a class="menu_A" href="/stock/addStock">STOCK</a>
 		</c:if>
 		
