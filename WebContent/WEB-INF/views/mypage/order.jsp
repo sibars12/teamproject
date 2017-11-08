@@ -40,7 +40,7 @@
 		font-size: 13; 
 	}
 </style>
-<div class="orderBox_D container">
+
 	 <div class="orderTitle_D">Order</div>
 	
 	 <div class="w3-bar w3-Blue-Gray">
@@ -80,8 +80,11 @@
 	 	</tr>
 	 	</table>
 	 </div>
-</div>
-<div class="orderTable_D container" align="center">
+	 <div>
+	 	<br>
+	 </div>
+
+
 	<table id="orderTable_T">
 		<tr id="orderTableHead_Tr">
 			<td class="orderTable_Td" width="120">주문번호</td>
@@ -115,7 +118,7 @@
 			</c:choose>
 		</tbody>
 	</table>
-</div>
+
 <script>
 	// orderbox div변경하는 function
 	function openTab(evt, tabName) {

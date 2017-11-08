@@ -81,7 +81,6 @@ $(document).ready(function(){
 		if($("#tel").val().length==0){alert("전화번호를 입력하세요"); $("#tel").focus(); return false;}
 		if($("#postcode").val().length==0){alert("우편번호를 입력하세요"); $("#postcode").focus(); return false;}
 		if($("#addr1").val().length==0){alert("주소를 입력하세요"); $("#addr1").focus(); return false;}
-		if($("#addr2").val().length==0){alert("상세주소를 입력하세요"); $("#addr2").focus(); return false;}
 	})
 })
 

@@ -125,9 +125,9 @@
 		<div style="min-height: 130;"></div>
 		<div class="container-fluid text-center">
 			<div class="row container-fluid">
-				<div class="col-sm-2 text-left">
+				<div class="col-sm-1 text-left">
 				</div>
-				<div class="col-sm-8 text-left">
+				<div class="col-sm-9 text-left">
 					<t:insertAttribute name="section" />
 				</div>
 				<div class="col-sm-2 text-left">
