@@ -174,7 +174,7 @@ public class MemberController {
 			List<Map> eventlist=eventDao.inlist(eventmap);
 			mMap.addAttribute("eventlist" , eventlist);
 			mMap.addAttribute("section", "home");
-			return "t_expr";
+			return "redirect:/index";
 
 		} catch (Exception e) {
 			mMap.addAttribute("temp", map);
