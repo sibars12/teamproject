@@ -35,25 +35,28 @@
 </style>
 <div id="nav_D" class="row content">
 	<div id="mainTitle_D" class="col-sm-5 text-left">
-		<a href="/" class="title_A">F O R P Y</a>
+		<a href="/" class="title_A"><img src="/images/logo.jpg" class="img-rounded" width="50%"></a>
 	</div>
 	<div id="menu_D" class="col-sm-7 text-right">
 		<a class="menu_A" href="/product/list">PRODUCT</a>
 		<c:if test="${'master' eq auth }">
 		<a class="menu_A" href="/master/eventlist">EVENT</a>
-		<a class="menu_A" href="/master/QnAlist">QnA</a>
+		<a class="menu_A" href="/master/QnAlist">QnA</a> 
 		<a class="menu_A" href="/master/noticelist">NOTICE</a>
 		<a class="menu_A" href="/master/inquirelist">INQUIRE</a>
 		<a class="menu_A" href="/master/returnlist">RETURN</a>
 		<a class="menu_A" href="/master/reviewList_Master">REVIEW</a>
 		<a class="menu_A" href="/master/addProduct">ADDPRO</a>
+		<a class="menu_A" href="/mypage/makecoupon">COUPON</a>
+		<a class="menu_A" href="/master/tradelist">USERTRADE</a>
+		<a class="menu_A" href="/stock/addStock">STOCK</a>
 		</c:if>
+		
 		<c:if test="${'master' ne auth}">
 		<a class="menu_A" href="/event/list?page=1">EVENT</a>
 		<a class="menu_A" href="/QnA/list?page=1">QnA</a>
 		<a class="menu_A" href="/notice/list?page=1">NOTICE</a>
 		<a class="menu_A" href="/return/list?page=1">RETURN</a>
 		</c:if>
-		<c:if test="${auth eq 'master' }"><a class="menu_A" href="/stock/addStock">STOCK</a></c:if>
 	</div>
 </div>

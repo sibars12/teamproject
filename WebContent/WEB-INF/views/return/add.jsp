@@ -10,13 +10,10 @@
 		
 		<form action="/return/add" method="post" enctype="multipart/form-data">
 			<p>
-			<select id="coupon">
-						<option>쿠폰선택</option>
-						<c:forEach var="i" items="${purchaseno}">	
-							<option  value="${i.PURCHASENO }"  title="${i.NO }" >${i.PURCHASENO }</option>
-						</c:forEach>
-						</select>
-						</p>
+			<b>상품명:</b><br/><input type="text" value="${param.name }" disabled="disabled">
+			<input type="hidden" name="name" value="${param.name }">
+			</p>
+			<p><input type="hidden" name="no" value="${param.no }"></p>
 			<p>
 				<b>제목</b><br /> <input type="text"  name="title" placeholder="반품 신청 제목"
 					autocomplete="off" style="width: 100%;" required/>

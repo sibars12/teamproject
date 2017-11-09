@@ -5,13 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <style>
-th {
-	border-bottom: 1px solid;
-	text-align: left;
-}
-th, td {
-	padding: 10px;
-}
+
 </style>
 <div align="center" style="line-height: 35px">
 
@@ -21,23 +15,23 @@ th, td {
 	</p>
 	<table style="width: 95%">
 		<thead>
-			<tr>
-				<th style="width: 10%">삭제 체크<input id="noticeallcb" type="checkbox"></th>
-				<th style="width: 40%">글제목</th>
-				<th style="width: 20%">작성자</th>
+			<tr class="gavan">
+				<th class="gaven" style="width: 10%">삭제 체크<input id="noticeallcb" type="checkbox"></th>
+				<th class="gaven" style="width: 40%">글제목</th>
+				<th class="gaven" style="width: 20%">작성자</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="obj" items="${list }">
-				<tr>
-					<td>
+				<tr class="gavan">
+					<td class="gaven">
 						<a> <input class="noticecb" type="checkbox" value="${obj.NUM}"></a>
 					</td>
-					<td>
+					<td class="gaven">
 					
 						<a href="/master/noticeview?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 30) } </a>
 					</td>
-					<td>${obj.MASTER }</td>
+					<td class="gaven">${obj.MASTER }</td>
 				</tr>
 			</c:forEach>
 		</tbody>

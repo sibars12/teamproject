@@ -86,7 +86,7 @@
 				<td width="100">등록</td>
 			</tr>
 			</thead>
-			<tbody>
+			<tbody id="bbb">
 			<c:forEach var="obj" items="${list }">
 				<tr align="center">
 					<td class="productOwnernumber">${obj.OWNERNUMBER}</td>
@@ -147,7 +147,7 @@
 		});
 		$(".page_A").click(function(){ // 페이지 이동할 때 테이블 세팅하는 함수
 			var pageNum = $(this).text();
-			$.get("/product/getPageList", {"page":pageNum}, function(data){
+			$.get("/master/getPageList", {"page":pageNum}, function(data){
 				makeTableHtml(data);
 			});
 		});
@@ -267,7 +267,7 @@
 					+ "<td>"+(data[idx].SUBNAME==null ? '' : data[idx].SUBNAME)+"</td>"
 					+ "<td class=\"productRegist\">"+(data[idx].REGIST==null ? "N" : data[idx].REGIST)+"</td></tr>";
 		}
-		$("tbody").html(html);
+		$("#bbb").html(html);
 		select_F();
 	}
 </script>

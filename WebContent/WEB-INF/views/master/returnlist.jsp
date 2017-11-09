@@ -5,43 +5,43 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <style>
-th {
-	border-bottom: 1px solid;
-	text-align: left;
-}
-th, td {
-	padding: 10px;
-}
+
 </style>
 <div align="center" style="line-height: 35px">
 
 	<h2>반품목록</h2>
 	<p align="right" style="margin-right: 30px;">
-		총 <b>${cnt }</b> 개의 반품 신청이 등록되어있습니다.
+	
 	</p>
 	<table style="width: 95%">
 		<thead>
-			<tr>
-				<th style="width: 10%">삭제 체크<input id="returnallcb" type="checkbox"></th>
-				<th style="width: 40%">글제목</th>
-				<th style="width: 10%">작성자</th>
-				<th style="width: 20%">작성일</th>
+			<tr class="gavan">
+				<th class="gaven" style="width: 10%">삭제 체크<input id="returnallcb" type="checkbox"></th>
+				<th class="gaven" style="width: 30%">글제목</th>
+				<th class="gaven" style="width: 10%">작성자</th>
+				<th class="gaven" style="width: 20%">작성일</th>
+				<th class="gaven" style="width: 20%">상품명</th>
+				<th class="gaven" style="width: 20%">반품승인</th>
 			
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="obj" items="${list }">
-				<tr>
-					<td>
+			<c:if test="${'반품대기' eq obj.RETURN }">
+				<tr class="gavan">
+					<td class="gaven">
 						<a> <input class="returncb" type="checkbox" value="${obj.NUM}"></a>
 					</td>
-					<td>
+					<td class="gaven">
 					
 						<a href="/master/returnview?num=${obj.NUM}&page=${param.page}">${fn:substring(obj.TITLE, 0, 12) } </a>
 					</td>
-					<td>${obj.WRITER }</td>
-					<td>${obj.WRITEDATE }</td>
+					<td class="gaven">${obj.WRITER }</td>
+					<td class="gaven">${obj.WRITEDATE }</td>
+					<td class="gaven">${obj.NAME }</td>
+					<td class="gaven"><a href="/master/returnY?no=${obj.NO }"><button type="button">반품승인</button></a></td>
 				</tr>
+				</c:if>
 			</c:forEach>
 		</tbody>
 	</table>
@@ -89,9 +89,9 @@ $(document).ready(function(){
 			$.get("/master/returncheckdel",{"dnum":dnum},function(data){
 				if(data=="YY"){
 					alert("삭제되었습니다");
+			location.href="/master/returnlist";
 				}
 			});
-			location.href="/master/returnlist";
 		}
 	}
 	})

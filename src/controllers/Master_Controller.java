@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.ProductDao;
 import models.QnA_Dao;
+import models.ShoppingDao;
 import models.StockDao;
 import models.event_Dao;
 import models.inquire_Dao;
@@ -56,6 +57,8 @@ public class Master_Controller {
 	StockDao stockDao;
 	@Autowired
 	ObjectMapper mapper;
+	@Autowired
+	ShoppingDao shoppingDao;
 	
 	@RequestMapping("/noticelist")
 	public ModelAndView noticemsListHandle(@RequestParam(name="page" , defaultValue="1")int page) throws SQLException {
@@ -869,5 +872,38 @@ public class Master_Controller {
 			r = productDao.updateProduct(param);
 			if(r==1){return "redirect:/master/addProduct";}
 			else{return "redirect:/product/list";}
+		}
+		@RequestMapping("/tradelist")
+		public ModelAndView tradeHandler(@RequestParam(name="page" , defaultValue="1")int page) {
+			int size=shoppingDao.tradeall();
+			Map a=new HashMap();
+			a.put("start", (page*10)-9);
+			a.put("end", page*10);
+			double c=(size/5.0);
+			int cc=size/10;
+			if(c-cc>0) {
+				cc+=1;
+			}
+			if(page>cc)
+				page = cc;
+			if(page <=0) 
+				page = 1;
+			ModelAndView mav = new ModelAndView("t_expr");
+			List<Map> list=shoppingDao.tradelist(a);
+			mav.addObject("cnt", size);
+			mav.addObject("size" , cc);
+			mav.addObject("list" , list);
+			mav.addObject("section","master/tradelist");
+			return mav;
+				
+
+		}
+		@RequestMapping("/returnY")
+		public ModelAndView returnYHandler(@RequestParam String no) {
+			ModelAndView mav = new ModelAndView("t_expr");
+			returnDao.ret(no);
+			mav.addObject("section", "master/tradelist");
+			return mav;
+			
 		}
 }

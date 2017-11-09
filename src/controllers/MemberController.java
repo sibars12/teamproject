@@ -168,17 +168,17 @@ public class MemberController {
 			shoppingDao.editPointLog((String)m.get("ID"));
 			
 		//------------------
-			
 			Map eventmap=new HashMap<>();
 			eventmap.put("start", "1");
 			eventmap.put("end", "4");
 			List<Map> eventlist=eventDao.inlist(eventmap);
 			mMap.addAttribute("eventlist" , eventlist);
 			mMap.addAttribute("section", "home");
-			return "t_expr";
+			return "redirect:/index";
 
 		} catch (Exception e) {
 			mMap.addAttribute("temp", map);
+			mMap.addAttribute("fal", "fal");
 			mMap.addAttribute("section", "member/login");
 			e.printStackTrace();
 			return "t_expr";
