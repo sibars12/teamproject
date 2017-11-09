@@ -203,7 +203,7 @@
 					
 					$("#pre").attr("src",src);
 					$("#pre").attr("alt","상품이미지");
-					//$(".note-editable").children("p").html(obj.CONTENTS);
+					$(".note-editable").children("p").html(obj.CONTENTS);
 					$("#summernote").summernote('code',obj.CONTENTS);
 					$("#edit_B").prop("disabled",false);
 				});
