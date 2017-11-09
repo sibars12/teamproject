@@ -148,25 +148,26 @@ public class MemberController {
 			Map mem = memberDao.readDetail((String)m.get("ID"));
 			
 			int adds=0;
-			for(int i=0; i<logList.size(); i++ ){
-				System.out.println(logList.get(i).get("ADDPOINT"));
-				int a = ((BigDecimal) logList.get(i).get("ADDPOINT")).intValue();
-				adds += a;
-				System.out.println("addp"+adds);
+			if(logList.size()!=0){
+				for(int i=0; i<logList.size(); i++ ){
+					System.out.println(logList.get(i).get("ADDPOINT"));
+					int a = ((BigDecimal) logList.get(i).get("ADDPOINT")).intValue();
+					adds += a;
+					System.out.println("addp"+adds);
+				}
+				
+				System.out.println("addPoint"+adds);
+				int mp = ((BigDecimal)mem.get("POINT")).intValue();
+				System.out.println("mp"+mp);
+				int result = mp+adds;
+				System.out.println("resultPoint"+result);
+				
+				Map pointMap = new HashMap();
+				pointMap.put("id",(String)m.get("ID")); 
+				pointMap.put("resultPoint", result);
+				shoppingDao.updatePoint(pointMap);			
+				shoppingDao.editPointLog((String)m.get("ID"));
 			}
-			
-			System.out.println("addPoint"+adds);
-			int mp = ((BigDecimal)mem.get("POINT")).intValue();
-			System.out.println("mp"+mp);
-			int result = mp+adds;
-			System.out.println("resultPoint"+result);
-			
-			Map pointMap = new HashMap();
-			pointMap.put("id",(String)m.get("ID")); 
-			pointMap.put("resultPoint", result);
-			shoppingDao.updatePoint(pointMap);			
-			shoppingDao.editPointLog((String)m.get("ID"));
-			
 		//------------------
 			Map eventmap=new HashMap<>();
 			eventmap.put("start", "1");
