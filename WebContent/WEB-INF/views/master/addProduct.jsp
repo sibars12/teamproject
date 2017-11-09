@@ -147,7 +147,7 @@
 		});
 		$(".page_A").click(function(){ // 페이지 이동할 때 테이블 세팅하는 함수
 			var pageNum = $(this).text();
-			$.get("/product/getPageList", {"page":pageNum}, function(data){
+			$.get("/master/getPageList", {"page":pageNum}, function(data){
 				makeTableHtml(data);
 			});
 		});
