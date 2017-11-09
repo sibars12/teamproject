@@ -3,6 +3,7 @@
 
 <div >
   <h2>LOGIN</h2>
+  <input id="logch" type="hidden" value="${fal }">
   <hr>
   <form class="form-horizontal" action="/member/session" method="post">
   
@@ -49,6 +50,16 @@
 			
 		}
 	}
+	
+	$(document).ready(function(){
+		
+		var log=document.getElementById("logch").value;
+		if(log=="fal"){
+			window.alert("아이디나 비밀번호가 일치하지 않습니다.");
+		}
+		
+		
+	});
 </script>
 
 
