@@ -231,11 +231,21 @@ $("#coupon").change(function(){
 			$("#couponDiscount").val(0);
 		});
 	}
+<<<<<<< HEAD
 	
 	$("#delCoupon_B").off("click");
 	   $("#payCoupon_B").off("click");
+=======
+	$("#delCoupon_B").off("click");
+	$("#payCoupon_B").off("click");
+	
+>>>>>>> branch 'master' of https://github.com/sibars12/teamproject.git
 	//쿠폰적용 
 		$("#payCoupon_B").click(function(){
+			if(totPrice==0){
+				window.alert("쿠폰을 적용할 금액이 없습니다.");
+				return;
+			}
 			$("#delCoupon_B").attr("disabled",false);			
 			cou_cnt=1;
 			coupon = parseInt($("#coupon option:selected").val());
@@ -243,7 +253,7 @@ $("#coupon").change(function(){
 			$("#payCoupon_B").attr("disabled",true);
 			console.log($("#coupon option:selected").attr("title"));
 			$("#couponNo").val($("#coupon option:selected").attr("title"));
-			$("#couponDiscount").val(coupon);
+			$("#couponDiscount").val(coupon); 
 			totPrice -= parseInt(coupon);
 			printPayment();
 		});
@@ -252,7 +262,15 @@ $("#coupon").change(function(){
 			cou_cnt = 0;
 			console.log("쿠폰가격"+coupon);
 			console.log("cnt:"+cou_cnt);
-			totPrice += coupon;
+			var tot = ${totPrice};
+			var total = parseInt(tot)+parseInt($("#delivery").val());
+			console.log("tot"+total);
+			if(coupon>total){
+				totPrice = total;
+			}
+			else{
+				totPrice += coupon;
+			}
 			printPayment();
 			$("#delCoupon_B").attr("disabled",true);
 			$("#payCoupon_B").attr("disabled",false);
@@ -283,9 +301,13 @@ $("#payPoint_B").click(function(){
 		window.alert("적용할 포인트를 바르게 입력해주세요");
 		return;
 	}
+	if($("#payPoint").val()>totPrice){
+		window.alert("사용하신 포인트가 구매 금액보다 큽니다.");
+		payPoint = totPrice;
+	}
 		console.log("사용포인트"+payPoint);
 		po_cnt=1;
-		totPrice -= paypoint;
+		totPrice -= paypoint; 
 		printPayment();
 		$("#delPoint_B").attr("disabled",false);
 	
@@ -300,6 +322,13 @@ $("#delPoint_B").click(function(){
 	if(po_cnt==1){
 		console.log("취소포인트"+paypoint);
 		po_cnt=0;
+		
+		var tot = ${totPrice};
+		var total = parseInt(tot)+parseInt($("#delivery").val());
+		console.log("tot"+total);
+		if(totPrice==0){
+			paypoint=total;
+		}
 		totPrice += paypoint;
 		printPayment();
 		paypoint=0;
@@ -309,6 +338,9 @@ $("#delPoint_B").click(function(){
 
 //최종 결제 금액
 function printPayment(){
+	if(totPrice<=0){
+		totPrice=0;
+	}
 	$("#lastPay").html(totPrice);
 	$("#payment").val(totPrice);
 	var point = Math.floor(parseInt(totPrice)*0.05);

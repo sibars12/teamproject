@@ -98,7 +98,7 @@
 									<td class="price_Td cart_Td">${list[idx].PRICE}</td>
 									<td class="vol_Td cart_Td">
 										<button type="button" class="volminus_B w3-button w3-black w3-hover-black w3-padding-small w3-tiny">-</button>
-										<input type="text" name="stockCnt" class="cartVol_I" value="${list[idx].VOLUME }">
+										<input type="number" name="stockCnt" class="cartVol_I" value="${list[idx].VOLUME }" min="1">
 										<button type="button" class="volplus_B w3-button w3-black w3-hover-black w3-padding-small w3-tiny">+</button>
 										<input type="hidden" name="stockNo" value="${list[idx].NUM }">
 									</td>
@@ -169,7 +169,7 @@
 		});
 		$(".volminus_B").click(function(){
 			var num = $(this).next().val();
-			if(num!=0)
+			if(num!=1)
 				num--;
 			$(this).next().val(num);
 			totalPrice();
