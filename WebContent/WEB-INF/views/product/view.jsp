@@ -230,13 +230,23 @@ function print() {
 }
 print();
 
+$("#stockCnt").change(function(){
+	if($("#stockCnt").val()>=${productInfo[0].VOLUME}){
+		window.alert("최대수량입니다.");
+		$("#stockCnt").val(${productInfo[0].VOLUME});		
+	}
+	var price = ${productInfo[0].PRICE }*$("#stockCnt").val();
+	$("#priceA_Span").html(price+"원");
+	print();
+});
+
 //수량 minus
 $("#minusA_B").click(function(){
 	if(parseInt($("#stockCnt").val()) > 1){	
 		$("#stockCnt").val(parseInt($("#stockCnt").val())-1); 
 		var n = $("#stockCnt").val();
 		var price = ${productInfo[0].PRICE }*n;
-		$("#priceA_Span").html("<b>"+price+"원</b>");
+		$("#priceA_Span").html(price+"원");
 		$("#stockPrice").val(price);
 		print();
 	}
@@ -279,13 +289,13 @@ $("#color_Select").change(function(){
 		$("#color_Select option:selected").prop("disabled",true);
 		// 선택된 옵션 표기
 		console.log(optionValue);
-		var selectOption="<p>";
+		var selectOption="<p id=\"pp\">";
 		selectOption += "<label >"+data+"</label>";
 		selectOption += "&nbsp;&nbsp;<button type=\"button\" class=\"minus_B\">-</button>";
-		selectOption += "<input type=\"number\" name=\"stockCnt\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
+		selectOption += "<input class=\"stockCnt_B\" type=\"number\" name=\"stockCnt\" style=\"width: 40px;\" value=\"1\" min=\"1\" />";
 		selectOption += "<button type=\"button\" class=\"plus_B\">+</button>";
 		selectOption += "&nbsp;<button type=\"button\" class=\"remove_B\">X</button>";
-		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"</span>";
+		selectOption += "&nbsp;&nbsp;<span class=\"price_Span\">"+${productInfo[0].PRICE }+"원</span>";
 		selectOption += "<input type=\"hidden\" name=\"stockNo\" value=\""+optionValue+"\">";
 		selectOption += "<input type=\"hidden\" name=\"stockPrice\" value=\""+${productInfo[0].PRICE }+"\"></p>";
 		$("#select_Span").append(selectOption);
@@ -297,6 +307,7 @@ $("#color_Select").change(function(){
 		$(".minus_B").off("click"); 
 		$(".plus_B").off("click");
 		$(".remove_B").off("click");
+		$(".stockCnt_B").off("click"); 
 		
 		//수량 minus
 		$(".minus_B").click(function(){
@@ -304,7 +315,7 @@ $("#color_Select").change(function(){
 				$(this).next().val(parseInt($(this).next().val())-1);
 				var n = parseInt($(this).next().val());
 				var price = ${productInfo[0].PRICE }*n;
-				$(this).next().next().next().next().html(price);
+				$(this).next().next().next().next().html(price+"원");
 				$(this).next().next().next().next().next().next().val(price);
 				total-=${productInfo[0].PRICE };
 				print();
@@ -321,7 +332,7 @@ $("#color_Select").change(function(){
 				$(this).prev().val(maxVolume);
 				var n = parseInt($(this).prev().val());
 				var price = ${productInfo[0].PRICE }*n;
-				$(this).next().next().html(price);
+				$(this).next().next().html(price+"원");
 				$(this).next().next().next().next().val(price);
 			}
 			else{
@@ -329,7 +340,7 @@ $("#color_Select").change(function(){
 				console.log($(this).prev().val());	
 				var n = parseInt($(this).prev().val());
 				var price = ${productInfo[0].PRICE }*n;
-				$(this).next().next().html(price);
+				$(this).next().next().html(price+"원");
 				$(this).next().next().next().next().val(price);
 				total+=${productInfo[0].PRICE };
 			}
@@ -346,6 +357,46 @@ $("#color_Select").change(function(){
 			$(this).parent().remove();
 			cnt--;
 			console.log(cnt);
+			print();
+		});
+		$(".stockCnt_B").change(function(){
+			console.log($(this).val());
+			var optionName = $(this).prev().prev().text();
+			maxVolume = $("#"+optionName).attr("title");
+			if(parseInt($(this).val())>= parseInt(maxVolume))	{
+				window.alert("최대수량입니다.");
+				$(this).val(maxVolume);
+				var n = parseInt($(this).val());
+				var price = ${productInfo[0].PRICE }*n;
+				$(this).next().next().next().html(price+"원");
+				$(this).next().next().next().next().next().val(price);
+				var s = $(".price_Span").text();
+				var ss = s.split('원');
+				var t=0;
+				for(var i in ss){
+					var a =ss[i];
+					t += Number(a);
+				}
+				console.log(typeof t);
+				console.log("t"+t);
+				total = parseInt(t);
+			}			
+			else{
+			var price = ${productInfo[0].PRICE }*$(this).val();
+			$(".priceA_Span").html(price+"원");
+			$(this).next().next().next().html(price+"원");
+			$(this).next().next().next().next().next().val(price);
+			var s = $(".price_Span").text();
+			var ss = s.split('원');
+			var t=0;
+			for(var i in ss){
+				var a =ss[i];
+				t += Number(a);
+			}
+			console.log(typeof t);
+			console.log("t"+t);
+			total = parseInt(t);
+			}
 			print();
 		});
 	}
