@@ -94,6 +94,7 @@
 			<td class="orderTable_Td" width="100">수량</td>
 			<td class="orderTable_Td" width="100">상품구매금액</td>
 			<td class="orderTable_Td" width="120">반품</td>
+			<td class="orderTable_Td" width="120">상태</td>
 		</tr>
 		<tbody style="font-size: 12px;">
 			<c:choose>
@@ -106,7 +107,8 @@
 							<td class="orderTable_Td">${obj.NAME}</td>
 							<td class="orderTable_Td">${obj.CNT}</td>
 							<td class="orderTable_Td">${obj.PRICE}</td>
-							<td class="orderTable_Td"><a href="/return/list?page=1"><button>반품</button></a></td>
+							<td class="orderTable_Td"><a href="/return/add?name=${obj.NAME}&no=${obj.NO}"><button>반품</button></a></td>
+							<td class="orderTable_Td">${obj.RETURN}</td>
 						</tr>
 					</c:forEach>
 				</c:when>

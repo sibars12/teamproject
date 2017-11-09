@@ -86,13 +86,7 @@
 	#nextPage_A:hover{
 		text-decoration: none;
 	}
-th {
-	border-bottom: 1px solid;
-	text-align: left;
-}
-th, td {
-	padding: 10px;
-}
+
 </style>
 
 <div align="center" style="line-height: 35px">
