@@ -98,7 +98,7 @@
 				<tr>
 					<td>보유포인트 : ${memInfo.POINT }</td>
 					<td>
-						<input type="number" id="payPoint" name="payPoint" placeholder="사용할 포인트" value="0">
+						<input type="number" id="payPoint" name="payPoint" placeholder="사용할 포인트" value="0" >
 						<button type="button"  id="payPoint_B">사용하기</button>&nbsp;
 						<button type="button"  id="delPoint_B" disabled>취소</button>
 					</td>
@@ -231,6 +231,9 @@ $("#coupon").change(function(){
 			$("#couponDiscount").val(0);
 		});
 	}
+	
+	$("#delCoupon_B").off("click");
+	   $("#payCoupon_B").off("click");
 	//쿠폰적용 
 		$("#payCoupon_B").click(function(){
 			$("#delCoupon_B").attr("disabled",false);			
@@ -290,6 +293,7 @@ $("#payPoint_B").click(function(){
 //포인트 사용취소
 $("#delPoint_B").click(function(){
 	if(po_cnt==0) {
+		
 		window.alert("적용된 포인트가 없습니다.");
 		return;
 	}
@@ -299,7 +303,7 @@ $("#delPoint_B").click(function(){
 		totPrice += paypoint;
 		printPayment();
 		paypoint=0;
-		$("#payPoint").val("");
+		$("#payPoint").val("0");
 	}
 });
 

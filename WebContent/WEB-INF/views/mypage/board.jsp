@@ -28,7 +28,7 @@
 					</td>
 					<td>
 					<button onclick="inquire('memo${obj.NUM}')"
-							class="w3-btn w3-block w3-black w3-left-align">
+							class="w3-btn w3-block w3-Lime w3-left-align">
 							${obj.CONTENT }
 							</button>
 						<div id="memo${obj.NUM}" class="w3-container w3-hide">

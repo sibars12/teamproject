@@ -50,6 +50,7 @@
 		<c:choose>
 			<c:when test="${!empty auth}">
 				<div id="head1_D" class="col-sm-4 text-left">
+					<b>${auth }님 환영합니다.</b> 
 					<a href="/member/myInfo" id="login_A" class="header_A">MY INFO</a>
 					<a href="/member/logout" id="join_A" class="header_A">LOGOUT</a>
 				</div>

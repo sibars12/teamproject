@@ -77,23 +77,23 @@
 <!-- 슬라이드 사진 -->
 <p class="pTitle_P">진행중인 이벤트</p>
 <div id="slide_D" class="w3-content" style="max-width:1200px;">
-<a href="/event/view?num=${eventlist[0].NUM }"><img class="mySlides" src="/event/eventimg/${eventlist[0].EVENTIMG}" style="width:1000px; height:400px;"></a>
-  <a href="/event/view?num=${eventlist[1].NUM }"><img class="mySlides" src="/event/eventimg/${eventlist[1].EVENTIMG}" style="width:1000px;height:400px;"></a>
-  <a href="/event/view?num=${eventlist[2].NUM }"><img class="mySlides" src="/event/eventimg/${eventlist[2].EVENTIMG}" style="width:1000px;height:400px;"></a>
-  <a href="/event/view?num=${eventlist[3].NUM }"><img class="mySlides" src="/event/eventimg/${eventlist[3].EVENTIMG}" style="width:1000px;height:400px; "></a>
+<a href="/event/view?num=${eventlist[0].NUM }"><img class="mySlides" src="/event/eventimg/${eventlist[0].EVENTIMG}" style="width:1150px; height:400px;"></a>
+  <a href="/event/view?num=${eventlist[1].NUM }"><img class="mySlides" src="/event/eventimg/${eventlist[1].EVENTIMG}" style="width:1150px;height:400px;"></a>
+  <a href="/event/view?num=${eventlist[2].NUM }"><img class="mySlides" src="/event/eventimg/${eventlist[2].EVENTIMG}" style="width:1150px;height:400px;"></a>
+  <a href="/event/view?num=${eventlist[3].NUM }"><img class="mySlides" src="/event/eventimg/${eventlist[3].EVENTIMG}" style="width:1150px;height:400px; "></a>
   <br/>
   <div class="w3-row-padding w3-sectiofn">
     <div class="w3-col s3">
-      <img class="demo w3-opacity w3-hover-opacity-off" src="/event/eventimg/${eventlist[0].EVENTIMG}" style="width:100%" onclick="currentDiv(1)">
+      <img class="demo w3-opacity w3-hover-opacity-off" src="/event/eventimg/${eventlist[0].EVENTIMG}" style="width:100%;height:130px;" onclick="currentDiv(1)">
     </div>
     <div class="w3-col s3">
-      <img class="demo w3-opacity w3-hover-opacity-off" src="/event/eventimg/${eventlist[1].EVENTIMG}" style="width:100%" onclick="currentDiv(2)">
+      <img class="demo w3-opacity w3-hover-opacity-off" src="/event/eventimg/${eventlist[1].EVENTIMG}" style="width:100%;height:130px;" onclick="currentDiv(2)">
     </div>
     <div class="w3-col s3">
-      <img class="demo w3-opacity w3-hover-opacity-off" src="/event/eventimg/${eventlist[2].EVENTIMG}" style="width:100%" onclick="currentDiv(3)">
+      <img class="demo w3-opacity w3-hover-opacity-off" src="/event/eventimg/${eventlist[2].EVENTIMG}" style="width:100%; height:130px;" onclick="currentDiv(3)">
     </div>
     <div class="w3-col s3">
-      <img class="demo w3-opacity w3-hover-opacity-off" src="/event/eventimg/${eventlist[3].EVENTIMG}" style="width:100%" onclick="currentDiv(4)">
+      <img class="demo w3-opacity w3-hover-opacity-off" src="/event/eventimg/${eventlist[3].EVENTIMG}" style="width:100%; height:130px;" onclick="currentDiv(4)">
     </div>
   </div>
 </div>

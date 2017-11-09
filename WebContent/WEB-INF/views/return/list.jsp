@@ -14,10 +14,11 @@
 		<thead>
 			<tr class="gavan">
 				
-				<th class="gaven" style="width: 40%">글제목</th>
-				<th class="gaven" style="width: 20%">작성자</th>
-				<th class="gaven" style="width: 20%">작성일</th>
-				<th class="gaven" style="width: 20%">상품명</th>
+				<th class="gaven" style="width: 30%">글제목</th>
+				<th class="gaven" style="width: 10%">작성자</th>
+				<th class="gaven" style="width: 10%">작성일</th>
+				<th class="gaven" style="width: 10%">상품명</th>
+				<th class="gaven" style="width: 10%">상태</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,6 +36,7 @@
 					<td class="gaven">${obj.WRITER }</td>
 					<td class="gaven">${obj.WRITEDATE }</td>
 					<td class="gaven">${obj.NAME }</td>
+					<td class="gaven">${obj.RETURN }</td>
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -87,6 +87,10 @@ $(".checks").change(function(){
 // 선택 삭제
 $("#delete_B").click(function(){
 	var arr ="";
+	if(!($("input:checkbox[class=checks]").is(":checked"))){
+		
+        alert("체크목록이 없습니다.확인해주세요.");
+	}else{
 	$(".checks:checked").each(function(i){
 		if(i!=0) arr += ",";
 		arr += $(this).val();
@@ -103,7 +107,8 @@ $("#delete_B").click(function(){
 			window.alert(rst);
 			location.href="/master/reviewList_Master";
 		});		
-	}	
+	}
+	}
 });
 
 // 검색용 함수

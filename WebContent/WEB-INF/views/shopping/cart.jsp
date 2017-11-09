@@ -119,7 +119,7 @@
 								<tr>
 									<td class="cartBt_Td" colspan="6" align="right">
 										<button id="deleteCart_B" class="cartBt_B w3-button w3-white w3-border w3-border-black w3-hover-black" type="button">삭제</button>
-										<button class="cartBt_B w3-button w3-white w3-border w3-border-black w3-hover-black" type="submit">구매</button>
+										<button id="BuyCart_C" class="cartBt_B w3-button w3-white w3-border w3-border-black w3-hover-black" type="submit">구매</button>
 									</td>
 								</tr>
 							</tfoot>
@@ -176,9 +176,12 @@
 		});
 		totalPrice();
 	});
-	
 	$("#deleteCart_B").click(function(){
 		var dnum = "";
+		if(!($("input:checkbox[class=cart_Td]").is(":checked"))){
+			
+	        alert("체크목록이 없습니다.확인해주세요.");
+		}else{
 		$('.delete_I:checked').each(function(idx) { 
 	    	if(idx!=0)
 	    		dnum+=",";
@@ -188,11 +191,15 @@
 			console.log(dnum);
 			$.get("/shopping/deleteCart",{"dnum":dnum},function(data){
 				if(data=="YY"){
+					alert("삭제되었습니다");
 					location.href="/shopping/cart";
 				}
 			});
 		}
-	});
+	}
+		});
+	
+	
 	
 	var totalPrice = function(){
 		var tPrice = 0;
