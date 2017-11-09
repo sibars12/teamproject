@@ -4,15 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<style>
-th {
-	border-bottom: 1px solid;
-	text-align: left;
-}
-th, td {
-	padding: 10px;
-}
-</style>
 <div align="center" style="line-height: 35px">
 
 	<h2>문의</h2>
@@ -42,7 +33,7 @@ th, td {
 					</td>
 					<td>
 					<button onclick="inquire('memo${obj.NUM}')"
-							class="w3-btn w3-block w3-Khaki w3-left-align">
+							class="w3-btn w3-block  ${obj.REPLY eq 'N' ?'w3-Khaki' : 'w3-Green' } w3-left-align">
 							${obj.CONTENT }
 							</button>
 						<div id="memo${obj.NUM}" class="w3-container w3-hide">
