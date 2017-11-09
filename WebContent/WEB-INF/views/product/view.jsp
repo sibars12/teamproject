@@ -97,7 +97,7 @@ th, td {
 							&nbsp;&nbsp; 
 							<!-- 수량 -->
 							<button type="button" id="minusA_B">-</button>
-							<input id="stockCnt" name="stockCnt" type="number" style="width: 40px;"	value="1" min="1" max="${productInfo[0].VOLUME }" />
+							<input id="stockCnt" name="stockCnt" type="number" style="width: 40px;"	value="1" min="1" />
 							<button type="button" id="plusA_B">+</button>&nbsp;&nbsp; 
 							<span id="priceA_Span"><b>${productInfo[0].PRICE }원</b></span>
 							<input type="hidden" id="stockNo" name="stockNo" value="${productInfo[0].NO }">
@@ -260,7 +260,7 @@ $("#plusA_B").click(function(){
 $("#color_Select").change(function(){
 	console.log($(this).val());
 	var optionValue=$(this).val();
-	var maxVolume;
+	var maxVolume=0;
 	var data = $("#color_Select option:selected").attr("data");
 	console.log("data:"+data);
 	if($(this).val()!="색상 옵션 선택"){
@@ -313,9 +313,10 @@ $("#color_Select").change(function(){
 		// 수량 plus
 		$(".plus_B").click(function(){	
 			var optionName = $(this).prev().prev().prev().text();
+			console.log(optionName);
 			maxVolume = $("#"+optionName).attr("title");
-			console.log(maxVolume);
-			if($(this).prev().val()>= maxVolume)	{
+			console.log("max"+maxVolume);
+			if(parseInt($(this).prev().val())>= parseInt(maxVolume))	{
 				window.alert("최대수량입니다.");
 				$(this).prev().val(maxVolume);
 				var n = parseInt($(this).prev().val());
