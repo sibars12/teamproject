@@ -52,7 +52,7 @@
 				<span id="eventaddcheck"></span>
 				<button type="submit" id="eventaddbt">이벤트 수정</button>
 				<button type="reset">재작성</button>
-				<a href="/event/masterlist?page=1"><button type="button">목록으로</button></a>
+				<a href="/master/eventlist?page=${page }"><button type="button">목록으로</button></a>
 		</form>
 
 	</div>

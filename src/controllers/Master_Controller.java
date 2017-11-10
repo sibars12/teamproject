@@ -900,9 +900,8 @@ public class Master_Controller {
 		}
 		@RequestMapping("/returnY")
 		public ModelAndView returnYHandler(@RequestParam String no) {
-			ModelAndView mav = new ModelAndView("t_expr");
+			ModelAndView mav = new ModelAndView("redirect:/master/returnlist");
 			returnDao.ret(no);
-			mav.addObject("section", "master/tradelist");
 			return mav;
 			
 		}
