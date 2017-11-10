@@ -25,6 +25,7 @@
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="submit" id="submit" class="btn btn-default">FIND</button>
+				 <a href="/member/login"><button type="button" class="btn btn-default">CANCEL</button></a>
 			</div>
 		</div>
 

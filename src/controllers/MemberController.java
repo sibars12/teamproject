@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -32,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import models.CouponDao;
 import models.MemberDao;
 import models.ShoppingDao;
 import models.event_Dao;
@@ -39,7 +41,8 @@ import models.event_Dao;
 @Controller
 @RequestMapping("/member")
 public class MemberController {
-
+	@Autowired
+	CouponDao couponDao;
 	@Autowired
 	JavaMailSender sender;
 
@@ -63,7 +66,16 @@ public class MemberController {
 	public String postJoinHandle(@RequestParam Map map, ModelMap mMap, HttpSession session) {
 		try {
 			int r = memberDao.addMember(map);
-			
+			Set<Integer> set = couponDao.getCouponNo();
+			int n = 0;
+			while(true){
+				n = (int)(Math.random()*900000000)+100000000;
+				boolean rst = set.add(n);
+				if(rst)
+					break;
+			}
+			map.put("no", n);
+			boolean rst = couponDao.newCoupon(map);
 			return "redirect:/member/login";
 		} catch (Exception e) {
 			e.printStackTrace();

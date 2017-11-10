@@ -52,7 +52,7 @@
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-default" id="join" name="join">JOIN</button>
+				<button type="submit" class="btn btn-default" id="join" name="join" >JOIN</button>
 			</div>
 		</div>
 		
@@ -87,8 +87,10 @@ $(document).ready(function(){
 				if (this.readyState == 4) {
 					if (this.responseText.trim() == "false") {
 						document.getElementById("checkId").innerHTML = "<b style=\"color:green\">사용가능 ID</b>"
+							document.getElementById("join").disabled=false;
 					} else {
 						document.getElementById("checkId").innerHTML = "<b style=\"color:red\">사용불가능 ID</b>"
+							document.getElementById("join").disabled=true;
 					}
 				}
 			}
@@ -130,6 +132,8 @@ $(document).ready(function(){
 										window.alert("인증이 확인되었습니다." + "\n"
 												+ "JOIN버튼을 누르면 로그인창으로 이동합니다.")
 												document.getElementById("trcheck").value="성공"
+												
+												
 									} else {
 										window.alert("인증 번호가 다릅니다.")
 									}

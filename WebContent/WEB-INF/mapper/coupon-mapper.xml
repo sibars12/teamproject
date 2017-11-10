@@ -10,6 +10,9 @@
 	<insert id="addCoupon">
 		insert into coupon(no, name, discount, enddate, id) values(#{no}, #{name}, #{discount}, #{enddate, jdbcType=DATE}, #{id, jdbcType=VARCHAR})
 	</insert>
+	<insert id="newCoupon">
+		insert into coupon(no, name, discount, enddate, id) values(#{no}, '신규가입 쿠폰', '5000', SYSDATE+30, #{id, jdbcType=VARCHAR})
+	</insert>
 	<select id="checkNo" resultType="java.lang.Integer">
 		select * from coupon where no=#{no}
 	</select>

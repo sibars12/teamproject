@@ -231,15 +231,9 @@ $("#coupon").change(function(){
 			$("#couponDiscount").val(0);
 		});
 	}
-<<<<<<< HEAD
-	
-	$("#delCoupon_B").off("click");
-	   $("#payCoupon_B").off("click");
-=======
 	$("#delCoupon_B").off("click");
 	$("#payCoupon_B").off("click");
 	
->>>>>>> branch 'master' of https://github.com/sibars12/teamproject.git
 	//쿠폰적용 
 		$("#payCoupon_B").click(function(){
 			if(totPrice==0){

@@ -36,4 +36,8 @@ public class CouponDao {
 		sql.update("coupon.regCoupon", map);
 		return true;
 	}
+	public boolean newCoupon(Map map) {
+		sql.insert("coupon.newCoupon", map);
+		return true;
+	}
 }
